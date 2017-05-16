@@ -56,6 +56,8 @@ public class NewTimelineFragment {
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
             new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
+        //save this object in a list in projects fragment
+        exportToFile(myTime.toString());
     }
 
     private boolean correctDuration(LocalDate start, LocalDate end) { //this checks that end is older that the start.
@@ -65,7 +67,6 @@ public class NewTimelineFragment {
             myTime.setEndDate(timelineEndDate.getValue());
             return true;
         }
-        exportToFile(myTime.toString());
     }
 
     private void exportToFile(String s) {

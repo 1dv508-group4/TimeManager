@@ -206,16 +206,15 @@ public class TimelineDetailsFragment {
          try {
              BufferedImage bufferedImage = ImageIO.read(file);
              Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-             timeline_image.setImage(image);
          } catch (IOException ex) {
 
          }
     }
     @FXML
-    void removetimeline() throws IOException{
+    void removeTimeline() throws IOException{
     	myDisplay.getChildren().clear();
     	LeftPane.getChildren().clear();
-    	timeline_image.setImage(null);
+
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML

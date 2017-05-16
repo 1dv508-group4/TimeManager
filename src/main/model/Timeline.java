@@ -10,6 +10,7 @@ public class Timeline {
 	private String title, description;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private int numberOfEvents;
 	private  int id;
 
 	public Timeline(){}
@@ -91,4 +92,7 @@ public class Timeline {
     return events;
 	}
 
+	public int getNumberOfEvents() {
+		return listOfEvents.size();
+	}
 }

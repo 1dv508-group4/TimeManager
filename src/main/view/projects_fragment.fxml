@@ -47,8 +47,6 @@
                      </children>
                   </Pane>
                   <Label fx:id="all" layoutX="103.0" layoutY="103.0" text="All" />
-                  <Label fx:id="inProgress" layoutX="159.0" layoutY="103.0" text="In Progress" />
-                  <Label fx:id="completed" layoutX="257.0" layoutY="103.0" text="Completed" />
                </children>
             </AnchorPane>
          </content></ScrollPane>

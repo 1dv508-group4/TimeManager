@@ -36,6 +36,6 @@ public class HomeFragment {
     }
 
     private void importFromFile(File file) {
-    
+
     }
 }

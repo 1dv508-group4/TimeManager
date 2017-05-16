@@ -61,7 +61,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removetimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
       <Button fx:id="addImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image to timeline" />
       <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="editButton" layoutX="561.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
