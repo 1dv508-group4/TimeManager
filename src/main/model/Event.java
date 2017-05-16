@@ -15,25 +15,17 @@ public class Event {
     private int event_id;
 
     public Event(String eventName, String eventDescription, LocalDate start, LocalDate end) {
-        timeline_id= myTime.getId();
-        event_id++;
-    }
-
-    public Event(String eventName, String eventDescription, LocalDate date) {
         this.event_title = eventName;
         this.event_description = eventDescription;
-        this.event_startDate = date;
-        timeline_id= myTime.getId();
-        event_id++;
+        this.event_startDate = start;
+        this.event_endDate = end;
     }
 
     public Event() {
-        timeline_id= myTime.getId();
-        event_id++;
     }
 
     public String toString(){
-        return this.getEvent_id()+","+this.getTimeline_id()+this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
+        return this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
     }
 
     public String getEvent_title() {return event_title;}
@@ -66,11 +58,5 @@ public class Event {
         this.timeline_id = timeline_id;
     }
 
-    public int getEvent_id() {
-        return event_id;
-    }
-
-    public void setEvent_id(int event_id) {
-        this.event_id = event_id;
-    }
+   
 }

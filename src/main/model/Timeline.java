@@ -10,7 +10,6 @@ public class Timeline {
 	private String title, description;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private int numberOfEvents;
 	private  int id;
 
 	public Timeline(){}
@@ -87,12 +86,9 @@ public class Timeline {
     private String addEvents() {
 	    String events="";
 	    for(int i =0;i<listOfEvents.size();i++){
-            events += listOfEvents.get(i).toString() + ",";
+            events += i+","+listOfEvents.get(i).toString() + ",";
         }
     return events;
 	}
 
-	public int getNumberOfEvents() {
-		return listOfEvents.size();
-	}
 }
