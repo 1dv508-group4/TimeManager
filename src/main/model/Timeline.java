@@ -78,6 +78,7 @@ public class Timeline {
 	public void deleteEvent(Event toDelete){
 		listOfEvents.remove(toDelete);
 	}
+
 	public String toString() {
 		return title;
 	}

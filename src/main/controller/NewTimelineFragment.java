@@ -34,11 +34,9 @@ public class NewTimelineFragment {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
 
-        cancelBtn.getStyleClass().add("button-flat");
-        saveBtn.getStyleClass().add("button-flat");
-
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
+
         starthour.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
         starthour1.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
         starthour.setValue(12);
@@ -71,12 +69,6 @@ public class NewTimelineFragment {
             myTime.setEndDate(timelineEndDate.getValue());
             return true;
         }
-
-    }
-
-    @FXML
-    public void addEvent() {
-       // if(isCreated) then pop up window or anchor pane fields fade in.
     }
 }
 
