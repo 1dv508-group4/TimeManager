@@ -1,7 +1,5 @@
 package main.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -47,7 +45,7 @@ public class NewEventFragment {
 
     @FXML
     public void saveEvent() throws IOException {
-        if (durational.isIndeterminate()) {
+        if (durational.isSelected()) {
             if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
                 myEvent = new Event(eventTitle.getText(), "TEST DESCRIPTION", eventStartDate.getValue(), eventEndDate.getValue());
                 myTime.addEvent(myEvent);
