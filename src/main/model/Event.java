@@ -24,6 +24,7 @@ public class Event {
     public Event() {
     }
 
+<<<<<<< HEAD
     public Event(String title, String description, LocalDate value) {
         this.event_title = title;
         this.event_description = description;
@@ -38,6 +39,16 @@ public class Event {
 
     public void setEvent_title(String event_title) {this.event_title = event_title;}
 
+=======
+    public String toString(){
+        return this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
+    }
+
+    public String getEvent_title() {return event_title;}
+
+    public void setEvent_title(String event_title) {this.event_title = event_title;}
+
+>>>>>>> origin/master
     public String getEvent_description() {return event_description;}
 
     public void setEvent_description(String event_description) {this.event_description = event_description;}
