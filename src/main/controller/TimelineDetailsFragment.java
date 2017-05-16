@@ -1,7 +1,6 @@
 package main.controller;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -12,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -48,9 +46,9 @@ public class TimelineDetailsFragment {
     @FXML private AnchorPane PaneMain;
     @FXML private Button editButton;
     @FXML private Text title;
-    @FXML private Label EndDate;
+    @FXML private Label endDate;
     @FXML private Label startDate;
-    @FXML private Label Description;
+    @FXML private Label description;
     @FXML private ImageView timeline_image;
     @FXML private Button RemoveTimeline;
     @FXML private Button AddImage;
@@ -71,12 +69,13 @@ public class TimelineDetailsFragment {
 
         // The height of the actual line is calculated based on the height of the Scrollpane:
         lineHeight = scrollPane.getPrefHeight() / 2;
-        lineStart = 15;
+        lineStart = 15; // to account for space near the left border of the scrollpane
         timelinePeriodInDays = (int) ChronoUnit.DAYS.between(display.getStartDate(),display.getEndDate());
+
         title.setText("Title: " + display.getTitle());
-        EndDate.setText("StartDate: " + display.getEndDate().toString());
-        startDate.setText("EndDate: " + display.getStartDate().toString());
-        Description.setText(display.getDescription());
+        startDate.setText("StartDate: " + display.getStartDate().toString());
+        endDate.setText("endDate: " + display.getEndDate().toString());
+        description.setText("description: " + display.getDescription());
 
         displayTimeline();
         displayEvents();
@@ -159,19 +158,19 @@ public class TimelineDetailsFragment {
                 AnchorPane.setTopAnchor(circlePane, lineHeight);
 
                 Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-                dateOfEvent.relocate(0, 30);
+                dateOfEvent.relocate(5, -21);
                 dateOfEvent.setFont(Font.font(10));
                 circlePane.getChildren().add(dateOfEvent);
 
                 Label titleOfEvent = new Label(e.getEvent_title());
-                titleOfEvent.relocate(0, 18);
+                titleOfEvent.relocate(5, -34);
                 titleOfEvent.setFont(Font.font(12));
                 circlePane.getChildren().add(titleOfEvent);
 
                 duplicates.add(e.getEvent_startDate());
 
                 if (duplicates(duplicates)) {
-                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 50);
                     duplicates.clear();
                 }
 
@@ -237,7 +236,7 @@ public class TimelineDetailsFragment {
                 duplicates.add(e.getEvent_startDate());
 
                 if (duplicates(duplicates)) {
-                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);
                     duplicates.clear();
                 }
 

@@ -38,10 +38,6 @@
                 <Button fx:id="saveBtn" layoutY="320.0" mnemonicParsing="false" onAction="#saveTimelineDetails" styleClass="btn" text="Save" />
                 <Button fx:id="cancelBtn" layoutX="123.0" layoutY="320.0" mnemonicParsing="false" onAction="#cancelCreate" styleClass="btn" text="Cancel" />
                 <TextField fx:id="timelineDescription" alignment="TOP_LEFT" layoutY="166.0" prefHeight="114.0" prefWidth="438.0" promptText="Enter timeline description..." />
-            <ChoiceBox fx:id="starthour" layoutX="73.0" layoutY="57.0" prefHeight="25.0" prefWidth="35.0" />
-            <Label layoutY="61.0" text="Start Hour" />
-            <ChoiceBox fx:id="starthour1" layoutX="295.0" layoutY="57.0" prefHeight="25.0" prefWidth="35.0" />
-            <Label layoutX="227.0" layoutY="62.0" text="End Hour" />
             </children>
         </AnchorPane>
         <Button fx:id="ButtonBack" layoutX="23.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="41.0" styleClass="buttonCircleBlack">
