@@ -72,7 +72,5 @@ public class NewTimelineFragment {
     private void exportToFile(String s) {
 
     }
-
-
 }
 

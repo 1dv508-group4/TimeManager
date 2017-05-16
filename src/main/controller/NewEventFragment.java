@@ -16,11 +16,23 @@ public class NewEventFragment {
     @FXML private Button cancelButton;
     @FXML private Button saveButton;
     @FXML private TextField eventTitle;
-    @FXML private DatePicker eventDate;
+    @FXML private DatePicker eventStartDate;
+    @FXML private DatePicker eventEndDate;
+    @FXML private CheckBox durational;
     @FXML private TextArea eventDescription;
     static Event myEvent=  new Event();
 
-
+    public void initialize() {
+        // Sets visibility of EndDate if Checkbox for durational event is used:
+        durational.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            eventEndDate.setDisable(oldValue);
+            eventEndDate.setVisible(newValue);
+            if (newValue)
+                eventStartDate.setPromptText("Start date...");
+            else
+                eventStartDate.setPromptText("Event date...");
+        });
+    }
 
     public void back() throws IOException {
         ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
@@ -33,18 +45,26 @@ public class NewEventFragment {
 
     @FXML
     public void saveEvent() throws IOException {
-
-        if (eventDate.getValue().isBefore(myTime.getEndDate()) & eventDate.getValue().isAfter(myTime.getStartDate()) & eventTitle != null) {
-            myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventDate.getValue());
-            myTime.addEvent(myEvent);
-            ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+        if (durational.isSelected()) {
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
+                myTime.addEvent(myEvent);
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            } else {
+                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
+            }
         } else {
-            new AlertMessage("Wrong Duration", "Please specify correct event duration", Alert.AlertType.WARNING);
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
+                myTime.addEvent(myEvent);
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            } else {
+                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
+            }
         }
     }
 
     @FXML
-    public void durationalEvent() {
-
+    public void durationalEvent(MouseEvent mouseEvent) {
     }
 }

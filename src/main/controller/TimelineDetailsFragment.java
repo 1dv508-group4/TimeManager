@@ -59,6 +59,7 @@ public class TimelineDetailsFragment {
     Timeline display = myTime;
     double lineHeight;
     double lineStart;
+    double distanceBetweenLines;
     int timelinePeriodInDays;
     private Line lineTimeline;
     ArrayList<LocalDate> duplicates = new ArrayList<LocalDate>();
@@ -103,7 +104,7 @@ public class TimelineDetailsFragment {
         Line endVertical = new Line(1600,lineHeight-15,1600,lineHeight+15);
         myDisplay.getChildren().addAll(beginVertical,endVertical);
 
-        double distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+        distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
         if (timelinePeriodInDays < 60) {
             for (int i = 1; i < timelinePeriodInDays; i++) {
@@ -131,48 +132,117 @@ public class TimelineDetailsFragment {
          * put the event. This position is then used by creating a line on the timeline.
          *
          */
+
         for (Event e: events) {
-            LocalDate eventMoment = e.getEvent_startDate();
-            long daysUntilEvent = ChronoUnit.DAYS.between(display.getStartDate(),eventMoment);
+            if (!e.isDurational()) {
+                LocalDate eventMoment = e.getEvent_startDate();
+                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
 
-            // Calculate position on line to put event.
-            double distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
+                // Calculate position on line to put event.
+                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
-            Pane circlePane = new Pane();
-            Circle circle = new Circle(10,Color.TRANSPARENT);
-            circle.setStroke(Color.BLACK);
-            circle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-            circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-            circle.setOnMouseClicked(event -> {
-                myEvent = e;
-                try {
-                    ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                Pane circlePane = new Pane();
+                Circle circle = new Circle(10, Color.TRANSPARENT);
+                circle.setStroke(Color.BLACK);
+                circle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                circle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(circle);
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(circlePane, lineHeight);
+
+                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+                dateOfEvent.relocate(0, 30);
+                dateOfEvent.setFont(Font.font(10));
+                circlePane.getChildren().add(dateOfEvent);
+
+                Label titleOfEvent = new Label(e.getEvent_title());
+                titleOfEvent.relocate(0, 18);
+                titleOfEvent.setFont(Font.font(12));
+                circlePane.getChildren().add(titleOfEvent);
+
+                duplicates.add(e.getEvent_startDate());
+
+                if (duplicates(duplicates)) {
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
+                    duplicates.clear();
                 }
-            });
-            circlePane.getChildren().add(circle);
-            AnchorPane.setLeftAnchor(circlePane,(daysUntilEvent * distanceBetweenLines) + lineStart);
-            AnchorPane.setTopAnchor(circlePane,lineHeight);
 
-            Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-            dateOfEvent.relocate(0,30);
-            dateOfEvent.setFont(Font.font(10));
-            circlePane.getChildren().add(dateOfEvent);
+                myDisplay.getChildren().add(circlePane);
+            } else {
+                LocalDate eventStartDate = e.getEvent_startDate();
+                LocalDate eventEndDate = e.getEvent_endDate();
 
-            Label titleOfEvent = new Label(e.getEvent_title());
-            titleOfEvent.relocate(0,18);
-            titleOfEvent.setFont(Font.font(12));
-            circlePane.getChildren().add(titleOfEvent);
+                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventStartDate);
+                int eventDuration = (int) ChronoUnit.DAYS.between(eventStartDate,eventEndDate);
 
-            duplicates.add(e.getEvent_startDate());
+                // Calculate position on line to put event.
+                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
-            if (duplicates(duplicates)){
-                AnchorPane.setTopAnchor(circlePane,lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
-                duplicates.clear();
+                Pane circlePane = new Pane();
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(circlePane, lineHeight);
+
+                Circle startCircle = new Circle(10, Color.TRANSPARENT);
+                startCircle.setStroke(Color.BLACK);
+                startCircle.relocate(0,60);
+                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                startCircle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(startCircle);
+
+                Circle endCircle = new Circle(10, Color.TRANSPARENT);
+                endCircle.setStroke(Color.BLACK);
+                endCircle.relocate(eventDuration * distanceBetweenLines,60);
+                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                endCircle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(endCircle);
+
+                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
+                circlePane.getChildren().add(eventDurationLine);
+                eventDurationLine.relocate(startCircle.getRadius() * 2, 60 + startCircle.getRadius());
+
+                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+                dateOfEvent.relocate(0, 90);
+                dateOfEvent.setFont(Font.font(10));
+                circlePane.getChildren().add(dateOfEvent);
+
+                Label titleOfEvent = new Label(e.getEvent_title());
+                titleOfEvent.relocate(0, 78);
+                titleOfEvent.setFont(Font.font(12));
+                circlePane.getChildren().add(titleOfEvent);
+
+                duplicates.add(e.getEvent_startDate());
+
+                if (duplicates(duplicates)) {
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
+                    duplicates.clear();
+                }
+
+                myDisplay.getChildren().add(circlePane);
             }
-
-            myDisplay.getChildren().add(circlePane);
         }
     }
 

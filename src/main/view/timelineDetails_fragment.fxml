@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
     <children>
         <Separator fx:id="separator" layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         <Text fill="#2b579a" layoutX="75.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeline Display">
@@ -29,7 +29,7 @@
         </Button>
       <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="215.0" prefWidth="800.0" style="-fx-background-color: white">
          <content>
-            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white" />
+            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white"/>
          </content>
       </ScrollPane>
       <Button fx:id="newEventButton" layoutX="64.0" layoutY="500.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
