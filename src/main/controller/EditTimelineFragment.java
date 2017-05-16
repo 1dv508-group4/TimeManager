@@ -34,7 +34,8 @@ public class EditTimelineFragment implements Initializable {
     static int numberOfTimelines=0;
     private boolean isCreated=false;
 
-    public void initializes() throws SQLException {
+
+    public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
 
@@ -88,7 +89,6 @@ public class EditTimelineFragment implements Initializable {
     }
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 		timelineTitle.setText(display.getTitle());
 		timelineDescription.setText(display.getDescription());
 		timelineStartDate.setValue(display.getStartDate());

@@ -28,21 +28,15 @@ public class NewTimelineFragment {
     @FXML public DatePicker timelineEndDate;
     @FXML private ChoiceBox<Integer> starthour;
     @FXML private ChoiceBox<Integer> starthour1;
-    static Timeline myTime = new Timeline();
-    static int numberOfTimelines=0;
+    public static Timeline myTime = new Timeline();
+    public static int numberOfTimelines=0;
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
 
-        cancelBtn.getStyleClass().add("button-flat");
-        saveBtn.getStyleClass().add("button-flat");
-
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
-        starthour.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
-        starthour1.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
-        starthour.setValue(12);
-        starthour1.setValue(12);
+
     }
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}
@@ -60,23 +54,25 @@ public class NewTimelineFragment {
         }else{
             new FadeInRightTransition(timelineStartDate).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
-            AlertMessage msg = new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
+            new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
+        //save this object in a list in projects fragment
+        exportToFile(myTime.toString());
     }
 
     private boolean correctDuration(LocalDate start, LocalDate end) { //this checks that end is older that the start.
-        if(start.isAfter(end)||starthour1.getValue()<starthour.getValue()||(starthour==null||starthour1==null))return false;
+        if(start == null||end==null || start.isAfter(end))return false;
         else{
             myTime.setStartDate(timelineStartDate.getValue());
             myTime.setEndDate(timelineEndDate.getValue());
             return true;
         }
+    }
+
+    private void exportToFile(String s) {
 
     }
 
-    @FXML
-    public void addEvent() {
-       // if(isCreated) then pop up window or anchor pane fields fade in.
-    }
+
 }
 

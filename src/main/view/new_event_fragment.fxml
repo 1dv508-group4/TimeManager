@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.NewEventFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.NewEventFragment">
     <children>
       <ImageView fitHeight="545.0" fitWidth="465.0" layoutX="438.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -46,8 +46,8 @@
       </Label>
       <CheckBox layoutX="297.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#durationalEvent" text="Durational Event" />
       <DatePicker disable="true" layoutX="82.0" layoutY="267.0" prefHeight="30.0" prefWidth="202.0" promptText="End date..." />
-      <TextArea layoutX="82.0" layoutY="375.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
+      <TextArea fx:id="eventDescription" layoutX="82.0" layoutY="375.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
       <Button layoutX="82.0" layoutY="321.0" mnemonicParsing="false" text="Upload..." />
-      <Label layoutX="160.0" layoutY="325.0" text="Link a picture or file this event..." />
+      <Label layoutX="160.0" layoutY="325.0" text="Link a picture or file to this event..." />
     </children>
 </AnchorPane>
