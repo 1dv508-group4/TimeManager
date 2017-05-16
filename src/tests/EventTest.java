@@ -2,8 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ import main.model.Timeline;
 
 public class EventTest {
 	Timeline tl = new Timeline();
-	Event ev = new Event("Fishing boats", "TestDesc", null);
+	Event ev = new Event("Fishing boats", "TestDesc", null,null);
 
 
 	@Before
@@ -40,11 +38,7 @@ public class EventTest {
 	}
 
 
-	@Test
-	public void TestgetEvent_id() {
-		tl.addEvent(ev);
-		assertEquals(ev.getEvent_id(), 0);
-	}
+	
 
 
 
