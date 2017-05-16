@@ -35,6 +35,7 @@ public class Event {
     public String toString(){
         return this.getEvent_id()+","+this.getTimeline_id()+this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
     }
+
     public String getEvent_title() {return event_title;}
 
     public void setEvent_title(String event_title) {this.event_title = event_title;}

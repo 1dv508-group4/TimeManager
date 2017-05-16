@@ -73,6 +73,6 @@ public class ProjectsFragment {
         nw.getChildren().add(title);
         projectPane.getChildren().add(nw);
         numberOfTimelines++;  // is a problem waiting to happen.
-        ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);// still on going.
+        //ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);// still on going.
     }
 }

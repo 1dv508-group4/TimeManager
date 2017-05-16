@@ -65,6 +65,13 @@ public class NewTimelineFragment {
             myTime.setEndDate(timelineEndDate.getValue());
             return true;
         }
+        exportToFile(myTime.toString());
     }
+
+    private void exportToFile(String s) {
+
+    }
+
+
 }
 
