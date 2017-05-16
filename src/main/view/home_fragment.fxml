@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -16,6 +18,15 @@
         </Text>
         <Button fx:id="createBtn" layoutX="50.0" layoutY="145.0" mnemonicParsing="false" onAction="#createTimeline" styleClass="btn" text="Create timeline" />
         <Button fx:id="loadBtn" layoutX="252.0" layoutY="145.0" mnemonicParsing="false" onAction="#loadTimeline" styleClass="btn" text="Load timeline" />
+      <ImageView fitHeight="130.0" fitWidth="147.0" layoutX="59.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/img/sr.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="120.0" fitWidth="130.0" layoutX="262.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/img/loadproj.jpg" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>
-

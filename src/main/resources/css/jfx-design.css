@@ -1,0 +1,23 @@
+.button-raised{
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 12px;
+    -jfx-button-type: RAISED;
+    -fx-background-color: rgb(43, 87, 154);
+    -fx-text-fill: WHITE;
+    -fx-border-radius: 0 0 0 0;
+}
+
+.button-flat{
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 12px;
+    -jfx-button-type: FLAT;
+    -fx-background-color: rgb(43, 87, 154);
+    -fx-text-fill: WHITE;
+    -fx-border-radius: 0 0 0 0;
+    -jfx-border-radius: 0 0 0 0;
+}
+
+.timeline-background{
+    -fx-background: #ffffff;
+    -fx-background-color: -fx-background;
+}

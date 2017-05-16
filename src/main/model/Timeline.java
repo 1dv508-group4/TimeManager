@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class Timeline {
 
 	private ArrayList<Event> listOfEvents = new ArrayList<Event>();;
-	private static String title, description;
+	private String title, description;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private static int id;
+	private  int id;
 
 	public Timeline(){}
 
@@ -19,17 +19,17 @@ public class Timeline {
 	}
 
 	public Timeline (String title, LocalDate start, LocalDate end,String desc) {
-		title = title;
+		this.title = title;
 		startDate = start;
 		endDate = end;
 		description = desc;
 	}
 
-    public static String getTitle() {
+    public  String getTitle() {
         return title;
     }
 
-    public static int getId(){return id;}
+    public  int getId(){return id;}
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -39,7 +39,7 @@ public class Timeline {
 		return endDate;
 	}
 
-	public static String getDescription() {
+	public  String getDescription() {
 		return description;
 	}
 
@@ -78,8 +78,17 @@ public class Timeline {
 	public void deleteEvent(Event toDelete){
 		listOfEvents.remove(toDelete);
 	}
+
 	public String toString() {
-		return title;
+		return this.getId()+","+this.getTitle()+","+this.getStartDate()+","+this.getEndDate()+","+this.getDescription()+","+addEvents();
+	}
+
+    private String addEvents() {
+	    String events="";
+	    for(int i =0;i<listOfEvents.size();i++){
+            events += i+","+listOfEvents.get(i).toString() + ",";
+        }
+    return events;
 	}
 
 }
