@@ -26,28 +26,24 @@ public class Event {
         timeline_id= myTime.getId();
         event_id++;
     }
+
+    public Event() {
+        timeline_id= myTime.getId();
+        event_id++;
+    }
+
     public String toString(){
         return this.getEvent_id()+","+this.getTimeline_id()+this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
     }
-    public String getEvent_title() {
-        return event_title;
-    }
+    public String getEvent_title() {return event_title;}
 
-    public void setEvent_title(String event_title) {
-        this.event_title = event_title;
-    }
+    public void setEvent_title(String event_title) {this.event_title = event_title;}
 
-    public String getEvent_description() {
-        return event_description;
-    }
+    public String getEvent_description() {return event_description;}
 
-    public void setEvent_description(String event_description) {
-        this.event_description = event_description;
-    }
+    public void setEvent_description(String event_description) {this.event_description = event_description;}
 
-    public LocalDate getEvent_startDate() {
-        return event_startDate;
-    }
+    public LocalDate getEvent_startDate() {return event_startDate;}
 
     public void setEvent_startDate(LocalDate event_startDate) {
         this.event_startDate = event_startDate;

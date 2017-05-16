@@ -19,7 +19,7 @@ public class Timeline {
 	}
 
 	public Timeline (String title, LocalDate start, LocalDate end,String desc) {
-		title = title;
+		this.title = title;
 		startDate = start;
 		endDate = end;
 		description = desc;

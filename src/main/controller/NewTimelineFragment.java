@@ -29,7 +29,7 @@ public class NewTimelineFragment {
     @FXML private ChoiceBox<Integer> starthour;
     @FXML private ChoiceBox<Integer> starthour1;
     public static Timeline myTime = new Timeline();
-    static int numberOfTimelines=0;
+    public static int numberOfTimelines=0;
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
@@ -37,10 +37,6 @@ public class NewTimelineFragment {
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
 
-        starthour.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
-        starthour1.getItems().addAll(1,2,4,6,8,10,12,14,16,18,20,22,24);
-        starthour.setValue(12);
-        starthour1.setValue(12);
     }
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}
@@ -58,7 +54,7 @@ public class NewTimelineFragment {
         }else{
             new FadeInRightTransition(timelineStartDate).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
-            AlertMessage msg = new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
+            new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
     }
 

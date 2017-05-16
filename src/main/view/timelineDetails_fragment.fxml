@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
     <children>
         <Separator fx:id="separator" layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         <Text fill="#2b579a" layoutX="75.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeline Display">
@@ -61,9 +61,9 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="RemoveTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#Removetimeline" styleClass="btn" text="Remove Timeline" />
-      <Button fx:id="AddImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image" />
+      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removetimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="addImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image to timeline" />
       <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="editButton" layoutX="497.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
+      <Button fx:id="editButton" layoutX="561.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
     </children>
 </AnchorPane>
