@@ -19,6 +19,7 @@ public class NewEventFragment {
     @FXML private DatePicker eventStartDate;
     @FXML private DatePicker eventEndDate;
     @FXML private CheckBox durational;
+    @FXML private TextArea eventDescription;
     static Event myEvent=  new Event();
 
     public void initialize() {
@@ -31,7 +32,6 @@ public class NewEventFragment {
             else
                 eventStartDate.setPromptText("Event date...");
         });
-
     }
 
     public void back() throws IOException {
@@ -47,7 +47,7 @@ public class NewEventFragment {
     public void saveEvent() throws IOException {
         if (durational.isSelected()) {
             if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
-                myEvent = new Event(eventTitle.getText(), "TEST DESCRIPTION", eventStartDate.getValue(), eventEndDate.getValue());
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
                 myTime.addEvent(myEvent);
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
             } else {
@@ -55,7 +55,7 @@ public class NewEventFragment {
             }
         } else {
             if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
-                myEvent = new Event(eventTitle.getText(), "TEST DESCRIPTION", eventStartDate.getValue());
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
                 myTime.addEvent(myEvent);
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
             } else {

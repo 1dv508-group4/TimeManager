@@ -264,30 +264,28 @@ public class TimelineDetailsFragment {
     }
 
     @FXML
-    void Addimage(ActionEvent event) {
+    void Addimage() {
     	 FileChooser fileChooser = new FileChooser();
 
-         //Set extension filter
          FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
          FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
          fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
-         //Show open file dialog
          File file = fileChooser.showOpenDialog(null);
 
          try {
              BufferedImage bufferedImage = ImageIO.read(file);
              Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-             timeline_image.setImage(image);
          } catch (IOException ex) {
 
          }
     }
     @FXML
-    void Removetimeline(ActionEvent event) throws IOException{
+    void removeTimeline() throws IOException{
     	myDisplay.getChildren().clear();
     	LeftPane.getChildren().clear();
-    	timeline_image.setImage(null);
+
+        ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML
     public void editTimeline() throws IOException{

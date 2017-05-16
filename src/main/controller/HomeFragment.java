@@ -23,12 +23,19 @@ public class HomeFragment {
     }
 
     @FXML
-    public void createTimeline() throws IOException {ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);}
+    public void createTimeline() throws IOException {
+        ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
+    }
 
     @FXML
     public void loadTimeline() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(new Stage());
+        importFromFile(file);
+    }
+
+    private void importFromFile(File file) {
+
     }
 }

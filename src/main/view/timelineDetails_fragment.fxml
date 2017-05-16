@@ -29,7 +29,7 @@
         </Button>
       <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="215.0" prefWidth="800.0" style="-fx-background-color: white">
          <content>
-            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white" />
+            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white"/>
          </content>
       </ScrollPane>
       <Button fx:id="newEventButton" layoutX="64.0" layoutY="500.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
@@ -61,9 +61,9 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="RemoveTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#Removetimeline" styleClass="btn" text="Remove Timeline" />
-      <Button fx:id="AddImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image" />
+      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="addImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image to timeline" />
       <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="editButton" layoutX="497.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
+      <Button fx:id="editButton" layoutX="561.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
     </children>
 </AnchorPane>

@@ -3,6 +3,9 @@ package main.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static main.controller.NewTimelineFragment.myTime;
+
+
 public class Event {
     private String event_title;
     private String event_description;
@@ -80,5 +83,9 @@ public class Event {
 
     public boolean isDurational() {
         return durational;
+    }
+
+    public String toString(){
+        return this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
     }
 }
