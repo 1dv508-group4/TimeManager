@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -121,7 +120,6 @@ public class TimelineDetailsFragment {
 
     private void displayEvents() {
         ArrayList<Event> events = myTime.getListOfEvents();
-        HashMap<Integer,Integer> hm = new HashMap<>(8);
 
         /**
          * For each event, I try to calculate the position of the event on the timeline.
@@ -135,14 +133,6 @@ public class TimelineDetailsFragment {
          */
 
         for (Event e: events) {
-            int key = e.getEvent_startDate().hashCode();
-            if (hm.containsKey(key)) {
-                System.out.println("Contains key: " + key);
-                hm.replace(key,hm.get(key) + 1);
-            } else
-                hm.put(e.getEvent_startDate().hashCode(),0);
-            System.out.println(hm.toString());
-
             if (!e.isDurational()) {
                 LocalDate eventMoment = e.getEvent_startDate();
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
@@ -165,7 +155,7 @@ public class TimelineDetailsFragment {
                 });
                 circlePane.getChildren().add(circle);
                 AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(circlePane, lineHeight - (hm.get(key) * 50));
+                AnchorPane.setTopAnchor(circlePane, lineHeight);
 
                 Label dateOfEvent = new Label(e.getEvent_startDate().toString());
                 dateOfEvent.relocate(5, -21);
@@ -176,6 +166,13 @@ public class TimelineDetailsFragment {
                 titleOfEvent.relocate(5, -34);
                 titleOfEvent.setFont(Font.font(12));
                 circlePane.getChildren().add(titleOfEvent);
+
+                duplicates.add(e.getEvent_startDate());
+
+                if (duplicates(duplicates)) {
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 50);
+                    duplicates.clear();
+                }
 
                 myDisplay.getChildren().add(circlePane);
             } else {
@@ -235,6 +232,13 @@ public class TimelineDetailsFragment {
                 titleOfEvent.relocate(0, 78);
                 titleOfEvent.setFont(Font.font(12));
                 circlePane.getChildren().add(titleOfEvent);
+
+                duplicates.add(e.getEvent_startDate());
+
+                if (duplicates(duplicates)) {
+                    AnchorPane.setTopAnchor(circlePane, lineHeight - 40);
+                    duplicates.clear();
+                }
 
                 myDisplay.getChildren().add(circlePane);
             }
