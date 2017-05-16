@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import main.common.ScreenController;
 import main.common.StageManager;
-import main.utils.SmallScreen;
 
 import java.io.IOException;
 
@@ -32,7 +31,7 @@ public class MenuFragment {
     public void initialize() {
         StageManager.setPane(PaneFragment);
         PaneFragment.prefWidthProperty().bind(getStage().widthProperty().subtract(150));
-        //LargeScreen.setLargeScreen();
+
         rectangle2D = Screen.getPrimary().getVisualBounds();
         width=0.1;
         height=0.1;
@@ -70,11 +69,8 @@ public class MenuFragment {
         }
     }
 
-
-
     @FXML
     public void modeLogout() throws IOException {
-        SmallScreen.setSmallScreen();
         ScreenController.setScreen(ScreenController.Screen.SPLASH); //TODO: Replace this a screen detailing the project and a button to home
     }
 }

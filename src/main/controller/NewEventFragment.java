@@ -1,10 +1,7 @@
 package main.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import main.common.AlertMessage;
 import main.common.ScreenController;
@@ -20,6 +17,7 @@ public class NewEventFragment {
     @FXML private Button saveButton;
     @FXML private TextField eventTitle;
     @FXML private DatePicker eventDate;
+    @FXML private TextArea eventDescription;
     static Event myEvent=  new Event();
 
 
@@ -37,17 +35,16 @@ public class NewEventFragment {
     public void saveEvent() throws IOException {
 
         if (eventDate.getValue().isBefore(myTime.getEndDate()) & eventDate.getValue().isAfter(myTime.getStartDate()) & eventTitle != null) {
-            myEvent = new Event(eventTitle.getText(), "TEST DESCRIPTION", eventDate.getValue());
+            myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventDate.getValue());
             myTime.addEvent(myEvent);
             ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
         } else {
-            AlertMessage msg = new AlertMessage("Wrong Duration", "Please specify correct event duration", Alert.AlertType.WARNING);
+            new AlertMessage("Wrong Duration", "Please specify correct event duration", Alert.AlertType.WARNING);
         }
     }
 
     @FXML
-    public void durationalEvent(MouseEvent mouseEvent) {
+    public void durationalEvent() {
+
     }
 }
-
-     //   ScreenController.setScreen(ScreenController.Screen.eventDetailsfragment);

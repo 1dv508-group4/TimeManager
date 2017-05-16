@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -31,20 +27,20 @@
                 </ImageView>
             </graphic>
         </Button>
-      <ScrollPane fx:id="scrollPane" pannable="true" fitToHeight="true" layoutX="64.0" layoutY="191.0" prefHeight="215.0" prefWidth="800.0" style="-fx-background-color: white">
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="215.0" prefWidth="800.0" style="-fx-background-color: white">
          <content>
-            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white"/>
+            <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white" />
          </content>
       </ScrollPane>
-      <Button fx:id="newEventButton" layoutX="65.0" layoutY="423.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
-      <AnchorPane fx:id="LeftPane" layoutX="23.0" layoutY="210.0" prefHeight="213.0" prefWidth="146.0" AnchorPane.rightAnchor="1129.0">
+      <Button fx:id="newEventButton" layoutX="64.0" layoutY="500.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
+      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0">
          <children>
             <Text fx:id="title" fill="#2b579a" layoutX="6.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="93.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.576171875">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#2b579a" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="105.0">
+            <Text fill="#2b579a" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="105.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -63,12 +59,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Separator layoutX="132.0" layoutY="1.0" orientation="VERTICAL" prefHeight="213.0" prefWidth="6.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="132.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="RemoveTimeline" layoutX="197.0" layoutY="423.0" mnemonicParsing="false" onAction="#Removetimeline" styleClass="btn" text="Remove Timeline" />
-      <Button fx:id="AddImage" layoutX="363.0" layoutY="423.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image" />
-      <ImageView fx:id="timeline_image" fitHeight="116.0" fitWidth="200.0" layoutX="14.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="editButton" layoutX="498.0" layoutY="423.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
+      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="addImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image to timeline" />
+      <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="editButton" layoutX="561.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
     </children>
 </AnchorPane>
