@@ -30,8 +30,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import static main.common.StageManager.getStage;
 import static main.controller.NewEventFragment.myEvent;
@@ -121,7 +119,9 @@ public class TimelineDetailsFragment {
 
     private void displayEvents() {
         ArrayList<Event> events = myTime.getListOfEvents();
+        ArrayList<Event> tempEvents = new ArrayList<>(events.size());
         HashMap<Integer,Integer> hm = new HashMap<>(8);
+        HashMap<Integer,LocalDate[]> durationalMap = new HashMap<>();
 
         /**
          * For each event, I try to calculate the position of the event on the timeline.
@@ -135,15 +135,15 @@ public class TimelineDetailsFragment {
          */
 
         for (Event e: events) {
-            int key = e.getEvent_startDate().hashCode();
-            if (hm.containsKey(key)) {
-                System.out.println("Contains key: " + key);
-                hm.replace(key,hm.get(key) + 1);
-            } else
-                hm.put(e.getEvent_startDate().hashCode(),0);
-            System.out.println(hm.toString());
-
             if (!e.isDurational()) {
+                int key = e.getEvent_startDate().hashCode();
+                if (hm.containsKey(key)) {
+                    System.out.println("Contains key: " + key);
+                    hm.replace(key,hm.get(key) + 1);
+                } else
+                    hm.put(e.getEvent_startDate().hashCode(),0);
+                System.out.println(hm.toString());
+
                 LocalDate eventMoment = e.getEvent_startDate();
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
 
@@ -153,7 +153,10 @@ public class TimelineDetailsFragment {
                 Pane circlePane = new Pane();
                 Circle circle = new Circle(10, Color.TRANSPARENT);
                 circle.setStroke(Color.BLACK);
-                circle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                circle.setOnMouseEntered(event -> {
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    System.out.println("hue");
+                });
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnMouseClicked(event -> {
                     myEvent = e;
@@ -179,6 +182,22 @@ public class TimelineDetailsFragment {
 
                 myDisplay.getChildren().add(circlePane);
             } else {
+                int i = 0;
+                int max = 0;
+
+                for (Event tempEvent:tempEvents) {
+                    if (e.getEvent_startDate().hashCode() < tempEvent.getEvent_endDate().hashCode() &&
+                            e.getEvent_endDate().hashCode() > tempEvent.getEvent_startDate().hashCode()) {
+                        System.out.println("Overlap!");
+                        i = tempEvent.getLevel();
+                        if (i > max) {
+                            max = i;
+                        }
+                    }
+                    System.out.println(e.hashCode());
+                }
+                tempEvents.add(e);
+
                 LocalDate eventStartDate = e.getEvent_startDate();
                 LocalDate eventEndDate = e.getEvent_endDate();
 
@@ -189,12 +208,12 @@ public class TimelineDetailsFragment {
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
                 Pane circlePane = new Pane();
-                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(circlePane, lineHeight);
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + 5);
+                AnchorPane.setTopAnchor(circlePane, lineHeight + ((max + 1) * 40));
 
                 Circle startCircle = new Circle(10, Color.TRANSPARENT);
                 startCircle.setStroke(Color.BLACK);
-                startCircle.relocate(0,60);
+                startCircle.relocate(0,40);
                 startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
                 startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 startCircle.setOnMouseClicked(event -> {
@@ -209,7 +228,7 @@ public class TimelineDetailsFragment {
 
                 Circle endCircle = new Circle(10, Color.TRANSPARENT);
                 endCircle.setStroke(Color.BLACK);
-                endCircle.relocate(eventDuration * distanceBetweenLines,60);
+                endCircle.relocate(eventDuration * distanceBetweenLines,40);
                 endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
                 endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 endCircle.setOnMouseClicked(event -> {
@@ -224,7 +243,7 @@ public class TimelineDetailsFragment {
 
                 Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
                 circlePane.getChildren().add(eventDurationLine);
-                eventDurationLine.relocate(startCircle.getRadius() * 2, 60 + startCircle.getRadius());
+                eventDurationLine.relocate(startCircle.getRadius() * 2, 40 + startCircle.getRadius());
 
                 Label dateOfEvent = new Label(e.getEvent_startDate().toString());
                 dateOfEvent.relocate(0, 90);
@@ -247,15 +266,6 @@ public class TimelineDetailsFragment {
     @FXML
     public void addEvent() throws IOException {
         ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-    }
-
-    private boolean duplicates(final ArrayList<LocalDate> arrayList) {
-        Set<LocalDate> lump = new HashSet<LocalDate>();
-        for (LocalDate i : arrayList) {
-            if (lump.contains(i)) return true;
-            lump.add(i);
-        }
-        return false;
     }
 
     @FXML

@@ -1,9 +1,6 @@
 package main.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import static main.controller.NewTimelineFragment.myTime;
 
 
 public class Event {
@@ -14,6 +11,7 @@ public class Event {
     private boolean durational;
     private int timeline_id;
     private int event_id;
+    private int level;
 
 
     public Event(){}
@@ -79,6 +77,14 @@ public class Event {
 
     public void setEvent_id(int event_id) {
         this.event_id = event_id;
+    }
+
+    public void setLevel(int level) {
+        level = level;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public boolean isDurational() {
