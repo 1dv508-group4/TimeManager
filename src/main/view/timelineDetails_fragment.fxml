@@ -40,11 +40,6 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#2b579a" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="105.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
             <Label fx:id="startDate" layoutY="26.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />

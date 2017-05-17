@@ -16,18 +16,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static main.common.StageManager.getStage;
+import static main.controller.HomeFragment.createdTimelines;
+import static main.controller.NewTimelineFragment.myTime;
 import static main.controller.NewTimelineFragment.numberOfTimelines;
 
 public class ProjectsFragment {
     @FXML private AnchorPane projectPane;
     @FXML private Button ButtonBack;
-    @FXML private Label icon,inProgress,all,completed;
+    @FXML private Label all;
     @FXML private ScrollPane scrollProjects;
     @FXML private ImageView timelineIcon;
     @FXML private Pane projectDisplay;
-    ArrayList<Timeline> createdTimelines = new ArrayList<>();
     private double panePosition=73.0;
-
+    public static boolean updated=false;
     public void initialize(){
         try {
             ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
@@ -39,8 +40,11 @@ public class ProjectsFragment {
                             "-fx-background-radius: 10; " +
                             "-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);"
             );
-            for(int i=0;i<createdTimelines.size();i++)
-                newTimeline(createdTimelines.get(i));
+            if(!myTime.isEmpty()&&!createdTimelines.contains(myTime))
+                createdTimelines.add(myTime);
+            int panes=createdTimelines.size();
+            if(updated)
+            for(int i=0;i<panes;i++) newTimeline(createdTimelines.get(i));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,13 +62,12 @@ public class ProjectsFragment {
     @FXML
     public void newTimeline(Timeline repoTime) throws IOException {
         Pane nw = new Pane();
-        nw.setId("Project"+numberOfTimelines++);
+        nw.setId("Project"+(numberOfTimelines+1));
         panePosition+=280;
         nw.setLayoutX(panePosition);
         nw.setLayoutY(120.0);
         nw.setPrefHeight(377.0);
         nw.setPrefWidth(265.0);
-
         nw.setStyle(
                 "-fx-background-color: lightgrey; " +
                         "-fx-background-insets: 10; " +
@@ -86,16 +89,19 @@ public class ProjectsFragment {
         projectPane.getChildren().add(nw);
         nw.setOnMouseClicked(e -> {
             try {
-                ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
+                if(repoTime.isEmpty())
+                    ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
+                else
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        });// still on going.
+        });
+
+
     }
     @FXML
     public void newTimeline(MouseEvent mouseEvent) throws IOException {
-        Timeline a = new Timeline();
-        createdTimelines.add(a);
-        newTimeline(a);
+        newTimeline(new Timeline()); // this will be fixed with the fxml for this fragment.
     }
 }

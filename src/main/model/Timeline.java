@@ -51,7 +51,8 @@ public class Timeline {
 		this.title = _reference;
 	}
 
-	public void setId(int id){this.id=id;}
+	public void setId(int id){this.id=id;} // this should be done using a loop that runs through the createdTimelines list and gives the timeline it's id.
+	// or be done upon creation
 
 	public void setStartDate(LocalDate _initDate) {
 		this.startDate = _initDate;
@@ -68,7 +69,7 @@ public class Timeline {
 	}
 
 	public boolean isEmpty() {
-		return (size() == 0);
+		return getTitle().equals("")&& getDescription().equals("") && getStartDate().equals("")&& getEndDate().equals("");
 	}
 
 	public void addEvent(Event point) {
