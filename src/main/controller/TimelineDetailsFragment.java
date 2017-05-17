@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -141,9 +142,20 @@ public class TimelineDetailsFragment {
 
             Pane circlePane = new Pane();
             Circle circle = new Circle(10,Color.TRANSPARENT);
+           
+          
+           Tooltip tooltip = new Tooltip();
             circle.setStroke(Color.BLACK);
-            circle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+            circle.setOnMouseEntered(event -> {
+            	System.out.println("Fish");
+            	getStage().getScene().setCursor(Cursor.HAND);
+            	tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+            	tooltip.install(circle, tooltip);
+            	
+            	});
+            
             circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+            
             circle.setOnMouseClicked(event -> {
                 myEvent = e;
                 try {
