@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -209,51 +210,60 @@ public class TimelineDetailsFragment {
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
                 Pane circlePane = new Pane();
-                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + 5);
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
                 AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 30));
 
-                Circle startCircle = new Circle(10, Color.TRANSPARENT);
-                startCircle.setStroke(Color.BLACK);
-                startCircle.relocate(0,40);
-                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-                startCircle.setOnMouseClicked(event -> {
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-                circlePane.getChildren().add(startCircle);
+                Rectangle rect = new Rectangle(0,30,eventDuration * distanceBetweenLines,20);
 
-                Circle endCircle = new Circle(10, Color.TRANSPARENT);
-                endCircle.setStroke(Color.BLACK);
-                endCircle.relocate(eventDuration * distanceBetweenLines,40);
-                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-                endCircle.setOnMouseClicked(event -> {
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-                circlePane.getChildren().add(endCircle);
+                String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
-                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
-                circlePane.getChildren().add(eventDurationLine);
-                eventDurationLine.relocate(startCircle.getRadius() * 2, 40 + startCircle.getRadius());
+                rect.setFill(Color.web(colors[e.hashCode() % 7]));
+                //rect.setStroke(Color.BLACK);
+                circlePane.getChildren().add(rect);
+//
+//                Circle startCircle = new Circle(10, Color.TRANSPARENT);
+//                startCircle.setStroke(Color.BLACK);
+//                startCircle.relocate(0,40);
+//                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+//                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+//                startCircle.setOnMouseClicked(event -> {
+//                    myEvent = e;
+//                    try {
+//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                });
+//                circlePane.getChildren().add(startCircle);
+//
+//                Circle endCircle = new Circle(10, Color.TRANSPARENT);
+//                endCircle.setStroke(Color.BLACK);
+//                endCircle.relocate(eventDuration * distanceBetweenLines,40);
+//                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+//                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+//                endCircle.setOnMouseClicked(event -> {
+//                    myEvent = e;
+//                    try {
+//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                });
+//                circlePane.getChildren().add(endCircle);
+//
+//                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
+//                circlePane.getChildren().add(eventDurationLine);
+//                eventDurationLine.relocate(startCircle.getRadius() * 2, 40 + startCircle.getRadius());
 
-                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-                dateOfEvent.relocate(0, 90);
-                dateOfEvent.setFont(Font.font(10));
-                circlePane.getChildren().add(dateOfEvent);
+//                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+//                dateOfEvent.relocate(0, 0);
+//                dateOfEvent.setFont(Font.font(10));
+//                circlePane.getChildren().add(dateOfEvent);
 
                 Label titleOfEvent = new Label(e.getEvent_title());
-                titleOfEvent.relocate(0, 78);
-                titleOfEvent.setFont(Font.font(12));
+                titleOfEvent.relocate(2, 31);
+                titleOfEvent.setFont(Font.font(13));
+                titleOfEvent.setTextFill(Color.WHITE);
                 circlePane.getChildren().add(titleOfEvent);
 
                 myDisplay.getChildren().add(circlePane);
