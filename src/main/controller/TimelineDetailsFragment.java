@@ -182,19 +182,22 @@ public class TimelineDetailsFragment {
 
                 myDisplay.getChildren().add(circlePane);
             } else {
-                int i;
+                int i = 0;
                 int max = 0;
 
+                // Calculation for knowing which level to put a durational event on, in case of overlap.
+                // Hashcodes are used to compare dates.
                 for (Event tempEvent:tempEvents) {
-                    if (e.getEvent_startDate().hashCode() < tempEvent.getEvent_endDate().hashCode() &&
-                            e.getEvent_endDate().hashCode() > tempEvent.getEvent_startDate().hashCode()) {
-                        System.out.println("Overlap!");
-                        i = tempEvent.getLevel();
-                        e.setLevel(i+1);//if getlevel -1 max i
+                    if (e.getEvent_startDate().hashCode() <= tempEvent.getEvent_endDate().hashCode() &&
+                            e.getEvent_endDate().hashCode() >= tempEvent.getEvent_startDate().hashCode()) {
+                        if (tempEvent.getLevel() + 1 > i) {
+                            i = tempEvent.getLevel() + 1;
+                        }
                     }
-                    System.out.println(e.hashCode());
                 }
+                e.setLevel(i);
                 tempEvents.add(e);
+
 
                 LocalDate eventStartDate = e.getEvent_startDate();
                 LocalDate eventEndDate = e.getEvent_endDate();
@@ -207,7 +210,7 @@ public class TimelineDetailsFragment {
 
                 Pane circlePane = new Pane();
                 AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + 5);
-                AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 40));
+                AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 30));
 
                 Circle startCircle = new Circle(10, Color.TRANSPARENT);
                 startCircle.setStroke(Color.BLACK);

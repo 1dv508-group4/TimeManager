@@ -80,7 +80,7 @@ public class Event {
     }
 
     public void setLevel(int level) {
-        level = level;
+        this.level = level;
     }
 
     public int getLevel() {
