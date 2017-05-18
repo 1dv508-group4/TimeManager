@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static main.common.StageManager.getStage;
+import static main.controller.HomeFragment.myTime;
 import static main.controller.NewEventFragment.myEvent;
-import static main.controller.NewTimelineFragment.myTime;
 
 
 public class TimelineDetailsFragment {
@@ -92,7 +92,7 @@ public class TimelineDetailsFragment {
      */
 
     private void displayTimeline() {
-        lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight); //TODO make 1600 based on user input?
+        lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
         myDisplay.getChildren().add(lineTimeline);
 
         Line beginVertical = new Line(lineStart,lineHeight-15,lineStart,lineHeight+15);
