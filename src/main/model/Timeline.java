@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlRootElement(name = "Timeline")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Timeline {
-	
+
 	@XmlElement(name = "Event")
 	private ArrayList<Event> listOfEvents = new ArrayList<Event>();;
 	@XmlElement(name = "Title")
@@ -39,9 +39,9 @@ public class Timeline {
 	public Timeline(Event event){
 		listOfEvents.add(event);
 	}
-	
+
 	public Timeline (String title, LocalDate start, LocalDate end,String desc) {
-		this.title = title;
+		title = title;
 		startDate = start;
 		endDate = end;
 		description = desc;
@@ -50,7 +50,7 @@ public class Timeline {
     public  String getTitle() {
         return title;
     }
-	
+
     public  int getId(){return id;}
 
 	public LocalDate getStartDate() {
@@ -68,12 +68,13 @@ public class Timeline {
 	public ArrayList<Event> getListOfEvents() {
 		return listOfEvents;
 	}
-	
+
 	public void setTitle(String _reference) {
 		this.title = _reference;
 	}
 
-	public void setId(int id){this.id=id;}
+	public void setId(int id){this.id=id;} // this should be done using a loop that runs through the createdTimelines list and gives the timeline it's id.
+	// or be done upon creation
 
 	public void setStartDate(LocalDate _initDate) {
 		this.startDate = _initDate;
@@ -90,7 +91,7 @@ public class Timeline {
 	}
 
 	public boolean isEmpty() {
-		return (size() == 0);
+		return getTitle().equals("")&& getDescription().equals("") && getStartDate().equals("")&& getEndDate().equals("");
 	}
 
 	public void addEvent(Event point) {
@@ -113,4 +114,7 @@ public class Timeline {
     return events;
 	}
 
+    public int getNumberOfEvents() {
+        return listOfEvents.size();
+    }
 }

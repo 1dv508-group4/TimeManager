@@ -39,7 +39,7 @@
                               <Image url="@../../resources/img/newProject.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="icon" layoutX="87.0" layoutY="271.0" text="New timeline">
+                        <Label layoutX="87.0" layoutY="271.0" text="New timeline">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -47,8 +47,6 @@
                      </children>
                   </Pane>
                   <Label fx:id="all" layoutX="103.0" layoutY="103.0" text="All" />
-                  <Label fx:id="inProgress" layoutX="159.0" layoutY="103.0" text="In Progress" />
-                  <Label fx:id="completed" layoutX="257.0" layoutY="103.0" text="Completed" />
                </children>
             </AnchorPane>
          </content></ScrollPane>

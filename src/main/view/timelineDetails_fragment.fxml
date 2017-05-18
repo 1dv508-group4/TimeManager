@@ -33,35 +33,30 @@
          </content>
       </ScrollPane>
       <Button fx:id="newEventButton" layoutX="64.0" layoutY="500.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
-      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0">
+      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="103.0" prefWidth="298.0">
          <children>
             <Text fx:id="title" fill="#2b579a" layoutX="6.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="93.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.576171875">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#2b579a" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="105.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
             <Label fx:id="startDate" layoutY="26.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Label fx:id="EndDate" layoutY="46.0" text="Label" textFill="#2b579a">
+            <Label fx:id="endDate" layoutY="46.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="Description" layoutY="85.0" text="Label" textFill="#2b579a">
+            <Label fx:id="description" layoutY="85.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removetimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="removeTimeline" layoutX="196.0" layoutY="500.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
       <Button fx:id="addImage" layoutX="362.0" layoutY="500.0" mnemonicParsing="false" onAction="#Addimage" styleClass="btn" text="Add Image to timeline" />
       <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="editButton" layoutX="561.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />

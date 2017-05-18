@@ -1,19 +1,13 @@
 package main.controller;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -30,11 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 import static main.common.StageManager.getStage;
 import static main.controller.NewEventFragment.myEvent;
@@ -50,9 +42,9 @@ public class TimelineDetailsFragment {
     @FXML private AnchorPane PaneMain;
     @FXML private Button editButton;
     @FXML private Text title;
-    @FXML private Label EndDate;
+    @FXML private Label endDate;
     @FXML private Label startDate;
-    @FXML private Label Description;
+    @FXML private Label description;
     @FXML private ImageView timeline_image;
     @FXML private Button RemoveTimeline;
     @FXML private Button AddImage;
@@ -61,6 +53,7 @@ public class TimelineDetailsFragment {
     Timeline display = myTime;
     double lineHeight;
     double lineStart;
+    double distanceBetweenLines;
     int timelinePeriodInDays;
     private Line lineTimeline;
     ArrayList<LocalDate> duplicates = new ArrayList<LocalDate>();
@@ -72,12 +65,13 @@ public class TimelineDetailsFragment {
 
         // The height of the actual line is calculated based on the height of the Scrollpane:
         lineHeight = scrollPane.getPrefHeight() / 2;
-        lineStart = 15;
+        lineStart = 15; // to account for space near the left border of the scrollpane
         timelinePeriodInDays = (int) ChronoUnit.DAYS.between(display.getStartDate(),display.getEndDate());
+
         title.setText("Title: " + display.getTitle());
-        EndDate.setText("StartDate: " + display.getEndDate().toString());
-        startDate.setText("EndDate: " + display.getStartDate().toString());
-        Description.setText(display.getDescription());
+        startDate.setText("Start date: " + display.getStartDate().toString());
+        endDate.setText("End date: " + display.getEndDate().toString());
+        description.setText("Description: " + display.getDescription());
 
         displayTimeline();
         displayEvents();
@@ -105,7 +99,7 @@ public class TimelineDetailsFragment {
         Line endVertical = new Line(1600,lineHeight-15,1600,lineHeight+15);
         myDisplay.getChildren().addAll(beginVertical,endVertical);
 
-        double distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+        distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
         if (timelinePeriodInDays < 60) {
             for (int i = 1; i < timelinePeriodInDays; i++) {
@@ -122,6 +116,7 @@ public class TimelineDetailsFragment {
 
     private void displayEvents() {
         ArrayList<Event> events = myTime.getListOfEvents();
+        HashMap<Integer,Integer> hm = new HashMap<>(8);
 
         /**
          * For each event, I try to calculate the position of the event on the timeline.
@@ -133,59 +128,119 @@ public class TimelineDetailsFragment {
          * put the event. This position is then used by creating a line on the timeline.
          *
          */
+
         for (Event e: events) {
-            LocalDate eventMoment = e.getEvent_startDate();
-            long daysUntilEvent = ChronoUnit.DAYS.between(display.getStartDate(),eventMoment);
+            int key = e.getEvent_startDate().hashCode();
 
-            // Calculate position on line to put event.
-            double distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
+            if (hm.containsKey(key)) {
+                System.out.println("Contains key: " + key);
+                hm.replace(key,hm.get(key) + 1);
+            } else
+                hm.put(e.getEvent_startDate().hashCode(),0);
+            System.out.println(hm.toString());
 
-            Pane circlePane = new Pane();
-            Circle circle = new Circle(10,Color.TRANSPARENT);
-           
-          
-           Tooltip tooltip = new Tooltip();
-            circle.setStroke(Color.BLACK);
-            circle.setOnMouseEntered(event -> {
-            	System.out.println("Fish");
-            	getStage().getScene().setCursor(Cursor.HAND);
-            	tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
-            	tooltip.install(circle, tooltip);
-            	
-            	});
-            
-            circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-            
-            circle.setOnMouseClicked(event -> {
-                myEvent = e;
-                try {
-                    ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            });
-            circlePane.getChildren().add(circle);
-            AnchorPane.setLeftAnchor(circlePane,(daysUntilEvent * distanceBetweenLines) + lineStart);
-            AnchorPane.setTopAnchor(circlePane,lineHeight);
+            if (!e.isDurational()) {
+                LocalDate eventMoment = e.getEvent_startDate();
+                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
 
-            Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-            dateOfEvent.relocate(0,30);
-            dateOfEvent.setFont(Font.font(10));
-            circlePane.getChildren().add(dateOfEvent);
+                // Calculate position on line to put event.
+                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
-            Label titleOfEvent = new Label(e.getEvent_title());
-            titleOfEvent.relocate(0,18);
-            titleOfEvent.setFont(Font.font(12));
-            circlePane.getChildren().add(titleOfEvent);
+                Tooltip tooltip = new Tooltip();
+                Pane circlePane = new Pane();
+                Circle circle = new Circle(10, Color.TRANSPARENT);
+                circle.setStroke(Color.BLACK);
+                circle.setOnMouseEntered(event -> {
+                    System.out.println("Fish");
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+                    tooltip.install(circle, tooltip);
 
-            duplicates.add(e.getEvent_startDate());
+                });
+                circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                circle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(circle);
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(circlePane, lineHeight - (hm.get(key) * 50));
 
-            if (duplicates(duplicates)){
-                AnchorPane.setTopAnchor(circlePane,lineHeight - 40);//vbox.relocate(positionToPutEvent - 5,lineHeight-y);
-                duplicates.clear();
+                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+                dateOfEvent.relocate(5, -21);
+                dateOfEvent.setFont(Font.font(10));
+                circlePane.getChildren().add(dateOfEvent);
+
+                Label titleOfEvent = new Label(e.getEvent_title());
+                titleOfEvent.relocate(5, -34);
+                titleOfEvent.setFont(Font.font(12));
+                circlePane.getChildren().add(titleOfEvent);
+
+                myDisplay.getChildren().add(circlePane);
+            } else {
+                LocalDate eventStartDate = e.getEvent_startDate();
+                LocalDate eventEndDate = e.getEvent_endDate();
+
+                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventStartDate);
+                int eventDuration = (int) ChronoUnit.DAYS.between(eventStartDate,eventEndDate);
+
+                // Calculate position on line to put event.
+                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+
+                Pane circlePane = new Pane();
+                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(circlePane, lineHeight);
+
+                Circle startCircle = new Circle(10, Color.TRANSPARENT);
+                startCircle.setStroke(Color.BLACK);
+                startCircle.relocate(0,60);
+                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                startCircle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(startCircle);
+
+                Circle endCircle = new Circle(10, Color.TRANSPARENT);
+                endCircle.setStroke(Color.BLACK);
+                endCircle.relocate(eventDuration * distanceBetweenLines,60);
+                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                endCircle.setOnMouseClicked(event -> {
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+                circlePane.getChildren().add(endCircle);
+
+                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
+                circlePane.getChildren().add(eventDurationLine);
+                eventDurationLine.relocate(startCircle.getRadius() * 2, 60 + startCircle.getRadius());
+
+                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+                dateOfEvent.relocate(0, 90);
+                dateOfEvent.setFont(Font.font(10));
+                circlePane.getChildren().add(dateOfEvent);
+
+                Label titleOfEvent = new Label(e.getEvent_title());
+                titleOfEvent.relocate(0, 78);
+                titleOfEvent.setFont(Font.font(12));
+                circlePane.getChildren().add(titleOfEvent);
+
+                myDisplay.getChildren().add(circlePane);
             }
-
-            myDisplay.getChildren().add(circlePane);
         }
     }
 
@@ -195,15 +250,6 @@ public class TimelineDetailsFragment {
     @FXML
     public void addEvent() throws IOException {
         ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-    }
-
-    private boolean duplicates(final ArrayList<LocalDate> arrayList) {
-        Set<LocalDate> lump = new HashSet<LocalDate>();
-        for (LocalDate i : arrayList) {
-            if (lump.contains(i)) return true;
-            lump.add(i);
-        }
-        return false;
     }
 
     @FXML
@@ -219,16 +265,15 @@ public class TimelineDetailsFragment {
          try {
              BufferedImage bufferedImage = ImageIO.read(file);
              Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-             timeline_image.setImage(image);
          } catch (IOException ex) {
 
          }
     }
     @FXML
-    void removetimeline() throws IOException{
+    void removeTimeline() throws IOException{
     	myDisplay.getChildren().clear();
     	LeftPane.getChildren().clear();
-    	timeline_image.setImage(null);
+
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML
