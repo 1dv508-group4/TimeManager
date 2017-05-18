@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static main.common.StageManager.getStage;
-import static main.controller.NewTimelineFragment.myTime;
+import static main.controller.HomeFragment.myTime;
 
 
 public class EditTimelineFragment implements Initializable {

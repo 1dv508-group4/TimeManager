@@ -91,7 +91,7 @@ public class Timeline {
 	}
 
 	public boolean isEmpty() {
-		return getTitle().equals("")&& getDescription().equals("") && getStartDate().equals("")&& getEndDate().equals("");
+		return getTitle().equals("") || getStartDate().equals("")|| getEndDate().equals("");
 	}
 
 	public void addEvent(Event point) {

@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import static main.common.StageManager.getStage;
+import static main.controller.HomeFragment.myTime;
+import static main.controller.HomeFragment.numberOfTimelines;
 import static main.controller.ProjectsFragment.updated;
 
 public class NewTimelineFragment {
@@ -23,8 +25,6 @@ public class NewTimelineFragment {
     @FXML private TextField timelineDescription;
     @FXML public DatePicker timelineStartDate;
     @FXML public DatePicker timelineEndDate;
-    public static Timeline myTime = new Timeline(); // a timeline object that is used to create a time and keep track of the events added to a specific timeline.
-    public static int numberOfTimelines; // holds a record of the number of created timelines
 
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
@@ -48,6 +48,7 @@ public class NewTimelineFragment {
             myTime.setDescription(timelineDescription.getText());
             updated=true;
             ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);
+
         }else{
             new FadeInRightTransition(timelineStartDate).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
