@@ -136,6 +136,7 @@ public class TimelineDetailsFragment {
 
         for (Event e: events) {
             int key = e.getEvent_startDate().hashCode();
+
             if (hm.containsKey(key)) {
                 System.out.println("Contains key: " + key);
                 hm.replace(key,hm.get(key) + 1);
@@ -247,15 +248,6 @@ public class TimelineDetailsFragment {
     @FXML
     public void addEvent() throws IOException {
         ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-    }
-
-    private boolean duplicates(final ArrayList<LocalDate> arrayList) {
-        Set<LocalDate> lump = new HashSet<LocalDate>();
-        for (LocalDate i : arrayList) {
-            if (lump.contains(i)) return true;
-            lump.add(i);
-        }
-        return false;
     }
 
     @FXML

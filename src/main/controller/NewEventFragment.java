@@ -46,7 +46,7 @@ public class NewEventFragment {
     @FXML
     public void saveEvent() throws IOException {
         if (durational.isSelected()) {
-            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
                 myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
                 myTime.addEvent(myEvent);
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
@@ -54,7 +54,7 @@ public class NewEventFragment {
                 new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
             }
         } else {
-            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) & eventStartDate.getValue().isAfter(myTime.getStartDate()) & !eventTitle.getText().isEmpty()) {
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
                 myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
                 myTime.addEvent(myEvent);
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
