@@ -11,7 +11,7 @@ public class Event {
     private boolean durational;
     private int timeline_id;
     private int event_id;
-    private int level;
+    private int level = 0;
 
 
     public Event(){}

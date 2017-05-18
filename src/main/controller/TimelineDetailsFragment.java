@@ -182,7 +182,7 @@ public class TimelineDetailsFragment {
 
                 myDisplay.getChildren().add(circlePane);
             } else {
-                int i = 0;
+                int i;
                 int max = 0;
 
                 for (Event tempEvent:tempEvents) {
@@ -190,9 +190,7 @@ public class TimelineDetailsFragment {
                             e.getEvent_endDate().hashCode() > tempEvent.getEvent_startDate().hashCode()) {
                         System.out.println("Overlap!");
                         i = tempEvent.getLevel();
-                        if (i > max) {
-                            max = i;
-                        }
+                        e.setLevel(i+1);//if getlevel -1 max i
                     }
                     System.out.println(e.hashCode());
                 }
@@ -209,7 +207,7 @@ public class TimelineDetailsFragment {
 
                 Pane circlePane = new Pane();
                 AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + 5);
-                AnchorPane.setTopAnchor(circlePane, lineHeight + ((max + 1) * 40));
+                AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 40));
 
                 Circle startCircle = new Circle(10, Color.TRANSPARENT);
                 startCircle.setStroke(Color.BLACK);
