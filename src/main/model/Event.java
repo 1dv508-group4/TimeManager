@@ -2,18 +2,36 @@ package main.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.*;
 
 import static main.controller.NewTimelineFragment.myTime;
-
+@XmlRootElement(name="Event")
+@XmlType(propOrder = {"event_title", "event_description", "event_startDate", "event_endDate", "timeline_id","event_id"})
+@XmlAccessorType(XmlAccessType.FIELD)
 
 public class Event {
-    private String event_title;
-    private String event_description;
-    private LocalDate event_startDate;
-    private LocalDate event_endDate;
     private boolean durational;
-    private int timeline_id;
-    private int event_id;
+	@XmlElement(name = "Title")
+	private String event_title;
+	@XmlElement(name = "Description")
+	private String event_description;
+	@XmlJavaTypeAdapter(value = LocalDatetoXMLAdapter.class)
+	@XmlElement(name = "StartDate")
+	private LocalDate event_startDate;
+	@XmlJavaTypeAdapter(value = LocalDatetoXMLAdapter.class)
+	@XmlElement(name = "EndDate")
+	private LocalDate event_endDate;
+	@XmlElement(name = "TimeLineId")
+	private int timeline_id;
+	@XmlElement(name = "EventID")
+	private int event_id;
 
 
     public Event(){}

@@ -3,13 +3,35 @@ package main.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
+
+
+@XmlType(propOrder = {"title", "startDate", "endDate","description", "listOfEvents", "id"})
+@XmlRootElement(name = "Timeline")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Timeline {
 
+	@XmlElement(name = "Event")
 	private ArrayList<Event> listOfEvents = new ArrayList<Event>();;
-	private String title, description;
+	@XmlElement(name = "Title")
+	private String title;
+	@XmlElement(name = "Description")
+	private String description;
+	@XmlJavaTypeAdapter(value = LocalDatetoXMLAdapter.class)
+	@XmlElement(name = "StartDate")
 	private LocalDate startDate;
+	@XmlJavaTypeAdapter(value = LocalDatetoXMLAdapter.class)
+	@XmlElement(name = "EndDate")
 	private LocalDate endDate;
+	@XmlElement(name= "Id")
 	private  int id;
 
 	public Timeline(){}
@@ -19,7 +41,7 @@ public class Timeline {
 	}
 
 	public Timeline (String title, LocalDate start, LocalDate end,String desc) {
-		this.title = title;
+		title = title;
 		startDate = start;
 		endDate = end;
 		description = desc;
