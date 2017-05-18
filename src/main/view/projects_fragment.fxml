@@ -39,7 +39,7 @@
                               <Image url="@../../resources/img/newProject.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="icon" layoutX="87.0" layoutY="271.0" text="New timeline">
+                        <Label layoutX="87.0" layoutY="271.0" text="New timeline">
                            <font>
                               <Font size="16.0" />
                            </font>
