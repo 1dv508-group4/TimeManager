@@ -1,29 +1,37 @@
 package main.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import main.common.AlertMessage;
 import main.common.ScreenController;
 import main.model.Event;
 
 import java.io.IOException;
 
-import static main.controller.NewTimelineFragment.myTime;
+import static main.controller.HomeFragment.myTime;
 
 public class NewEventFragment {
 
     @FXML private Button cancelButton;
     @FXML private Button saveButton;
     @FXML private TextField eventTitle;
-    @FXML private DatePicker eventDate;
-    static Event myEvent;
+    @FXML private DatePicker eventStartDate;
+    @FXML private DatePicker eventEndDate;
+    @FXML private CheckBox durational;
+    @FXML private TextArea eventDescription;
+    static Event myEvent=  new Event();
 
     public void initialize() {
-        if (myEvent != null) {
-            eventTitle.setText(myEvent.getEvent_title());
-            eventDate.setValue(myEvent.getEvent_startDate());
-        }
+        // Sets visibility of EndDate if Checkbox for durational event is used:
+        durational.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            eventEndDate.setDisable(oldValue);
+            eventEndDate.setVisible(newValue);
+            if (newValue)
+                eventStartDate.setPromptText("Start date...");
+            else
+                eventStartDate.setPromptText("Event date...");
+        });
     }
 
     public void back() throws IOException {
@@ -37,15 +45,26 @@ public class NewEventFragment {
 
     @FXML
     public void saveEvent() throws IOException {
-        // Modify the event when event exists already:
-        if (myEvent != null) {
-            myTime.deleteEvent(myEvent);
-            myEvent.setEvent_startDate(eventDate.getValue());
-            myEvent.setEvent_title(eventTitle.getText());
+        if (durational.isSelected()) {
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
+                myTime.addEvent(myEvent);
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            } else {
+                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
+            }
         } else {
-            myEvent = new Event(eventTitle.getText(),"TEST DESCRIPTION",eventDate.getValue());
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
+                myTime.addEvent(myEvent);
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            } else {
+                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
+            }
         }
-        myTime.addEvent(myEvent);
-        ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+    }
+
+    @FXML
+    public void durationalEvent(MouseEvent mouseEvent) {
     }
 }

@@ -8,37 +8,31 @@ import main.animation.FadeInRightTransition;
 import main.common.AlertMessage;
 import main.common.ScreenController;
 import main.model.Timeline;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
 import static main.common.StageManager.getStage;
-
+import static main.controller.HomeFragment.myTime;
+import static main.controller.HomeFragment.numberOfTimelines;
+import static main.controller.ProjectsFragment.updated;
 
 public class NewTimelineFragment {
     @FXML private Button cancelBtn;
     @FXML private Button saveBtn;
-
     @FXML private Button ButtonBack;
     @FXML private AnchorPane PaneMain;
     @FXML private TextField timelineTitle;
     @FXML private TextField timelineDescription;
-    @FXML private DatePicker timelineStartDate;
-    @FXML private DatePicker timelineEndDate;
-    static Timeline myTime = new Timeline();
-    static int numberOfTimelines=0;
-    private boolean isCreated=false;
+    @FXML public DatePicker timelineStartDate;
+    @FXML public DatePicker timelineEndDate;
 
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
 
-        cancelBtn.getStyleClass().add("button-flat");
-        saveBtn.getStyleClass().add("button-flat");
-
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
+
     }
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}
@@ -52,30 +46,30 @@ public class NewTimelineFragment {
             myTime.setId(numberOfTimelines++);
             myTime.setTitle(timelineTitle.getText());
             myTime.setDescription(timelineDescription.getText());
-            isCreated=true;
-            //change button save with button display and cancel with a delete button if user clicks display we move to timeline view fragment (projects fragment)
+            updated=true;
+            ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);
 
-            ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
         }else{
             new FadeInRightTransition(timelineStartDate).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
-            AlertMessage msg = new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
+            new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
+        //save this object in a list in projects fragment
+        exportToFile(myTime.toString());
     }
 
     private boolean correctDuration(LocalDate start, LocalDate end) { //this checks that end is older that the start.
-        if(start.isAfter(end)|| start.isEqual(end))return false;
+        if(start == null||end==null || start.isAfter(end))return false;
         else{
             myTime.setStartDate(timelineStartDate.getValue());
             myTime.setEndDate(timelineEndDate.getValue());
             return true;
         }
-
     }
 
-    @FXML
-    public void addEvent() {
-       // if(isCreated) then pop up window or anchor pane fields fade in.
+    private void exportToFile(String s) {
     }
+
+
 }
 

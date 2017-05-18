@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -16,6 +15,7 @@ public class StageManager {
     public StageManager(Stage stage) throws IOException {
         StageManager.stage=stage;
         stage.setTitle("Time Management System");
+        stage.setMinWidth(600.0);
         Parent root= FXMLLoader.load(ScreenController.class.getResource("../view/menu_fragment.fxml"));
 
         Scene s = new Scene(root);

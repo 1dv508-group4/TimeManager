@@ -12,6 +12,7 @@ import org.junit.Test;
 
 public class TimelineTest {
 	Timeline tl = new Timeline();
+	Timeline tl2 = new Timeline("goat", null, null,"asodnasd");
 	
 	
 
@@ -39,9 +40,6 @@ public class TimelineTest {
 	public void testListOfEvents() {
 		assertTrue(tl.isEmpty());
 		assertEquals(0,tl.size());
-		
-		
-		
 		
 	}
 
