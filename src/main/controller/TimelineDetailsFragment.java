@@ -3,10 +3,7 @@ package main.controller;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,8 +27,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import static main.common.StageManager.getStage;
 import static main.controller.NewEventFragment.myEvent;
@@ -74,9 +69,9 @@ public class TimelineDetailsFragment {
         timelinePeriodInDays = (int) ChronoUnit.DAYS.between(display.getStartDate(),display.getEndDate());
 
         title.setText("Title: " + display.getTitle());
-        startDate.setText("StartDate: " + display.getStartDate().toString());
-        endDate.setText("endDate: " + display.getEndDate().toString());
-        description.setText("description: " + display.getDescription());
+        startDate.setText("Start date: " + display.getStartDate().toString());
+        endDate.setText("End date: " + display.getEndDate().toString());
+        description.setText("Description: " + display.getDescription());
 
         displayTimeline();
         displayEvents();
@@ -151,10 +146,17 @@ public class TimelineDetailsFragment {
                 // Calculate position on line to put event.
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
+                Tooltip tooltip = new Tooltip();
                 Pane circlePane = new Pane();
                 Circle circle = new Circle(10, Color.TRANSPARENT);
                 circle.setStroke(Color.BLACK);
-                circle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+                circle.setOnMouseEntered(event -> {
+                    System.out.println("Fish");
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+                    tooltip.install(circle, tooltip);
+
+                });
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnMouseClicked(event -> {
                     myEvent = e;
