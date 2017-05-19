@@ -14,6 +14,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import com.sun.xml.internal.ws.util.Pool.Unmarshaller;
+
 
 public class HomeFragment {
 
@@ -33,14 +38,22 @@ public class HomeFragment {
     }
 
     @FXML
-    public void loadTimeline() {
+    public void loadTimeline() throws JAXBException, IOException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(new Stage());
-        importFromFile(file);
+        myTime = importFromFile(file);
+        ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+
+
+
     }
 
-    private void importFromFile(File file) {
+    private Timeline importFromFile(File file) throws JAXBException {
+    	JAXBContext context = JAXBContext.newInstance(Timeline.class);
+		javax.xml.bind.Unmarshaller unMarshaller = context.createUnmarshaller();
+
+		return (Timeline) unMarshaller.unmarshal(file);
 
     }
 }
