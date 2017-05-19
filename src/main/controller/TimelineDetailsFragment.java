@@ -148,10 +148,12 @@ public class TimelineDetailsFragment {
                 // Calculate position on line to put event.
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
+                String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
+
                 Tooltip tooltip = new Tooltip();
                 Pane circlePane = new Pane();
-                Circle circle = new Circle(10, Color.TRANSPARENT);
-                circle.setStroke(Color.BLACK);
+                Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
+                //circle.setStroke(Color.BLACK);
                 circle.setOnMouseEntered(event -> {
                     System.out.println("Fish");
                     getStage().getScene().setCursor(Cursor.HAND);
