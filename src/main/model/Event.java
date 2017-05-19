@@ -3,21 +3,11 @@ package main.model;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import javax.xml.bind.*;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.bind.annotation.*;
 
 //import static main.controller.NewTimelineFragment.myTime;
-import static main.controller.HomeFragment.myTime;
 
 @XmlRootElement(name="Event")
-@XmlType(propOrder = {"event_title", "event_description", "event_startDate", "event_endDate", "timeline_id","event_id","durational"})
+@XmlType(propOrder = {"event_title", "event_description", "event_startDate", "event_endDate", "timeline_id","event_id","durational", "level"})
 @XmlAccessorType(XmlAccessType.FIELD)
 
 public class Event {
@@ -37,6 +27,7 @@ public class Event {
 	private int timeline_id;
 	@XmlElement(name = "EventID")
 	private int event_id;
+	@XmlElement(name = "Level")
 	private int level = 0;
 
 

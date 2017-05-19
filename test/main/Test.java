@@ -1,19 +1,14 @@
 package main;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.*;
+import main.model.Event;
+import main.model.Timeline;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-import com.sun.xml.internal.ws.util.Pool.Unmarshaller;
-
-import main.model.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
 
 
 public class Test {
@@ -34,7 +29,7 @@ public class Test {
 		System.out.println(timeline1.toString());
 		String info = timeline1.toString();
 		try {
-			File savedfile = new File("C:/Temp/testfilen.txt");
+			File savedfile = new File("/Users/JorianWielink/Desktop/Timeline.xml");
 			FileWriter fw = new FileWriter(savedfile);
 			fw.write(info);
 			fw.flush();
@@ -48,7 +43,7 @@ public class Test {
 		File savedfile = new File("C:/Temp/testfilen.txt");
 		jaxbObjectToXML(timeline1);
 		
-		Timeline tl2 = XMLtoObject(new File("C:\\Temp\\Timeline.xml"));
+		Timeline tl2 = XMLtoObject(new File("/Users/JorianWielink/Desktop/Timeline2.xml"));
 		System.out.println("Fishingboat");
 		System.out.println(tl2.toString());
 
