@@ -1,9 +1,7 @@
 package main.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.common.ScreenController;
@@ -13,6 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 
 public class HomeFragment {
@@ -24,7 +25,6 @@ public class HomeFragment {
     public static int numberOfTimelines; // holds a record of the number of created timelines
 
     public void initialize() throws SQLException {
-
     }
 
     @FXML
@@ -33,14 +33,18 @@ public class HomeFragment {
     }
 
     @FXML
-    public void loadTimeline() {
+    public void loadTimeline() throws JAXBException, IOException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(new Stage());
-        importFromFile(file);
+        myTime = importFromFile(file);
+        ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
     }
 
-    private void importFromFile(File file) {
+    private Timeline importFromFile(File file) throws JAXBException {
+    	JAXBContext context = JAXBContext.newInstance(Timeline.class);
+		javax.xml.bind.Unmarshaller unMarshaller = context.createUnmarshaller();
 
+		return (Timeline) unMarshaller.unmarshal(file);
     }
 }

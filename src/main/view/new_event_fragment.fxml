@@ -44,7 +44,7 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <CheckBox fx:id="durational" layoutX="297.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#durationalEvent" text="Durational Event" />
+      <CheckBox fx:id="durational" layoutX="297.0" layoutY="151.0" mnemonicParsing="false" text="Durational Event" />
       <DatePicker fx:id="eventEndDate" disable="true" visible="false" layoutX="82.0" layoutY="267.0" promptText="End date..." />
       <TextArea fx:id="eventDescription" layoutX="82.0" layoutY="375.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
       <Button layoutX="82.0" layoutY="321.0" mnemonicParsing="false" text="Upload..." />

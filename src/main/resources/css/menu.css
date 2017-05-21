@@ -323,3 +323,10 @@
 .progress-bar:disabled {
     -fx-opacity: 1.0
 }
+
+.timeline-pane {
+    -fx-background-color: lightgrey;
+    -fx-background-insets: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}

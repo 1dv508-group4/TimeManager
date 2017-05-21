@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -116,7 +117,9 @@ public class TimelineDetailsFragment {
 
     private void displayEvents() {
         ArrayList<Event> events = myTime.getListOfEvents();
+        ArrayList<Event> tempEvents = new ArrayList<>(events.size());
         HashMap<Integer,Integer> hm = new HashMap<>(8);
+        HashMap<Integer,LocalDate[]> durationalMap = new HashMap<>();
 
         /**
          * For each event, I try to calculate the position of the event on the timeline.
@@ -130,26 +133,27 @@ public class TimelineDetailsFragment {
          */
 
         for (Event e: events) {
-            int key = e.getEvent_startDate().hashCode();
-
-            if (hm.containsKey(key)) {
-                System.out.println("Contains key: " + key);
-                hm.replace(key,hm.get(key) + 1);
-            } else
-                hm.put(e.getEvent_startDate().hashCode(),0);
-            System.out.println(hm.toString());
-
             if (!e.isDurational()) {
+                int key = e.getEvent_startDate().hashCode();
+                if (hm.containsKey(key)) {
+                    System.out.println("Contains key: " + key);
+                    hm.replace(key,hm.get(key) + 1);
+                } else
+                    hm.put(e.getEvent_startDate().hashCode(),0);
+                System.out.println(hm.toString());
+
                 LocalDate eventMoment = e.getEvent_startDate();
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
 
                 // Calculate position on line to put event.
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
+                String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
+
                 Tooltip tooltip = new Tooltip();
                 Pane circlePane = new Pane();
-                Circle circle = new Circle(10, Color.TRANSPARENT);
-                circle.setStroke(Color.BLACK);
+                Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
+                //circle.setStroke(Color.BLACK);
                 circle.setOnMouseEntered(event -> {
                     System.out.println("Fish");
                     getStage().getScene().setCursor(Cursor.HAND);
@@ -182,6 +186,23 @@ public class TimelineDetailsFragment {
 
                 myDisplay.getChildren().add(circlePane);
             } else {
+                int i = 0;
+                int max = 0;
+
+                // Calculation for knowing which level to put a durational event on, in case of overlap.
+                // Hashcodes are used to compare dates.
+                for (Event tempEvent:tempEvents) {
+                    if (e.getEvent_startDate().hashCode() <= tempEvent.getEvent_endDate().hashCode() &&
+                            e.getEvent_endDate().hashCode() >= tempEvent.getEvent_startDate().hashCode()) {
+                        if (tempEvent.getLevel() + 1 > i) {
+                            i = tempEvent.getLevel() + 1;
+                        }
+                    }
+                }
+                e.setLevel(i);
+                tempEvents.add(e);
+
+
                 LocalDate eventStartDate = e.getEvent_startDate();
                 LocalDate eventEndDate = e.getEvent_endDate();
 
@@ -193,50 +214,59 @@ public class TimelineDetailsFragment {
 
                 Pane circlePane = new Pane();
                 AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(circlePane, lineHeight);
+                AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 30));
 
-                Circle startCircle = new Circle(10, Color.TRANSPARENT);
-                startCircle.setStroke(Color.BLACK);
-                startCircle.relocate(0,60);
-                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-                startCircle.setOnMouseClicked(event -> {
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-                circlePane.getChildren().add(startCircle);
+                Rectangle rect = new Rectangle(0,30,eventDuration * distanceBetweenLines,20);
 
-                Circle endCircle = new Circle(10, Color.TRANSPARENT);
-                endCircle.setStroke(Color.BLACK);
-                endCircle.relocate(eventDuration * distanceBetweenLines,60);
-                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-                endCircle.setOnMouseClicked(event -> {
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-                circlePane.getChildren().add(endCircle);
+                String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
-                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
-                circlePane.getChildren().add(eventDurationLine);
-                eventDurationLine.relocate(startCircle.getRadius() * 2, 60 + startCircle.getRadius());
+                rect.setFill(Color.web(colors[e.hashCode() % 7]));
+                //rect.setStroke(Color.BLACK);
+                circlePane.getChildren().add(rect);
+//
+//                Circle startCircle = new Circle(10, Color.TRANSPARENT);
+//                startCircle.setStroke(Color.BLACK);
+//                startCircle.relocate(0,40);
+//                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+//                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+//                startCircle.setOnMouseClicked(event -> {
+//                    myEvent = e;
+//                    try {
+//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                });
+//                circlePane.getChildren().add(startCircle);
+//
+//                Circle endCircle = new Circle(10, Color.TRANSPARENT);
+//                endCircle.setStroke(Color.BLACK);
+//                endCircle.relocate(eventDuration * distanceBetweenLines,40);
+//                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
+//                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+//                endCircle.setOnMouseClicked(event -> {
+//                    myEvent = e;
+//                    try {
+//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                });
+//                circlePane.getChildren().add(endCircle);
+//
+//                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
+//                circlePane.getChildren().add(eventDurationLine);
+//                eventDurationLine.relocate(startCircle.getRadius() * 2, 40 + startCircle.getRadius());
 
-                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-                dateOfEvent.relocate(0, 90);
-                dateOfEvent.setFont(Font.font(10));
-                circlePane.getChildren().add(dateOfEvent);
+//                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
+//                dateOfEvent.relocate(0, 0);
+//                dateOfEvent.setFont(Font.font(10));
+//                circlePane.getChildren().add(dateOfEvent);
 
                 Label titleOfEvent = new Label(e.getEvent_title());
-                titleOfEvent.relocate(0, 78);
-                titleOfEvent.setFont(Font.font(12));
+                titleOfEvent.relocate(2, 31);
+                titleOfEvent.setFont(Font.font(13));
+                titleOfEvent.setTextFill(Color.WHITE);
                 circlePane.getChildren().add(titleOfEvent);
 
                 myDisplay.getChildren().add(circlePane);
