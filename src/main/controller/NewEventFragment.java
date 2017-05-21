@@ -63,8 +63,4 @@ public class NewEventFragment {
             }
         }
     }
-
-    @FXML
-    public void durationalEvent(MouseEvent mouseEvent) {
-    }
 }

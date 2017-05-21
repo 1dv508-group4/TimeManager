@@ -32,7 +32,7 @@
          <content>
             <AnchorPane fx:id="projectPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1303.0">
                <children>
-                  <Pane fx:id="projectDisplay" layoutX="73.0" layoutY="120.0" prefHeight="377.0" prefWidth="265.0">
+                  <Pane fx:id="projectDisplay" styleClass="timeline-pane" layoutX="73.0" layoutY="120.0" prefHeight="377.0" prefWidth="265.0">
                      <children>
                         <ImageView fx:id="timelineIcon" fitHeight="150.0" fitWidth="200.0" layoutX="58.0" layoutY="114.0" onMouseClicked="#newTimeline" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -351,3 +351,11 @@
     -fx-background-color: #d3d3d3;
     -fx-text-fill: #1d1d1d;
 }
+
+.timeline-pane {
+    -fx-background-color: lightgrey;
+    -fx-background-insets: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
