@@ -9,23 +9,24 @@ public class ScreenController {
      * Manages the handling of screens. Controller classes call the setScreen method to update the screen.
      */
     public enum Screen {
-    	  SPLASH ("../view/splash_fragment.fxml"), // Splash Screen.
-          MENU ("../view/menu_fragment.fxml"),// Should attempt to get the number of time_lines created and the number of times you commit to them in proportion to time.
-          HOME ("../view/home_fragment.fxml"), // should show  System functions <<create>> or <<load>>.
-          NEW_TIMELINE("../view/new_timeline_fragment.fxml"), // one time_line
-          NEW_EVENT ("../view/new_event_fragment.fxml"),
-          MY_PROJECTS ("../view/projects_fragment.fxml"), // multiple time_lines
-          TIMELINE_DETAILS ("../view/timelineDetails_fragment.fxml"),
-          ABOUT ("../view/about_fragment.fxml"),// Team member information.
-          eventDetailsfragment("../view/EventDetailsfragment.fxml"),
-      	  EDIT("../view/edit_timeline_fragment.fxml");
+        SPLASH ("/fxml/splash_fragment.fxml"), // Splash Screen.
+        MENU ("/fxml/menu_fragment.fxml"),// Should attempt to get the number of time_lines created and the number of times you commit to them in proportion to time.
+        HOME ("/fxml/home_fragment.fxml"), // should show  System functions <<create>> or <<load>>.
+        NEW_TIMELINE("/fxml/new_timeline_fragment.fxml"), // one time_line
+        NEW_EVENT ("/fxml/new_event_fragment.fxml"),
+        MY_PROJECTS ("/fxml/projects_fragment.fxml"), // multiple time_lines
+        TIMELINE_DETAILS ("/fxml/timelineDetails_fragment.fxml"),
+        ABOUT ("/fxml/about_fragment.fxml"),// Team member information.
+        eventDetailsfragment("/fxml/EventDetailsfragment.fxml"),
+        EDIT("/fxml/edit_timeline_fragment.fxml");
+
         private String resourceLocation;
 
         Screen(String resourceLocation) {
-            this.resourceLocation = resourceLocation;
+        this.resourceLocation = resourceLocation;
         }
 
-        public String getResourceLocation() {
+    public String getResourceLocation() {
             return resourceLocation;
         }
     }

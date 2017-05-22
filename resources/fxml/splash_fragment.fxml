@@ -14,7 +14,7 @@
             <children>
                 <ImageView fitHeight="16.0" fitWidth="179.0" layoutX="157.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../resources/img/loading.GIF" />
+                        <Image url="@../img/loading.GIF" />
                     </image>
                 </ImageView>
                 <Text fx:id="TextWelcome" fill="WHITE" layoutX="27.0" layoutY="81.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Manager v1" wrappingWidth="296.2421875">
