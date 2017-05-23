@@ -16,7 +16,7 @@ public class StageManager {
         StageManager.stage=stage;
         stage.setTitle("Time Management System");
         stage.setMinWidth(600.0);
-        Parent root= FXMLLoader.load(ScreenController.class.getResource("../view/menu_fragment.fxml"));
+        Parent root= FXMLLoader.load(ScreenController.class.getResource("/fxml/menu_fragment.fxml"));
 
         Scene s = new Scene(root);
         s.getStylesheets().add("resources/css/menu_items.css"); // css for design
