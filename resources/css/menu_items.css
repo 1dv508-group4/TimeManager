@@ -359,3 +359,7 @@
     -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
 }
 
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('/fontawesome-webfont.ttf');
+}
