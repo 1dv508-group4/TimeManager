@@ -262,63 +262,67 @@ public class TimelineDetailsFragment {
                 AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 30));
 
                 Rectangle rect = new Rectangle(0,30,eventDuration * distanceBetweenLines,20);
+                circlePane.getChildren().add(rect);
 
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
                 rect.setFill(Color.web(colors[e.hashCode() % 7]));
-                //rect.setStroke(Color.BLACK);
-                circlePane.getChildren().add(rect);
                 rect.setOnMouseEntered(event ->{
                     getStage().getScene().setCursor(Cursor.HAND);
                     tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
                     tooltip.install(rect, tooltip);
                 });
 
-//
-//                Circle startCircle = new Circle(10, Color.TRANSPARENT);
-//                startCircle.setStroke(Color.BLACK);
-//                startCircle.relocate(0,40);
-//                startCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-//                startCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-//                startCircle.setOnMouseClicked(event -> {
-//                    myEvent = e;
-//                    try {
-//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-//                    } catch (IOException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                });
-//                circlePane.getChildren().add(startCircle);
-//
-//                Circle endCircle = new Circle(10, Color.TRANSPARENT);
-//                endCircle.setStroke(Color.BLACK);
-//                endCircle.relocate(eventDuration * distanceBetweenLines,40);
-//                endCircle.setOnMouseEntered(event -> getStage().getScene().setCursor(Cursor.HAND));
-//                endCircle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-//                endCircle.setOnMouseClicked(event -> {
-//                    myEvent = e;
-//                    try {
-//                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-//                    } catch (IOException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                });
-//                circlePane.getChildren().add(endCircle);
-//
-//                Line eventDurationLine = new Line(startCircle.getRadius() * 2,0,eventDuration * distanceBetweenLines,0);
-//                circlePane.getChildren().add(eventDurationLine);
-//                eventDurationLine.relocate(startCircle.getRadius() * 2, 40 + startCircle.getRadius());
+                rect.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                rect.setOnContextMenuRequested(event -> conMenu.show(rect, event.getScreenX(), event.getScreenY()));
+                rect.setOnMouseEntered(event -> {
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+                    Tooltip.install(rect, tooltip);
+                });
 
-//                Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-//                dateOfEvent.relocate(0, 0);
-//                dateOfEvent.setFont(Font.font(10));
-//                circlePane.getChildren().add(dateOfEvent);
+                delete.setOnAction(event -> {
+                    System.out.println("Event Deleted or at least pretend :)");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
+                    alert.setContentText("Are you ok with this?");
+
+                    // Styling of alert:
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
+                    ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                    buttonBar.getButtons().forEach(b-> {
+                        b.getStyleClass().clear();
+                        b.getStyleClass().add("btn");
+                    });
+
+                    // After 'OK' is clicked:
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                        myTime.deleteEvent(e);
+                        myDisplay.getChildren().removeAll(circlePane);
+                    } else if (result.get() == ButtonType.CANCEL) {
+                        alert.close();
+                    }
+                });
+
+                //create a new fxml and controller for modifying events.
+                modify.setOnAction(event -> {
+                    System.out.println(e.getEvent_title());
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
 
                 Label titleOfEvent = new Label(e.getEvent_title());
+                circlePane.getChildren().add(titleOfEvent);
                 titleOfEvent.relocate(2, 31);
                 titleOfEvent.setFont(Font.font(13));
                 titleOfEvent.setTextFill(Color.WHITE);
-                circlePane.getChildren().add(titleOfEvent);
 
                 myDisplay.getChildren().add(circlePane);
             }
