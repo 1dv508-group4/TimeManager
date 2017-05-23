@@ -11,14 +11,15 @@ public class ScreenController {
     public enum Screen {
         SPLASH ("/fxml/splash_fragment.fxml"), // Splash Screen.
         MENU ("/fxml/menu_fragment.fxml"),// Should attempt to get the number of time_lines created and the number of times you commit to them in proportion to time.
+        ABOUT ("/fxml/about_fragment.fxml"),// Team member information.
         HOME ("/fxml/home_fragment.fxml"), // should show  System functions <<create>> or <<load>>.
         NEW_TIMELINE("/fxml/new_timeline_fragment.fxml"), // one time_line
         NEW_EVENT ("/fxml/new_event_fragment.fxml"),
         MY_PROJECTS ("/fxml/projects_fragment.fxml"), // multiple time_lines
         TIMELINE_DETAILS ("/fxml/timelineDetails_fragment.fxml"),
-        ABOUT ("/fxml/about_fragment.fxml"),// Team member information.
-        eventDetailsfragment("/fxml/EventDetailsfragment.fxml"),
-        EDIT("/fxml/edit_timeline_fragment.fxml");
+        EVENT_DETAILS ("/fxml/EventDetailsfragment.fxml"),
+        EDIT_TIMELINE("/fxml/edit_timeline_fragment.fxml"),
+        EDIT_EVENT("/fxml/edit_event_fragment.fxml");
 
         private String resourceLocation;
 

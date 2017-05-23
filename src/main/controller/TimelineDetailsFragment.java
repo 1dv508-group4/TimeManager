@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import main.common.AlertMessage;
 import main.common.ScreenController;
 import main.model.Event;
 import main.model.Timeline;
@@ -28,6 +29,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 import static main.common.StageManager.getStage;
 import static main.controller.HomeFragment.myTime;
@@ -51,12 +53,12 @@ public class TimelineDetailsFragment {
     @FXML private Button AddImage;
     @FXML private AnchorPane LeftPane;
 
-    Timeline display = myTime;
-    double lineHeight;
-    double lineStart;
-    double distanceBetweenLines;
-    int timelinePeriodInDays;
-    private Line lineTimeline;
+    private Timeline display = myTime;
+    private double lineHeight;
+    private double lineStart;
+    private double distanceBetweenLines;
+    private int timelinePeriodInDays;
+    private Tooltip tooltip = new Tooltip();
     ArrayList<LocalDate> duplicates = new ArrayList<LocalDate>();
 
 
@@ -93,7 +95,7 @@ public class TimelineDetailsFragment {
      */
 
     private void displayTimeline() {
-        lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
+        Line lineTimeline = new Line(lineStart, lineHeight, 1600, lineHeight);
         myDisplay.getChildren().add(lineTimeline);
 
         Line beginVertical = new Line(lineStart,lineHeight-15,lineStart,lineHeight+15);
@@ -132,45 +134,88 @@ public class TimelineDetailsFragment {
          *
          */
 
+        ContextMenu conMenu = new ContextMenu();
+        MenuItem modify = new MenuItem("Edit");
+        MenuItem delete = new MenuItem("Delete");
+        conMenu.getItems().addAll(modify, delete);
+
         for (Event e: events) {
             if (!e.isDurational()) {
                 int key = e.getEvent_startDate().hashCode();
                 if (hm.containsKey(key)) {
-                    System.out.println("Contains key: " + key);
                     hm.replace(key,hm.get(key) + 1);
                 } else
                     hm.put(e.getEvent_startDate().hashCode(),0);
-                System.out.println(hm.toString());
 
-                LocalDate eventMoment = e.getEvent_startDate();
-                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), eventMoment);
+                int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), e.getEvent_startDate());
 
                 // Calculate position on line to put event.
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
+                // Some metro style colors:
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
-                Tooltip tooltip = new Tooltip();
                 Pane circlePane = new Pane();
                 Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
-                //circle.setStroke(Color.BLACK);
+                circlePane.getChildren().add(circle);
+
+                circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                circle.setOnContextMenuRequested(event -> conMenu.show(circle, event.getScreenX(), event.getScreenY()));
                 circle.setOnMouseEntered(event -> {
-                    System.out.println("Fish");
                     getStage().getScene().setCursor(Cursor.HAND);
                     tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
-                    tooltip.install(circle, tooltip);
-
+                    Tooltip.install(circle, tooltip);
                 });
-                circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
-                circle.setOnMouseClicked(event -> {
+
+                delete.setOnAction(event -> {
+                    System.out.println("Event Deleted or at least pretend :)");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
+                    alert.setContentText("Are you ok with this?");
+
+                    // Styling of alert:
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
+                    ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+                    buttonBar.getButtons().forEach(b-> {
+                        b.getStyleClass().clear();
+                        b.getStyleClass().add("btn");
+                    });
+
+                    // After 'OK' is clicked:
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                        myTime.deleteEvent(e);
+                        myDisplay.getChildren().removeAll(circlePane);
+                    } else if (result.get() == ButtonType.CANCEL) {
+                        alert.close();
+                    }
+                });
+
+                //create a new fxml and controller for modifying events.
+                modify.setOnAction(event -> {
+                    System.out.println(e.getEvent_title());
+                    myEvent = e;
+                    try {
+                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+
+
+                // the method bellow is overriding and a quick fix was to add the edit as modify in the menu item.
+
+               /* circle.setOnMouseClicked(event -> {
                     myEvent = e;
                     try {
                         ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                });
-                circlePane.getChildren().add(circle);
+                });*/
+
                 AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
                 AnchorPane.setTopAnchor(circlePane, lineHeight - (hm.get(key) * 50));
 
@@ -223,6 +268,12 @@ public class TimelineDetailsFragment {
                 rect.setFill(Color.web(colors[e.hashCode() % 7]));
                 //rect.setStroke(Color.BLACK);
                 circlePane.getChildren().add(rect);
+                rect.setOnMouseEntered(event ->{
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+                    tooltip.install(rect, tooltip);
+                });
+
 //
 //                Circle startCircle = new Circle(10, Color.TRANSPARENT);
 //                startCircle.setStroke(Color.BLACK);
@@ -308,6 +359,6 @@ public class TimelineDetailsFragment {
     }
     @FXML
     public void editTimeline() throws IOException{
-    	 ScreenController.setScreen(ScreenController.Screen.EDIT);
+    	 ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);
     }
 }
