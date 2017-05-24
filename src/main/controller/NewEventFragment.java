@@ -2,7 +2,6 @@ package main.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import main.common.AlertMessage;
 import main.common.ScreenController;
 import main.model.Event;
@@ -45,41 +44,39 @@ public class NewEventFragment {
 
     @FXML
     public void saveEvent() throws IOException {
-        if (eventTitle.getText().isEmpty()) {
-            new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
-        } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
-            new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
-        } else if (durational.isSelected() & eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate())) {
-            new AlertMessage("Incorrect ending date", "Event end date must be between " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
-        } else {
-            myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
-            myTime.addEvent(myEvent);
-            ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
-        }
-    }
-
-
-//        if (durational.isSelected()) {
-//            if (eventTitle.getText().isEmpty()) {
-//                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
-//            } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
-//                new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
-//            } else if (eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate())) {
-//                new AlertMessage("Incorrect ending date", "Event end date must be between " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
-//            } else {
-//                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
-//                myTime.addEvent(myEvent);
-//
-//                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
-//            }
+//        if (eventTitle.getText().isEmpty()) {
+//            new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
+//        } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
+//            new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+//        } else if (durational.isSelected() & eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate())) {
+//            new AlertMessage("Incorrect ending date", "Event end date must be between " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
 //        } else {
-//            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
-//                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
-//                myTime.addEvent(myEvent);
-//                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
-//            } else {
-//                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
-//            }
+//            myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
+//            myTime.addEvent(myEvent);
+//            ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
 //        }
 //    }
+        if (durational.isSelected()) {
+            if (eventTitle.getText().isEmpty()) {
+                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
+            } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
+                new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+            } else if (eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate())) {
+                new AlertMessage("Incorrect ending date", "Event end date must be between " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+            } else {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
+                myTime.addEvent(myEvent);
+
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            }
+        } else {
+            if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
+                myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
+                myTime.addEvent(myEvent);
+                ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
+            } else {
+                new AlertMessage("Missing details", "Please enter title and date(s)", Alert.AlertType.WARNING);
+            }
+        }
+    }
 }
