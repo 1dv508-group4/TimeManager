@@ -329,6 +329,10 @@ public class TimelineDetailsFragment {
         }
     }
 
+    void setRightClickMenu(Event event) {
+
+    }
+
     @FXML
     public void back() throws IOException {ScreenController.setScreen(ScreenController.Screen.HOME);}
 
