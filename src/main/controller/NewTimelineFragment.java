@@ -32,7 +32,6 @@ public class NewTimelineFragment {
 
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
-
     }
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}
@@ -69,7 +68,5 @@ public class NewTimelineFragment {
 
     private void exportToFile(String s) {
     }
-
-
 }
 

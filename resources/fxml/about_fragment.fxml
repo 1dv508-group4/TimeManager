@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="751.0" prefWidth="1631.0"
+	style="-fx-background-color: white;" stylesheets="@../css/menu.css"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.controller.AboutFragment">
+	<children>
+		<Separator layoutY="73.0" prefHeight="0.0" prefWidth="1298.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+		<Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="About">
+			<font>
+				<Font name="Segoe UI Semilight" size="40.0" />
+			</font>
+		</Text>
+		<ImageView fitHeight="152.0" fitWidth="187.0" layoutX="23.0"
+			layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/mehdi.jpg" />
+			</image>
+		</ImageView>
+		<Label layoutX="14.0" layoutY="70.0" text="Founders" textFill="#837f7f">
+			<font>
+				<Font size="49.0" />
+			</font>
+		</Label>
+		<Label layoutX="18.0" layoutY="323.0" text="//describe yourself" />
+		<ImageView fitHeight="152.0" fitWidth="161.0" layoutX="231.0"
+			layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/Jorian.jpg" />
+			</image>
+		</ImageView>
+		<Label layoutX="240.0" layoutY="323.0" text="//describe yourself" />
+		<ImageView fitHeight="175.0" fitWidth="152.0" layoutX="422.0"
+			layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/amr.jpg" />
+			</image>
+		</ImageView>
+		<Label layoutX="422.0" layoutY="323.0" text="//describe yourself" />
+		<ImageView fitHeight="152.0" fitWidth="187.0" layoutX="224.0"
+			layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/23175925.jpg" />
+			</image>
+		</ImageView>
+		<ImageView fitHeight="152.0" fitWidth="187.0" layoutX="23.0"
+			layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/azadeh.jpg" />
+			</image>
+		</ImageView>
+		<ImageView fitHeight="174.0" fitWidth="187.0" layoutX="422.0"
+			layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../img/kanzaki.jpg" />
+			</image>
+		</ImageView>
+		<Label layoutX="23.0" layoutY="631.0" text="//describe yourself" />
+		<Label layoutX="224.0" layoutY="631.0" text="//describe yourself" />
+		<Label layoutX="422.0" layoutY="631.0" text="//describe yourself" />
+		<Label accessibleRole="TEXT_AREA" alignment="TOP_LEFT"
+			centerShape="false" layoutX="647.0" layoutY="95.0" prefHeight="137.0"
+			prefWidth="179.0"
+			text="Time manager is a tool to plan and organize your events in timeline. All the events are displayed on a timeline, making it easy to keep track of the start and end dates for each event. So you are not afraid of missing another deadline again. With Time manager, planning and tracking your projects or with your collaborators becomes very easy and convenient."
+			textFill="#837f7f">
+			<font>
+				<Font size="25.0" />
+			</font>
+		</Label>
+	</children>
+</AnchorPane>

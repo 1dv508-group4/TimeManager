@@ -39,9 +39,6 @@ public class EditTimelineFragment implements Initializable {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
         ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
 
-        cancelBtn.getStyleClass().add("button-flat");
-        saveBtn.getStyleClass().add("button-flat");
-
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
     }
@@ -74,7 +71,7 @@ public class EditTimelineFragment implements Initializable {
     	if( start==null || end==null)
         	return false;
         else{
-    	if(start.isAfter(end)|| start.isEqual(end) )return false;
+    	if(start.isAfter(end) || start.isEqual(end) )return false;
         else{
             display.setStartDate(timelineStartDate.getValue());
             display.setEndDate(timelineEndDate.getValue());

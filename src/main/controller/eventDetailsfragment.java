@@ -19,22 +19,18 @@ import javafx.stage.FileChooser;
 import main.common.ScreenController;
 import main.model.Event;
 
-public class eventDetailsfragment {
+public class EventDetailsfragment {
 
-    @FXML
-    private Button ButtonBack;
-
-    @FXML
-    private AnchorPane PaneMain;
+    @FXML private Button ButtonBack;
+    @FXML private AnchorPane PaneMain;
     @FXML private Text EventTitle;
-    @FXML
-    private Button Addimage;
+    @FXML private Button Addimage;
     @FXML ImageView imageview;
    
-    public void initialize() throws SQLException 
-    {
+    public void initialize() throws SQLException {
     	
     }
+
     @FXML
     void back(ActionEvent event) throws IOException {
     	ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
@@ -42,23 +38,22 @@ public class eventDetailsfragment {
 
     @FXML
     void addEvent(ActionEvent event) {
- FileChooser fileChooser = new FileChooser();
+    FileChooser fileChooser = new FileChooser();
          
-         //Set extension filter
-         FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-         FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-         fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-           
-         //Show open file dialog
-         File file = fileChooser.showOpenDialog(null);
-                    
-         try {
-             BufferedImage bufferedImage = ImageIO.read(file);
-             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-             imageview.setImage(image);
-         } catch (IOException ex) {
-          
-         }
-    }
+    //Set extension filter
+    FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+    FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+    fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
+    //Show open file dialog
+    File file = fileChooser.showOpenDialog(null);
+
+    try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            imageview.setImage(image);
+        } catch (IOException ex) {
+
+        }
+    }
 }

@@ -29,26 +29,23 @@ public class ProjectsFragment {
     @FXML private Pane projectDisplay;
     private double panePosition=73.0;
     public static boolean updated=false;
+
     public void initialize(){
         try {
             ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
             ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
             all.setText("All("+numberOfTimelines+")");
-            projectDisplay.setStyle(
-                    "-fx-background-color: lightgrey; " +
-                            "-fx-background-insets: 10; " +
-                            "-fx-background-radius: 10; " +
-                            "-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);"
-            );
-            if(updated)
-            if(!myTime.isEmpty()&& createdTimelines.isEmpty())
-                createdTimelines.add(myTime);
-            else if(!createdTimelines.isEmpty())
-                   if(!createdTimelines.contains(myTime))
-                       createdTimelines.add(myTime);
-            int panes=createdTimelines.size();
-            for(int i=0;i<panes;i++) newTimeline(createdTimelines.get(i));
+            projectDisplay.getStyleClass().add("timeline-pane");
 
+            if(updated)
+                if(!myTime.isEmpty()&& createdTimelines.isEmpty())
+                    createdTimelines.add(myTime);
+                else if(!createdTimelines.isEmpty())
+                    if(!createdTimelines.contains(myTime))
+                        createdTimelines.add(myTime);
+            int panes=createdTimelines.size();
+
+            for (Timeline createdTimeline : createdTimelines) newTimeline(createdTimeline);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,12 +69,7 @@ public class ProjectsFragment {
         nw.setLayoutY(120.0);
         nw.setPrefHeight(377.0);
         nw.setPrefWidth(265.0);
-        nw.setStyle(
-                "-fx-background-color: lightgrey; " +
-                        "-fx-background-insets: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);"
-        );
+        nw.getStyleClass().add("timeline-pane");
         Label title = new Label(repoTime.getTitle());
         Label num = new Label(repoTime.getNumberOfEvents()+"");
         title.setLayoutX(87.0);
