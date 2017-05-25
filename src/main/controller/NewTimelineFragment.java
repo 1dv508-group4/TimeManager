@@ -11,15 +11,15 @@ import javafx.scene.layout.AnchorPane;
 import main.animation.FadeInRightTransition;
 import main.common.AlertMessage;
 import main.common.ScreenController;
+import main.db.Timelines;
+import main.model.Timeline;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import static main.common.StageManager.getStage;
-import static main.controller.HomeFragment.myTime;
 import static main.controller.HomeFragment.numberOfTimelines;
-import static main.controller.ProjectsFragment.updated;
+import static main.db.Timelines.myTime;
 
 public class NewTimelineFragment {
     @FXML private Button cancelBtn;
@@ -57,32 +57,24 @@ public class NewTimelineFragment {
 
     @FXML
     public void saveTimelineDetails() throws IOException,NumberFormatException {
-        if (correctDuration(timelineStartDate.getValue(),timelineEndDate.getValue()) && !timelineTitle.getText().equals("")){
+        if (correctDate()) {
+            myTime = new Timeline(timelineTitle.getText(),timelineStartDate.getValue(),timelineEndDate.getValue(),timelineDescription.getText());
             myTime.setId(numberOfTimelines++);
-            myTime.setTitle(timelineTitle.getText());
-            myTime.setDescription(timelineDescription.getText());
-            updated=true;
+            Timelines.addTimeline(myTime);
+
             ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);
-        }else{
+        } else {
             new FadeInRightTransition(timelineStartDate).play();
             new FadeInRightTransition(timelineTitle).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
             new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
-
-        exportToFile(myTime.toString());
     }
 
-    private boolean correctDuration(LocalDate start, LocalDate end) { //this checks that end is older that the start.
-        if(start == null||end==null || start.isAfter(end))return false;
-        else{
-            myTime.setStartDate(timelineStartDate.getValue());
-            myTime.setEndDate(timelineEndDate.getValue());
-            return true;
-        }
-    }
-
-    private void exportToFile(String s) {
+    private boolean correctDate() {
+        return !((timelineStartDate.getValue() == null || timelineEndDate.getValue() == null
+                || timelineStartDate.getValue().isAfter(timelineEndDate.getValue()))
+                && !timelineTitle.getText().equals(""));
     }
 }
 

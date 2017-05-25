@@ -12,14 +12,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.common.ScreenController;
+import main.db.Timelines;
 import main.model.Timeline;
 
 import java.io.IOException;
 
 import static main.common.StageManager.getStage;
-import static main.controller.HomeFragment.createdTimelines;
-import static main.controller.HomeFragment.myTime;
 import static main.controller.HomeFragment.numberOfTimelines;
+import static main.db.Timelines.myTime;
+
+
 public class ProjectsFragment {
     @FXML private AnchorPane projectPane;
     @FXML private Button ButtonBack;
@@ -27,6 +29,7 @@ public class ProjectsFragment {
     @FXML private ScrollPane scrollProjects;
     @FXML private ImageView timelineIcon;
     @FXML private Pane projectDisplay;
+
     private double panePosition=73.0;
     public static boolean updated=false;
 
@@ -34,23 +37,23 @@ public class ProjectsFragment {
         try {
             ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
             ButtonBack.setOnMouseExited(e -> getStage().getScene().setCursor(Cursor.DEFAULT));
+
             all.setText("All("+numberOfTimelines+")");
             projectDisplay.getStyleClass().add("timeline-pane");
 
-            if(updated)
-                if(!myTime.isEmpty()&& createdTimelines.isEmpty())
-                    createdTimelines.add(myTime);
-                else if(!createdTimelines.isEmpty())
-                    if(!createdTimelines.contains(myTime))
-                        createdTimelines.add(myTime);
-            int panes=createdTimelines.size();
+//            if(updated)
+//                if(!myTime.isEmpty()&& createdTimelines.isEmpty())
+//                    createdTimelines.add(myTime);
+//                else if(!createdTimelines.isEmpty())
+//                    if(!createdTimelines.contains(myTime))
+//                        createdTimelines.add(myTime);
+//            int panes=createdTimelines.size();
 
-            for (Timeline createdTimeline : createdTimelines) newTimeline(createdTimeline);
+            for (Timeline t : Timelines.getCreatedTimelines()) newTimeline(t);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    // we need to figure out how can the system remember which screen i was in!!
 
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}
@@ -61,7 +64,7 @@ public class ProjectsFragment {
     }
 
     @FXML
-    public void newTimeline(Timeline repoTime) throws IOException {
+    private void newTimeline(Timeline repoTime) throws IOException {
         Pane nw = new Pane();
         nw.setId("Project"+(numberOfTimelines+1));
         panePosition+=280;
@@ -83,11 +86,13 @@ public class ProjectsFragment {
         num.setLayoutX(100.0);
         nw.getChildren().addAll(title,num);
         projectPane.getChildren().add(nw);
+
         nw.setOnMouseClicked(e -> {
             try {
-                if(repoTime.getTitle()==null) // this will be improved.
-                    ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
-                else
+//                if(repoTime.getTitle()==null) // this will be improved.
+//                    ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
+//                else
+                myTime = repoTime;
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -98,6 +103,6 @@ public class ProjectsFragment {
     }
     @FXML
     public void newTimeline(MouseEvent mouseEvent) throws IOException {
-        newTimeline(new Timeline());
+        ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
 }
