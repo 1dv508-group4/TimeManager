@@ -9,7 +9,7 @@ import main.common.ScreenController;
 
 import java.io.IOException;
 
-import static main.controller.HomeFragment.myTime;
+import static main.db.Timelines.myTime;
 import static main.controller.NewEventFragment.myEvent;
 
 public class EditEventFragment {
