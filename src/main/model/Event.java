@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @XmlType(propOrder = {"event_title", "event_description", "event_startDate", "event_endDate", "timeline_id","event_id","durational", "level"})
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class Event {
+public class Event implements Comparable {
 	@XmlElement (name = "Durational")
     private boolean durational;
 	@XmlElement(name = "Title")
@@ -110,5 +110,16 @@ public class Event {
 
     public String toString(){
         return this.getEvent_title()+","+this.getEvent_startDate()+","+this.getEvent_endDate()+","+this.getEvent_description();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Event event = (Event) o;
+        if (this.isDurational() && event.isDurational())
+            return 0;
+        else if (this.isDurational() && !event.isDurational()) {
+            return -1;
+        } else
+            return 1;
     }
 }

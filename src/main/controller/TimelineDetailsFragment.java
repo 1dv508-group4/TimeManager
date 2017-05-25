@@ -2,12 +2,12 @@ package main.controller;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -30,9 +30,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 import static main.common.StageManager.getStage;
 import static main.controller.NewEventFragment.myEvent;
@@ -42,28 +40,30 @@ import static main.db.Timelines.myTime;
 public class TimelineDetailsFragment {
 	@FXML private Button ButtonBack;
 	@FXML private AnchorPane myDisplay;
-	@FXML private ImageView newEventButton;
+	@FXML private Button newEventButton;
 	@FXML private ScrollPane scrollPane;
 	@FXML private Separator separator;
 	@FXML private AnchorPane PaneMain;
-	@FXML private ImageView editButton;
+	@FXML private Button editButton;
 	@FXML private Text title;
 	@FXML private Label endDate;
 	@FXML private Label startDate;
 	@FXML private Label description;
-	@FXML private ImageView removeTimeline;
-	@FXML private ImageView AddImage;
+	@FXML private ImageView timeline_image;
+	@FXML private Button RemoveTimeline;
+	@FXML private Button AddImage;
 	@FXML private AnchorPane LeftPane;
-	@FXML private ImageView exportButton;
+	@FXML private Button exportButton;
 
-   private Timeline display = myTime;
-   private double lineHeight;
-   private double lineStart;
-   private double distanceBetweenLines;
-   private int timelinePeriodInDays;
+    private Timeline display = myTime;
+    private double lineHeight;
+    private double lineStart;
+    private double distanceBetweenLines;
+    private int timelinePeriodInDays;
     private Tooltip tooltip = new Tooltip();
-    ArrayList<LocalDate> duplicates = new ArrayList<LocalDate>();
-
+    private ContextMenu conMenu;
+    private MenuItem modify;
+    private MenuItem delete;
 
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
@@ -122,9 +122,9 @@ public class TimelineDetailsFragment {
 
     private void displayEvents() {
         ArrayList<Event> events = myTime.getListOfEvents();
+        Collections.sort(events);
         ArrayList<Event> tempEvents = new ArrayList<>(events.size());
         HashMap<Integer,Integer> hm = new HashMap<>(8);
-        HashMap<Integer,LocalDate[]> durationalMap = new HashMap<>();
 
         /**
          * For each event, I try to calculate the position of the event on the timeline.
@@ -137,20 +137,19 @@ public class TimelineDetailsFragment {
          *
          */
 
-        ContextMenu conMenu = new ContextMenu();
-        MenuItem modify = new MenuItem("Edit");
-        MenuItem delete = new MenuItem("Delete");
-        conMenu.getItems().addAll(modify, delete);
-
         for (Event e: events) {
-            if (!e.isDurational()) {int key = e.getEvent_startDate().hashCode();
+            conMenu = new ContextMenu();
+            modify = new MenuItem("Edit");
+            delete = new MenuItem("Delete");
+            conMenu.getItems().addAll(modify, delete);
 
-            if (hm.containsKey(key)) {
 
-                hm.replace(key,hm.get(key) + 1);
-            } else
-                hm.put(e.getEvent_startDate().hashCode(),0);
-
+            if (!e.isDurational()) {
+                int key = e.getEvent_startDate().hashCode();
+                if (hm.containsKey(key)) {
+                    hm.replace(key,hm.get(key) + 1);
+                } else
+                    hm.put(e.getEvent_startDate().hashCode(),0);
 
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), e.getEvent_startDate());
 
@@ -160,81 +159,36 @@ public class TimelineDetailsFragment {
                 // Some metro style colors:
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
-                Pane circlePane = new Pane();
+                Pane contentPane = new Pane();
                 Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
-                circlePane.getChildren().add(circle);
+                contentPane.getChildren().add(circle);
 
+                circle.relocate(-5,10);
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnContextMenuRequested(event -> conMenu.show(circle, event.getScreenX(), event.getScreenY()));
                 circle.setOnMouseEntered(event -> {
+                    circle.toFront();
                     getStage().getScene().setCursor(Cursor.HAND);
                     tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
                     Tooltip.install(circle, tooltip);
                 });
 
-                delete.setOnAction(event -> {
-                    System.out.println("Event Deleted or at least pretend :)");
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation Dialog");
-                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
-                    alert.setContentText("Are you ok with this?");
+                setActions(e, contentPane);
 
-                    // Styling of alert:
-                    DialogPane dialogPane = alert.getDialogPane();
-                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
-                    ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                    buttonBar.getButtons().forEach(b-> {
-                        b.getStyleClass().clear();
-                        b.getStyleClass().add("btn");
-                    });
-
-                    // After 'OK' is clicked:
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
-                        myTime.deleteEvent(e);
-                        myDisplay.getChildren().removeAll(circlePane);
-                    } else if (result.get() == ButtonType.CANCEL) {
-                        alert.close();
-                    }
-                });
-
-                //create a new fxml and controller for modifying events.
-                modify.setOnAction(event -> {
-                    System.out.println(e.getEvent_title());
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-
-
-                // the method bellow is overriding and a quick fix was to add the edit as modify in the menu item.
-
-               /* circle.setOnMouseClicked(event -> {
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });*/
-
-                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(circlePane, lineHeight - (hm.get(key) * 50));
+                AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(contentPane, lineHeight - (hm.get(key) * 50) - 20);
 
                 Label dateOfEvent = new Label(e.getEvent_startDate().toString());
-                dateOfEvent.relocate(5, -21);
+                dateOfEvent.relocate(5, -2);
                 dateOfEvent.setFont(Font.font(10));
-                circlePane.getChildren().add(dateOfEvent);
+                contentPane.getChildren().add(dateOfEvent);
 
                 Label titleOfEvent = new Label(e.getEvent_title());
-                titleOfEvent.relocate(5, -34);
+                titleOfEvent.relocate(5, -15);
                 titleOfEvent.setFont(Font.font(12));
-                circlePane.getChildren().add(titleOfEvent);
+                contentPane.getChildren().add(titleOfEvent);
 
-                myDisplay.getChildren().add(circlePane);
+                myDisplay.getChildren().add(contentPane);
             } else {
                 int i = 0;
                 int max = 0;
@@ -262,21 +216,16 @@ public class TimelineDetailsFragment {
                 // Calculate position on line to put event.
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
-                Pane circlePane = new Pane();
-                AnchorPane.setLeftAnchor(circlePane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(circlePane, lineHeight + (e.getLevel() * 30));
+                Pane contentPane = new Pane();
+                AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
+                AnchorPane.setTopAnchor(contentPane, lineHeight + (e.getLevel() * 30));
 
                 Rectangle rect = new Rectangle(0,30,eventDuration * distanceBetweenLines,20);
-                circlePane.getChildren().add(rect);
+                contentPane.getChildren().add(rect);
 
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
                 rect.setFill(Color.web(colors[e.hashCode() % 7]));
-                rect.setOnMouseEntered(event ->{
-                    getStage().getScene().setCursor(Cursor.HAND);
-                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
-                    tooltip.install(rect, tooltip);
-                });
 
                 rect.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 rect.setOnContextMenuRequested(event -> conMenu.show(rect, event.getScreenX(), event.getScreenY()));
@@ -286,56 +235,25 @@ public class TimelineDetailsFragment {
                     Tooltip.install(rect, tooltip);
                 });
 
-                delete.setOnAction(event -> {
-                    System.out.println("Event Deleted or at least pretend :)");
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation Dialog");
-                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
-                    alert.setContentText("Are you ok with this?");
-
-                    // Styling of alert:
-                    DialogPane dialogPane = alert.getDialogPane();
-                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
-                    ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-                    buttonBar.getButtons().forEach(b-> {
-                        b.getStyleClass().clear();
-                        b.getStyleClass().add("btn");
-                    });
-
-                    // After 'OK' is clicked:
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
-                        myTime.deleteEvent(e);
-                        myDisplay.getChildren().removeAll(circlePane);
-                    } else if (result.get() == ButtonType.CANCEL) {
-                        alert.close();
-                    }
-                });
-
-                //create a new fxml and controller for modifying events.
-                modify.setOnAction(event -> {
-                    System.out.println(e.getEvent_title());
-                    myEvent = e;
-                    try {
-                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                });
+                setActions(e, contentPane);
 
                 Label titleOfEvent = new Label(e.getEvent_title());
-                circlePane.getChildren().add(titleOfEvent);
+                contentPane.getChildren().add(titleOfEvent);
                 titleOfEvent.relocate(2, 31);
                 titleOfEvent.setFont(Font.font(13));
                 titleOfEvent.setTextFill(Color.WHITE);
 
-                myDisplay.getChildren().add(circlePane);
+                titleOfEvent.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
+                titleOfEvent.setOnContextMenuRequested(event -> conMenu.show(titleOfEvent, event.getScreenX(), event.getScreenY()));
+                titleOfEvent.setOnMouseEntered(event -> {
+                    getStage().getScene().setCursor(Cursor.HAND);
+                    tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
+                    Tooltip.install(titleOfEvent, tooltip);
+                });
+
+                myDisplay.getChildren().add(contentPane);
             }
         }
-    }
-
-    void setRightClickMenu(Event event) {
-
     }
 
     @FXML
@@ -414,4 +332,41 @@ public class TimelineDetailsFragment {
 		}
 	}
 
+	private void setActions(Event e, Pane contentPane) {
+        delete.setOnAction(actionEvent -> {
+            System.out.println("Event Deleted or at least pretend :)");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("This will delete event: " + e.getEvent_title());
+            alert.setContentText("Are you ok with this?");
+
+            // Styling of alert:
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getScene().getStylesheets().add("css/menu_items.css");
+            ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+            buttonBar.getButtons().forEach(b -> {
+                b.getStyleClass().clear();
+                b.getStyleClass().add("btn");
+            });
+
+            // After 'OK' is clicked:
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                myTime.deleteEvent(e);
+                myDisplay.getChildren().removeAll(contentPane);
+            } else if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                alert.close();
+            }
+        });
+
+        modify.setOnAction(actionEvent -> {
+            System.out.println(e.getEvent_title());
+            myEvent = e;
+            try {
+                ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
 }

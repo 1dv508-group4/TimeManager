@@ -49,7 +49,7 @@
 		<DatePicker fx:id="eventStartDate" layoutX="82.0" layoutY="217.0"
 			promptText="Event date..." />
 		<Button fx:id="editButton" layoutX="88.0" layoutY="573.0"
-			mnemonicParsing="false" onAction="#editEvent" styleClass="btn" text="Edit" />
+			mnemonicParsing="false" onAction="#editEvent" styleClass="btn" text="Save" />
 		<Button fx:id="cancelButton" layoutX="209.0" layoutY="573.0"
 			mnemonicParsing="false" onAction="#cancelNewEvent" styleClass="btn"
 			text="Cancel" />

@@ -133,7 +133,7 @@
  ******************************************************************************/
 
 .btn {
-    -fx-padding: 9 32 9 32; /*5 22 5 22*/
+    -fx-padding: 9 22 9 22; /*5 22 5 22*/
     -fx-border-style: none;
     -fx-background-radius: 0;
     -fx-background-color: #2b579a;
