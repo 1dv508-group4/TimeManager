@@ -67,7 +67,6 @@ public class EditTimelineFragment implements Initializable {
 
     @FXML
     public void saveTimelineDetails() throws IOException,NumberFormatException {
-    
         if (correctDuration(timelineStartDate.getValue(),timelineEndDate.getValue()) && !timelineTitle.getText().equals("")){
             display.setId(numberOfTimelines++);
             display.setTitle(timelineTitle.getText());
@@ -87,20 +86,17 @@ public class EditTimelineFragment implements Initializable {
         //Alex null check is done here
     	if( start==null || end==null)
         	return false;
-        else{
-    	if(start.isAfter(end) || start.isEqual(end) )return false;
-        else{
-            display.setStartDate(timelineStartDate.getValue());
-            display.setEndDate(timelineEndDate.getValue());
-            return true;
-        }
+        else {
+    	    if(start.isAfter(end) || start.isEqual(end) )
+    	        return false;
+            else {
+                display.setStartDate(timelineStartDate.getValue());
+                display.setEndDate(timelineEndDate.getValue());
+                return true;
+            }
         }
     }
 
-    @FXML
-    public void addEvent() {
-       // if(isCreated) then pop up window or anchor pane fields fade in.
-    }
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		timelineTitle.setText(display.getTitle());

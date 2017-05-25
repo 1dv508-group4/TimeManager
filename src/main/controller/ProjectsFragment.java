@@ -41,15 +41,7 @@ public class ProjectsFragment {
             all.setText("All("+numberOfTimelines+")");
             projectDisplay.getStyleClass().add("timeline-pane");
 
-//            if(updated)
-//                if(!myTime.isEmpty()&& createdTimelines.isEmpty())
-//                    createdTimelines.add(myTime);
-//                else if(!createdTimelines.isEmpty())
-//                    if(!createdTimelines.contains(myTime))
-//                        createdTimelines.add(myTime);
-//            int panes=createdTimelines.size();
-
-            for (Timeline t : Timelines.getCreatedTimelines()) newTimeline(t);
+            for (Timeline t : Timelines.getCreatedTimelines()) createPanes(t);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +56,7 @@ public class ProjectsFragment {
     }
 
     @FXML
-    private void newTimeline(Timeline repoTime) throws IOException {
+    private void createPanes(Timeline repoTime) throws IOException {
         Pane nw = new Pane();
         nw.setId("Project"+(numberOfTimelines+1));
         panePosition+=280;
@@ -89,18 +81,14 @@ public class ProjectsFragment {
 
         nw.setOnMouseClicked(e -> {
             try {
-//                if(repoTime.getTitle()==null) // this will be improved.
-//                    ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
-//                else
                 myTime = repoTime;
                 ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         });
-
-
     }
+
     @FXML
     public void newTimeline(MouseEvent mouseEvent) throws IOException {
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
