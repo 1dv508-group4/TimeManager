@@ -15,12 +15,22 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import main.common.AlertMessage;
+import javafx.stage.Stage;
 import main.common.ScreenController;
 import main.model.Event;
 import main.model.Timeline;
 
 import javax.imageio.ImageIO;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,27 +47,28 @@ import static main.controller.NewEventFragment.myEvent;
 
 
 public class TimelineDetailsFragment {
-    @FXML private Button ButtonBack;
-    @FXML private AnchorPane myDisplay;
-    @FXML private Button newEventButton;
-    @FXML private ScrollPane scrollPane;
-    @FXML private Separator separator;
-    @FXML private AnchorPane PaneMain;
-    @FXML private Button editButton;
-    @FXML private Text title;
-    @FXML private Label endDate;
-    @FXML private Label startDate;
-    @FXML private Label description;
-    @FXML private ImageView timeline_image;
-    @FXML private Button RemoveTimeline;
-    @FXML private Button AddImage;
-    @FXML private AnchorPane LeftPane;
+	@FXML private Button ButtonBack;
+	@FXML private AnchorPane myDisplay;
+	@FXML private Button newEventButton;
+	@FXML private ScrollPane scrollPane;
+	@FXML private Separator separator;
+	@FXML private AnchorPane PaneMain;
+	@FXML private Button editButton;
+	@FXML private Text title;
+	@FXML private Label endDate;
+	@FXML private Label startDate;
+	@FXML private Label description;
+	@FXML private ImageView timeline_image;
+	@FXML private Button RemoveTimeline;
+	@FXML private Button AddImage;
+	@FXML private AnchorPane LeftPane;
+	@FXML private Button exportButton;
 
-    private Timeline display = myTime;
-    private double lineHeight;
-    private double lineStart;
-    private double distanceBetweenLines;
-    private int timelinePeriodInDays;
+   private Timeline display = myTime;
+   private double lineHeight;
+   private double lineStart;
+   private double distanceBetweenLines;
+   private int timelinePeriodInDays;
     private Tooltip tooltip = new Tooltip();
     ArrayList<LocalDate> duplicates = new ArrayList<LocalDate>();
 
@@ -95,7 +106,7 @@ public class TimelineDetailsFragment {
      */
 
     private void displayTimeline() {
-        Line lineTimeline = new Line(lineStart, lineHeight, 1600, lineHeight);
+       Line lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
         myDisplay.getChildren().add(lineTimeline);
 
         Line beginVertical = new Line(lineStart,lineHeight-15,lineStart,lineHeight+15);
@@ -137,15 +148,15 @@ public class TimelineDetailsFragment {
         ContextMenu conMenu = new ContextMenu();
         MenuItem modify = new MenuItem("Edit");
         MenuItem delete = new MenuItem("Delete");
-        conMenu.getItems().addAll(modify, delete);
+        conMenu.getItems().addAll(modify, delete);for (Event e: events) {
+            if (!e.isDurational()) {int key = e.getEvent_startDate().hashCode();
 
-        for (Event e: events) {
-            if (!e.isDurational()) {
-                int key = e.getEvent_startDate().hashCode();
-                if (hm.containsKey(key)) {
-                    hm.replace(key,hm.get(key) + 1);
-                } else
-                    hm.put(e.getEvent_startDate().hashCode(),0);
+            if (hm.containsKey(key)) {
+
+                hm.replace(key,hm.get(key) + 1);
+            } else
+                hm.put(e.getEvent_startDate().hashCode(),0);
+
 
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), e.getEvent_startDate());
 
@@ -369,4 +380,43 @@ public class TimelineDetailsFragment {
     public void editTimeline() throws IOException{
     	 ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);
     }
+
+	@FXML
+	public void exportTimeline() throws IOException{
+		try{
+			JAXBContext context = JAXBContext.newInstance(Timeline.class);
+			Marshaller m = context.createMarshaller();
+			//for pretty-print XML in JAXB
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+			// Write to System.out for debugging
+
+
+
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save Timeline");
+			File file = fileChooser.showSaveDialog(new Stage());
+
+
+			if (file != null) {
+				try {
+					m.marshal(display, file);
+				} catch (JAXBException ex) {
+					System.out.println(ex.getMessage());
+				}
+
+				finally{
+					System.out.println("XML saved");
+				}
+
+
+				// Write to File
+				//m.marshal(display, new File("C:\\Temp\\Timeline.xml"));
+
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

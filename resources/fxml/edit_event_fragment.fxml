@@ -13,41 +13,60 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0" style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.EditEventFragment">
-    <children>
-        <ImageView fitHeight="545.0" fitWidth="465.0" layoutX="438.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../resources/img/eventDis.png" />
-            </image>
-        </ImageView>
-        <Separator layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-        <Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit event">
-            <font>
-                <Font name="Segoe UI Semilight" size="40.0" />
-            </font>
-        </Text>
-        <Button fx:id="ButtonBack" layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0" styleClass="buttonCircleBlack">
-            <graphic>
-                <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../resources/img/menu/arrowLeftBlack.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <TextField fx:id="eventTitle" layoutX="82.0" layoutY="144.0" promptText="Enter event title..." />
-        <DatePicker fx:id="eventStartDate" layoutX="82.0" layoutY="217.0" promptText="Event date..." />
-        <Button fx:id="editButton" layoutX="88.0" layoutY="573.0" mnemonicParsing="false" onAction="#editEvent" styleClass="btn" text="Edit" />
-        <Button fx:id="cancelButton" layoutX="209.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelNewEvent" styleClass="btn" text="Cancel" />
-        <Label layoutX="82.0" layoutY="104.0" text="Details">
-            <font>
-                <Font size="17.0" />
-            </font>
-        </Label>
-        <CheckBox fx:id="durational" layoutX="297.0" layoutY="151.0" mnemonicParsing="false" text="Durational Event" />
-        <DatePicker fx:id="eventEndDate" disable="true" layoutX="82.0" layoutY="267.0" promptText="End date..." visible="false" />
-        <TextArea fx:id="eventDescription" layoutX="82.0" layoutY="375.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
-        <Button layoutX="82.0" layoutY="321.0" mnemonicParsing="false" text="Upload..." />
-        <Label layoutX="160.0" layoutY="325.0" text="Link a picture or file to this event..." />
-    </children>
+<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0"
+	style="-fx-background-color: white;" stylesheets="@../../resources/css/menu_items.css"
+	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.controller.EditEventFragment">
+	<children>
+		<ImageView fitHeight="545.0" fitWidth="465.0" layoutX="438.0"
+			layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../../resources/img/eventDis.png" />
+			</image>
+		</ImageView>
+		<Separator layoutY="73.0" prefHeight="0.0" prefWidth="1298.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+		<Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Edit event">
+			<font>
+				<Font name="Segoe UI Semilight" size="40.0" />
+			</font>
+		</Text>
+		<Button fx:id="ButtonBack" layoutX="21.0" layoutY="25.0"
+			mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0"
+			styleClass="buttonCircleBlack">
+			<graphic>
+				<ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true"
+					preserveRatio="true">
+					<image>
+						<Image url="@../../resources/img/menu/arrowLeftBlack.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<TextField fx:id="eventTitle" layoutX="82.0" layoutY="144.0"
+			promptText="Enter event title..." />
+		<DatePicker fx:id="eventStartDate" layoutX="82.0" layoutY="217.0"
+			promptText="Event date..." />
+		<Button fx:id="editButton" layoutX="88.0" layoutY="573.0"
+			mnemonicParsing="false" onAction="#editEvent" styleClass="btn" text="Edit" />
+		<Button fx:id="cancelButton" layoutX="209.0" layoutY="573.0"
+			mnemonicParsing="false" onAction="#cancelNewEvent" styleClass="btn"
+			text="Cancel" />
+		<Label layoutX="82.0" layoutY="104.0" text="Details">
+			<font>
+				<Font size="17.0" />
+			</font>
+		</Label>
+		<CheckBox fx:id="durational" layoutX="297.0" layoutY="151.0"
+			mnemonicParsing="false" text="Durational Event" />
+		<DatePicker fx:id="eventEndDate" disable="true" layoutX="82.0"
+			layoutY="267.0" promptText="End date..." visible="false" />
+		<TextArea fx:id="eventDescription" layoutX="82.0" layoutY="375.0"
+			prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
+		<Button layoutX="82.0" layoutY="321.0" mnemonicParsing="false"
+			text="Upload..." />
+		<Label layoutX="160.0" layoutY="325.0"
+			text="Link a picture or file to this event..." />
+	</children>
 </AnchorPane>
