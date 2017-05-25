@@ -2,6 +2,8 @@ package main.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import main.common.AlertMessage;
 import main.common.ScreenController;
 import main.model.Event;
@@ -19,6 +21,7 @@ public class NewEventFragment {
     @FXML private DatePicker eventEndDate;
     @FXML private CheckBox durational;
     @FXML private TextArea eventDescription;
+    @FXML private AnchorPane PaneMain;
     static Event myEvent=  new Event();
 
     public void initialize() {
@@ -31,6 +34,20 @@ public class NewEventFragment {
             else
                 eventStartDate.setPromptText("Event date...");
         });
+
+        PaneMain.setOnKeyPressed(e->{
+            if(e.getCode() == KeyCode.ENTER){
+
+                try {
+                    saveEvent();
+                } catch (NumberFormatException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+            }
+        });
+
     }
 
     public void back() throws IOException {

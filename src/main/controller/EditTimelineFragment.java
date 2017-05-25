@@ -3,7 +3,11 @@ package main.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import main.animation.FadeInRightTransition;
 import main.common.AlertMessage;
@@ -41,6 +45,19 @@ public class EditTimelineFragment implements Initializable {
 
         cancelBtn.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
+
+        PaneMain.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER){
+
+                try {
+                    saveTimelineDetails();
+                } catch (NumberFormatException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+            }
+        });
     }
     @FXML
     public void back() throws IOException{ScreenController.setScreen(ScreenController.Screen.HOME);}

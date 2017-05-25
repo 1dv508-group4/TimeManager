@@ -1,20 +1,16 @@
 package main.controller;
 
-import static main.controller.HomeFragment.myTime;
-import static main.controller.NewEventFragment.myEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import main.common.AlertMessage;
+import main.common.ScreenController;
 
 import java.io.IOException;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import main.common.AlertMessage;
-import main.common.ScreenController;
-import main.model.Event;
+import static main.controller.HomeFragment.myTime;
+import static main.controller.NewEventFragment.myEvent;
 
 public class EditEventFragment {
     @FXML private Button cancelButton;
@@ -24,6 +20,7 @@ public class EditEventFragment {
     @FXML private DatePicker eventEndDate;
     @FXML private CheckBox durational;
     @FXML private TextArea eventDescription;
+    @FXML private AnchorPane PaneMain;
 
 
     public void initialize() {
@@ -32,6 +29,18 @@ public class EditEventFragment {
         eventEndDate.setValue(myEvent.getEvent_endDate());
         eventDescription.setText(myEvent.getEvent_description());
 
+        PaneMain.setOnKeyPressed(e->{
+        	if(e.getCode() == KeyCode.ENTER){
+
+				try {
+					editEvent();
+				} catch (NumberFormatException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+        	}
+        });
         // Sets visibility of EndDate if Checkbox for durational event is used:
         durational.selectedProperty().addListener((observable, oldValue, newValue) -> {
             eventEndDate.setDisable(oldValue);
