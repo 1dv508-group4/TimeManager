@@ -6,7 +6,6 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -16,9 +15,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-import main.common.AlertMessage;
 import javafx.stage.Stage;
 import main.common.ScreenController;
 import main.model.Event;
@@ -28,10 +24,6 @@ import javax.imageio.ImageIO;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +35,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import static main.common.StageManager.getStage;
-import static main.controller.HomeFragment.myTime;
 import static main.controller.NewEventFragment.myEvent;
+import static main.db.Timelines.myTime;
 
 
 public class TimelineDetailsFragment {
@@ -148,7 +140,9 @@ public class TimelineDetailsFragment {
         ContextMenu conMenu = new ContextMenu();
         MenuItem modify = new MenuItem("Edit");
         MenuItem delete = new MenuItem("Delete");
-        conMenu.getItems().addAll(modify, delete);for (Event e: events) {
+        conMenu.getItems().addAll(modify, delete);
+
+        for (Event e: events) {
             if (!e.isDurational()) {int key = e.getEvent_startDate().hashCode();
 
             if (hm.containsKey(key)) {

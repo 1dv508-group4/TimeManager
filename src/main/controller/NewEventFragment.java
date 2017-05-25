@@ -10,7 +10,7 @@ import main.model.Event;
 
 import java.io.IOException;
 
-import static main.controller.HomeFragment.myTime;
+import static main.db.Timelines.myTime;
 
 public class NewEventFragment {
 
