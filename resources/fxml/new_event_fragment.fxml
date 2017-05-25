@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.NewEventFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="1298.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.NewEventFragment">
     <children>
       <ImageView fitHeight="545.0" fitWidth="465.0" layoutX="438.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -37,17 +37,12 @@
         </Button>
       <TextField fx:id="eventTitle" layoutX="82.0" layoutY="144.0" promptText="Enter event title..." />
       <DatePicker fx:id="eventStartDate" layoutX="82.0" layoutY="217.0" promptText="Event date..." />
-      <Button fx:id="saveButton" layoutX="88.0" layoutY="573.0" mnemonicParsing="false" onAction="#saveEvent" styleClass="btn" text="Save" />
-      <Button fx:id="cancelButton" layoutX="209.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelNewEvent" styleClass="btn" text="Cancel" />
-      <Label layoutX="82.0" layoutY="104.0" text="Details">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
+      <Button fx:id="saveButton" layoutX="82.0" layoutY="573.0" mnemonicParsing="false" onAction="#saveEvent" styleClass="btn" text="Save" />
+      <Button fx:id="cancelButton" layoutX="203.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelNewEvent" styleClass="btn" text="Cancel" />
       <CheckBox fx:id="durational" layoutX="297.0" layoutY="151.0" mnemonicParsing="false" text="Durational Event" />
-      <DatePicker fx:id="eventEndDate" visible="false" layoutX="82.0" layoutY="267.0" promptText="End date..." />
-      <TextArea fx:id="eventDescription" layoutX="82.0" layoutY="375.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
+      <DatePicker fx:id="eventEndDate" layoutX="82.0" layoutY="267.0" promptText="End date..." visible="false" />
+      <TextArea fx:id="eventDescription" layoutX="82.0" layoutY="376.0" prefHeight="149.0" prefWidth="392.0" promptText="Event Description..." />
       <Button layoutX="82.0" layoutY="321.0" mnemonicParsing="false" text="Upload..." />
-      <Label layoutX="160.0" layoutY="325.0" text="Link a picture or file to this event..." />
+      <Label layoutX="165.0" layoutY="325.0" text="Link a picture or file to this event..." />
     </children>
 </AnchorPane>

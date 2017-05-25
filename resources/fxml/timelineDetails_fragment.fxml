@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="672.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
     <children>
         <Separator fx:id="separator" layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         <Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeline Display">
@@ -27,12 +27,12 @@
                 </ImageView>
             </graphic>
         </Button>
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="215.0" prefWidth="800.0" style="-fx-background-color: white">
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="341.0" prefWidth="800.0" style="-fx-background-color: white">
          <content>
             <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white" />
          </content>
       </ScrollPane>
-      <Button fx:id="newEventButton" layoutX="65.0" layoutY="500.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
+      <Button fx:id="newEventButton" layoutX="64.0" layoutY="617.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
       <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="103.0" prefWidth="298.0">
          <children>
             <Text fx:id="title" fill="#2b579a" layoutX="6.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="93.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.576171875">
@@ -56,9 +56,8 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="removeTimeline" layoutX="557.0" layoutY="500.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
-      <ImageView fx:id="timeline_image" fitHeight="170.0" fitWidth="205.0" layoutX="659.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="editButton" layoutX="415.0" layoutY="500.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
-        <Button fx:id="exportButton" layoutX="727.0" layoutY="500.0" mnemonicParsing="false" onAction="#exportTimeline" styleClass="btn" text="Export to File" />
+      <Button fx:id="removeTimeline" layoutX="552.0" layoutY="210.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="editButton" layoutX="410.0" layoutY="210.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
+        <Button fx:id="exportButton" layoutX="722.0" layoutY="210.0" mnemonicParsing="false" onAction="#exportTimeline" styleClass="btn" text="Export to File" />
     </children>
 </AnchorPane>
