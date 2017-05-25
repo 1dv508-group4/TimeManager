@@ -19,7 +19,7 @@ public class StageManager {
         Parent root= FXMLLoader.load(ScreenController.class.getResource("/fxml/menu_fragment.fxml"));
 
         Scene s = new Scene(root);
-        s.getStylesheets().add("resources/css/menu_items.css"); // css for design
+        s.getStylesheets().add("css/menu_items.css"); // css for design
         stage.setScene(s);
         stage.show();
     }
