@@ -17,7 +17,7 @@ public class ScreenController {
         NEW_EVENT ("/fxml/new_event_fragment.fxml"),
         MY_PROJECTS ("/fxml/projects_fragment.fxml"), // multiple time_lines
         TIMELINE_DETAILS ("/fxml/timelineDetails_fragment.fxml"),
-        EVENT_DETAILS ("/fxml/EventDetailsFragment.fxml"),
+        EVENT_DETAILS ("/fxml/EventDetailsfragment.fxml"),
         EDIT_TIMELINE("/fxml/edit_timeline_fragment.fxml"),
         EDIT_EVENT("/fxml/edit_event_fragment.fxml");
 
