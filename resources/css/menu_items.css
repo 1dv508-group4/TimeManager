@@ -353,8 +353,16 @@
 }
 
 .timeline-pane {
-    -fx-background-color: lightgrey;
-    -fx-background-insets: 10;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+    -fx-background-color: white;
+    -fx-background-radius: 5.0;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-border-color: rgba(0, 0, 0, 0);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+}
+
+@font-face {
+
 }

@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -49,20 +50,19 @@ import static main.controller.NewEventFragment.myEvent;
 public class TimelineDetailsFragment {
 	@FXML private Button ButtonBack;
 	@FXML private AnchorPane myDisplay;
-	@FXML private Button newEventButton;
+	@FXML private ImageView newEventButton;
 	@FXML private ScrollPane scrollPane;
 	@FXML private Separator separator;
 	@FXML private AnchorPane PaneMain;
-	@FXML private Button editButton;
+	@FXML private ImageView editButton;
 	@FXML private Text title;
 	@FXML private Label endDate;
 	@FXML private Label startDate;
 	@FXML private Label description;
-	@FXML private ImageView timeline_image;
-	@FXML private Button RemoveTimeline;
-	@FXML private Button AddImage;
+	@FXML private ImageView removeTimeline;
+	@FXML private ImageView AddImage;
 	@FXML private AnchorPane LeftPane;
-	@FXML private Button exportButton;
+	@FXML private ImageView exportButton;
 
    private Timeline display = myTime;
    private double lineHeight;
@@ -419,4 +419,5 @@ public class TimelineDetailsFragment {
 			e.printStackTrace();
 		}
 	}
+
 }

@@ -40,11 +40,9 @@ public class NewTimelineFragment {
 
         PaneMain.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER){
-
                 try {
                     saveTimelineDetails();
                 } catch (NumberFormatException | IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -65,13 +63,13 @@ public class NewTimelineFragment {
             myTime.setDescription(timelineDescription.getText());
             updated=true;
             ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);
-
         }else{
             new FadeInRightTransition(timelineStartDate).play();
+            new FadeInRightTransition(timelineTitle).play();
             new FadeInRightTransition(timelineEndDate).play(); // we could choose a better description for the alert of course.
             new AlertMessage("Wrong Duration","Please specify correct timeline duration", Alert.AlertType.WARNING);
         }
-        //save this object in a list in projects fragment
+
         exportToFile(myTime.toString());
     }
 
