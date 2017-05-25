@@ -19,7 +19,7 @@ import javafx.stage.FileChooser;
 import main.common.ScreenController;
 import main.model.Event;
 
-public class EventDetailsfragment {
+public class EventDetailsFragment {
 
     @FXML private Button ButtonBack;
     @FXML private AnchorPane PaneMain;
