@@ -17,9 +17,9 @@
                 </AnchorPane>
                 <AnchorPane layoutX="138.0" layoutY="40.0" prefHeight="545.0" prefWidth="891.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
                     <children>
-                        <ScrollPane layoutX="40.0" layoutY="72.0" prefHeight="543.0" prefWidth="892.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane layoutX="40.0" layoutY="72.0" prefHeight="561.0" prefWidth="892.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-18.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <content>
-                                <AnchorPane fx:id="PaneFragment" minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="890.0" style="-fx-background-color: white;" />
+                                <AnchorPane fx:id="PaneFragment" minHeight="0.0" minWidth="0.0" prefHeight="541.0" prefWidth="876.0" style="-fx-background-color: white;" />
                             </content>
                         </ScrollPane>
                     </children>

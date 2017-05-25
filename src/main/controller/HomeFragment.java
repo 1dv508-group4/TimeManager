@@ -28,7 +28,6 @@ public class HomeFragment {
     public static int numberOfTimelines; // holds a record of the number of created timelines
 
     public void initialize() throws SQLException {
-
     }
 
     @FXML
@@ -48,7 +47,6 @@ public class HomeFragment {
     private Timeline importFromFile(File file) throws JAXBException {
     	JAXBContext context = JAXBContext.newInstance(Timeline.class);
 		javax.xml.bind.Unmarshaller unMarshaller = context.createUnmarshaller();
-
 		return (Timeline) unMarshaller.unmarshal(file);
     }
 }
