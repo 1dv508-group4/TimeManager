@@ -5,14 +5,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="615.0" prefWidth="1031.0" style="-fx-background-color: white" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.MenuFragment">
+<AnchorPane prefHeight="615.0" prefWidth="1031.0" style="-fx-background-color: white" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.MenuFragment">
     <children>
         <AnchorPane id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" pickOnBounds="false" prefHeight="506.0" prefWidth="738.0" snapToPixel="true" style="-fx-border-color: #2b579a; -fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Button fx:id="ButtonResize" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="true" prefHeight="10.0" prefWidth="10.0" styleClass="decoration-button-resize" text="" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="2.0" />
                 <AnchorPane layoutX="2.0" layoutY="2.0" prefHeight="613.0" prefWidth="136.0" style="-fx-background-color: #2b579a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <ListView fx:id="ListMenu" layoutX="-3.0" layoutY="113.0" onMouseClicked="#modeListMenu" prefHeight="500.0" prefWidth="136.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="113.0" />
+                        <ListView fx:id="ListMenu" layoutX="-3.0" layoutY="113.0" onMouseClicked="#modeListMenu" prefHeight="167.0" prefWidth="136.0" AnchorPane.bottomAnchor="333.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="113.0" />
                     </children>
                 </AnchorPane>
                 <AnchorPane layoutX="138.0" layoutY="40.0" prefHeight="545.0" prefWidth="891.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
