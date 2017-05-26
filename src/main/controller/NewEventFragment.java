@@ -47,7 +47,6 @@ public class NewEventFragment {
 
             }
         });
-
     }
 
     public void back() throws IOException {
@@ -77,9 +76,9 @@ public class NewEventFragment {
             if (eventTitle.getText().isEmpty()) {
                 new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
             } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
-                new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+                new AlertMessage("Incorrect starting date", "Event start date must be between\n " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
             } else if (eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate())) {
-                new AlertMessage("Incorrect ending date", "Event end date must be between " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+                new AlertMessage("Incorrect ending date", "Event end date must be between\n " + eventStartDate.getValue().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
             } else {
                 myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
                 myTime.addEvent(myEvent);
