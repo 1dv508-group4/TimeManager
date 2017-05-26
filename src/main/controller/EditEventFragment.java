@@ -26,6 +26,8 @@ public class EditEventFragment {
     public void initialize() {
         eventTitle.setText(myEvent.getEvent_title());
         eventStartDate.setValue(myEvent.getEvent_startDate());
+        System.out.println(myEvent.isDurational());
+
         if (myEvent.isDurational()) {
             durational.setSelected(myEvent.isDurational());
             eventEndDate.setVisible(true);

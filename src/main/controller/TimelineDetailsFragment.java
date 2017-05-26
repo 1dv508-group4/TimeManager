@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -61,9 +62,6 @@ public class TimelineDetailsFragment {
     private double distanceBetweenLines;
     private int timelinePeriodInDays;
     private Tooltip tooltip = new Tooltip();
-    private ContextMenu conMenu;
-    private MenuItem modify;
-    private MenuItem delete;
 
     public void initialize() throws SQLException {
         ButtonBack.setOnMouseEntered(e -> getStage().getScene().setCursor(Cursor.HAND));
@@ -138,9 +136,9 @@ public class TimelineDetailsFragment {
          */
 
         for (Event e: events) {
-            conMenu = new ContextMenu();
-            modify = new MenuItem("Edit");
-            delete = new MenuItem("Delete");
+            ContextMenu conMenu = new ContextMenu();
+            MenuItem modify = new MenuItem("Edit");
+            MenuItem delete = new MenuItem("Delete");
             conMenu.getItems().addAll(modify, delete);
 
 
@@ -166,6 +164,16 @@ public class TimelineDetailsFragment {
                 circle.relocate(-5,10);
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnContextMenuRequested(event -> conMenu.show(circle, event.getScreenX(), event.getScreenY()));
+                circle.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        try {
+                            myEvent = e;
+                            ScreenController.setScreen(ScreenController.Screen.EVENT_DETAILS);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
                 circle.setOnMouseEntered(event -> {
                     circle.toFront();
                     getStage().getScene().setCursor(Cursor.HAND);
@@ -173,7 +181,41 @@ public class TimelineDetailsFragment {
                     Tooltip.install(circle, tooltip);
                 });
 
-                setActions(e, contentPane);
+                modify.setOnAction(actionEvent -> {
+                    System.out.println(e.getEvent_title());
+                    try {
+                        myEvent = e;
+                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+
+                delete.setOnAction(actionEvent -> {
+                    System.out.println("Event Deleted or at least pretend :)");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
+                    alert.setContentText("Are you ok with this?");
+
+                    // Styling of alert:
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
+                    ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+                    buttonBar.getButtons().forEach(b -> {
+                        b.getStyleClass().clear();
+                        b.getStyleClass().add("btn");
+                    });
+
+                    // After 'OK' is clicked:
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                        myTime.deleteEvent(e);
+                        myDisplay.getChildren().removeAll(contentPane);
+                    } else if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                        alert.close();
+                    }
+                });
 
                 AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
                 AnchorPane.setTopAnchor(contentPane, lineHeight - (hm.get(key) * 50) - 20);
@@ -229,13 +271,59 @@ public class TimelineDetailsFragment {
 
                 rect.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 rect.setOnContextMenuRequested(event -> conMenu.show(rect, event.getScreenX(), event.getScreenY()));
+                rect.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        try {
+                            myEvent = e;
+                            ScreenController.setScreen(ScreenController.Screen.EVENT_DETAILS);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
                 rect.setOnMouseEntered(event -> {
                     getStage().getScene().setCursor(Cursor.HAND);
                     tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
                     Tooltip.install(rect, tooltip);
                 });
 
-                setActions(e, contentPane);
+                modify.setOnAction(actionEvent -> {
+                    System.out.println(e.getEvent_title());
+                    try {
+                        myEvent = e;
+                        System.out.println(myEvent.isDurational());
+                        ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                });
+
+                delete.setOnAction(actionEvent -> {
+                    System.out.println("Event Deleted or at least pretend :)");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("This will delete event: " + e.getEvent_title());
+                    alert.setContentText("Are you ok with this?");
+
+                    // Styling of alert:
+                    DialogPane dialogPane = alert.getDialogPane();
+                    dialogPane.getScene().getStylesheets().add("css/menu_items.css");
+                    ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+                    buttonBar.getButtons().forEach(b -> {
+                        b.getStyleClass().clear();
+                        b.getStyleClass().add("btn");
+                    });
+
+                    // After 'OK' is clicked:
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                        myTime.deleteEvent(e);
+                        myDisplay.getChildren().removeAll(contentPane);
+                    } else if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                        alert.close();
+                    }
+                });
+
 
                 Label titleOfEvent = new Label(e.getEvent_title());
                 contentPane.getChildren().add(titleOfEvent);
@@ -265,23 +353,6 @@ public class TimelineDetailsFragment {
     }
 
     @FXML
-    void Addimage() {
-    	 FileChooser fileChooser = new FileChooser();
-
-         FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-         FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-         fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-
-         File file = fileChooser.showOpenDialog(null);
-
-         try {
-             BufferedImage bufferedImage = ImageIO.read(file);
-             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-         } catch (IOException ex) {
-
-         }
-    }
-    @FXML
     void removeTimeline() throws IOException{
     	myDisplay.getChildren().clear();
     	LeftPane.getChildren().clear();
@@ -301,14 +372,9 @@ public class TimelineDetailsFragment {
 			//for pretty-print XML in JAXB
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-			// Write to System.out for debugging
-
-
-
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Save Timeline");
 			File file = fileChooser.showSaveDialog(new Stage());
-
 
 			if (file != null) {
 				try {
@@ -316,11 +382,9 @@ public class TimelineDetailsFragment {
 				} catch (JAXBException ex) {
 					System.out.println(ex.getMessage());
 				}
-
-				finally{
+				finally {
 					System.out.println("XML saved");
 				}
-
 
 				// Write to File
 				//m.marshal(display, new File("C:\\Temp\\Timeline.xml"));
@@ -331,42 +395,4 @@ public class TimelineDetailsFragment {
 			e.printStackTrace();
 		}
 	}
-
-	private void setActions(Event e, Pane contentPane) {
-        delete.setOnAction(actionEvent -> {
-            System.out.println("Event Deleted or at least pretend :)");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Dialog");
-            alert.setHeaderText("This will delete event: " + e.getEvent_title());
-            alert.setContentText("Are you ok with this?");
-
-            // Styling of alert:
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getScene().getStylesheets().add("css/menu_items.css");
-            ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
-            buttonBar.getButtons().forEach(b -> {
-                b.getStyleClass().clear();
-                b.getStyleClass().add("btn");
-            });
-
-            // After 'OK' is clicked:
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && (result.get() == ButtonType.OK)) {
-                myTime.deleteEvent(e);
-                myDisplay.getChildren().removeAll(contentPane);
-            } else if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-                alert.close();
-            }
-        });
-
-        modify.setOnAction(actionEvent -> {
-            System.out.println(e.getEvent_title());
-            myEvent = e;
-            try {
-                ScreenController.setScreen(ScreenController.Screen.EDIT_EVENT);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
-    }
 }
