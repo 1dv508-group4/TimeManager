@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static main.common.StageManager.getStage;
-import static main.db.Timelines.myTime;
+import static main.common.TimelineDB.myTime;
 
 
 public class EditTimelineFragment implements Initializable {
@@ -47,16 +47,12 @@ public class EditTimelineFragment implements Initializable {
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
 
         PaneMain.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ENTER){
-
+            if(e.getCode() == KeyCode.ENTER)
                 try {
                     saveTimelineDetails();
                 } catch (NumberFormatException | IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
-            }
         });
     }
     @FXML
@@ -67,7 +63,7 @@ public class EditTimelineFragment implements Initializable {
 
     @FXML
     public void saveTimelineDetails() throws IOException,NumberFormatException {
-        if (correctDuration(timelineStartDate.getValue(),timelineEndDate.getValue()) && !timelineTitle.getText().equals("")){
+        if (correctDuration(timelineStartDate.getValue(),timelineEndDate.getValue()) && (!timelineTitle.getText().equals("") ||timelineTitle!=null)){
             display.setId(numberOfTimelines++);
             display.setTitle(timelineTitle.getText());
             display.setDescription(timelineDescription.getText());

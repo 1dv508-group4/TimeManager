@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="749.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="672.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
     <children>
         <Separator fx:id="separator" layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         <Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeline Display">
@@ -27,14 +27,15 @@
                 </ImageView>
             </graphic>
         </Button>
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="-2.0" layoutY="217.0" pannable="true" prefHeight="304.0" prefWidth="922.0" style="-fx-background-color: white">
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" layoutX="64.0" layoutY="258.0" pannable="true" prefHeight="341.0" prefWidth="800.0" style="-fx-background-color: white">
          <content>
             <AnchorPane fx:id="myDisplay" prefHeight="213.0" style="-fx-background-color: white" />
          </content>
       </ScrollPane>
-      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="116.0" prefWidth="384.0">
+      <Button fx:id="newEventButton" layoutX="64.0" layoutY="617.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
+      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="103.0" prefWidth="298.0">
          <children>
-            <Text fx:id="title" fill="#2b579a" layoutX="6.0" layoutY="21.423828125" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="384.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0">
+            <Text fx:id="title" fill="#2b579a" layoutX="6.0" layoutY="21.423828125" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="756.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -48,46 +49,15 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="description" layoutY="71.0" prefHeight="53.0" prefWidth="468.0" text="Label" textFill="#2b579a">
+            <Label fx:id="description" layoutY="85.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-
-     <ImageView fx:id="newEventButton" fitHeight="53.0" fitWidth="64.0" layoutX="87.0" layoutY="527.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/addEvent.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="85.0" layoutY="598.0" text="New Event" />
-
-      <ImageView fx:id="removeTimeline" fitHeight="60.0" fitWidth="60.0" layoutX="428.0" layoutY="528.0" onMouseClicked="#removeTimeline" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/removeTime.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="417.0" layoutY="598.0" text="Remove timeline" />
-
-        <ImageView fx:id="AddImage" fitHeight="60.0" fitWidth="60.0" layoutX="208.0" layoutY="523.0" onMouseClicked="#Addimage" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/addImage.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="209.0" layoutY="598.0" text="Add Image" />
-
-      <ImageView fx:id="editButton" fitHeight="60.0" fitWidth="60.0" layoutX="316.0" layoutY="524.0" onMouseClicked="#editTimeline" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/editTime.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="312.0" layoutY="598.0" text="Edit Timeline" />
-
-        <ImageView fx:id="exportButton" fitHeight="60.0" fitWidth="69.0" layoutX="561.0" layoutY="528.0" onMouseClicked="#exportTimeline" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/316-512.png" />
-         </image></ImageView>
-      <Label layoutX="557.0" layoutY="598.0" text="Export to file" />
+      <Button fx:id="removeTimeline" layoutX="552.0" layoutY="210.0" mnemonicParsing="false" onAction="#removeTimeline" styleClass="btn" text="Remove Timeline" />
+      <Button fx:id="editButton" layoutX="410.0" layoutY="210.0" mnemonicParsing="false" onAction="#editTimeline" styleClass="btn" text="Edit Timeline" />
+        <Button fx:id="exportButton" layoutX="722.0" layoutY="210.0" mnemonicParsing="false" onAction="#exportTimeline" styleClass="btn" text="Export to File" />
     </children>
 </AnchorPane>

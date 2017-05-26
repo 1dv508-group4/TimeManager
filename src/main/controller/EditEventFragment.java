@@ -9,7 +9,7 @@ import main.common.ScreenController;
 
 import java.io.IOException;
 
-import static main.db.Timelines.myTime;
+import static main.common.TimelineDB.myTime;
 import static main.controller.NewEventFragment.myEvent;
 
 public class EditEventFragment {
@@ -26,6 +26,13 @@ public class EditEventFragment {
     public void initialize() {
         eventTitle.setText(myEvent.getEvent_title());
         eventStartDate.setValue(myEvent.getEvent_startDate());
+        System.out.println(myEvent.isDurational());
+
+        if (myEvent.isDurational()) {
+            durational.setSelected(myEvent.isDurational());
+            eventEndDate.setVisible(true);
+            eventEndDate.setDisable(false);
+        }
         eventEndDate.setValue(myEvent.getEvent_endDate());
         eventDescription.setText(myEvent.getEvent_description());
 
