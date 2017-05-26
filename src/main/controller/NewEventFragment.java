@@ -29,7 +29,7 @@ public class NewEventFragment {
 
     public void initialize() {
         eventStartDate.setConverter(new StringConverter<LocalDate>() {
-            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
             @Override
             public String toString(LocalDate localDate) {
                 if(localDate==null)
@@ -44,7 +44,7 @@ public class NewEventFragment {
                     return LocalDate.parse(dateString,dateTimeFormatter);
                 }
                 catch(Exception e){
-                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nMM/dd/yyyy", Alert.AlertType.ERROR);
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
                     return null;
                 }
             }
@@ -57,7 +57,7 @@ public class NewEventFragment {
         });
 
         eventEndDate.setConverter(new StringConverter<LocalDate>() {
-            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
             @Override
             public String toString(LocalDate localDate) {
                 if(localDate==null)
@@ -72,7 +72,7 @@ public class NewEventFragment {
                     return LocalDate.parse(dateString,dateTimeFormatter);
                 }
                 catch(Exception e){
-                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nMM/dd/yyyy", Alert.AlertType.ERROR);
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
                     return null;
                 }
             }

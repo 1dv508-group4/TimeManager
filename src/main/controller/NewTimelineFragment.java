@@ -44,7 +44,7 @@ public class NewTimelineFragment {
         cancelBtn.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
 
         timelineStartDate.setConverter(new StringConverter<LocalDate>() {
-            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
             @Override
             public String toString(LocalDate localDate) {
                 if(localDate==null)
@@ -59,7 +59,7 @@ public class NewTimelineFragment {
                     return LocalDate.parse(dateString,dateTimeFormatter);
                 }
                 catch(Exception e){
-                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nMM/dd/yyyy", Alert.AlertType.ERROR);
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
                     return null;
                 }
             }
@@ -72,7 +72,7 @@ public class NewTimelineFragment {
         });
 
         timelineEndDate.setConverter(new StringConverter<LocalDate>() {
-            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
             @Override
             public String toString(LocalDate localDate) {
                 if(localDate==null)
@@ -87,7 +87,7 @@ public class NewTimelineFragment {
                     return LocalDate.parse(dateString,dateTimeFormatter);
                 }
                 catch(Exception e){
-                    //Bad date value entered
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
                     return null;
                 }
             }

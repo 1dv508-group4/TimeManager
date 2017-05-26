@@ -145,29 +145,66 @@ public class TimelineDetailsFragment {
                 dayOfMonth = display.getStartDate().plusDays(i).getDayOfMonth();
                 myDisplay.getChildren().addAll(verticalLine, dayLabel);
             }
-        } else if (timelinePeriodInDays < 1000 ){
+        } else if (timelinePeriodInDays < 365 * 3) {
             for (int i = 1; i < timelinePeriodInDays; i+=7) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 2, (i * distanceBetweenLines) + lineStart, lineHeight + 2);
                 myDisplay.getChildren().addAll(verticalLine);
             }
 
+            int monthNumber = 0; //01 = january, 02 february etc.
             int nMonths = (int) ChronoUnit.MONTHS.between(display.getStartDate(),display.getEndDate());
             distanceBetweenLines = (lineLength - lineStart) / nMonths;
 
             for (int i = 0; i < nMonths; i ++) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
 
+                Label yearLabel;
                 Label monthLabel = new Label(String.valueOf(display.getStartDate().plusMonths(i).getMonth().toString()));
                 monthLabel.setStyle("-fx-opacity: 0.3; -fx-font-size: 10px; -fx-font-style: italic");
                 monthLabel.relocate(lineStart + (i * distanceBetweenLines) + 5,lineHeight + 3);
 
+                if (display.getStartDate().plusMonths(i).getMonthValue() < monthNumber) {
+                    yearLabel = new Label(String.valueOf(display.getStartDate().plusMonths(i).getYear()));
+                    yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5,lineHeight + 8);
+                    yearLabel.setStyle("-fx-opacity: 0.06; -fx-font-size: 60px;");
+                    myDisplay.getChildren().add(yearLabel);
+                }
+                monthNumber = display.getStartDate().plusMonths(i).getMonthValue();
                 myDisplay.getChildren().addAll(verticalLine, monthLabel);
             }
-        } else if (timelinePeriodInDays < 365 * 300) { // 5years division
+        } else if (timelinePeriodInDays < 365 * 30) { // 1 years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(), display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            for (int i = 0; i < nYears; i ++) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 250) { // 5years division
             int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(),display.getEndDate());
             distanceBetweenLines = (lineLength - lineStart) / nYears;
 
             for (int i = 0; i < nYears; i+=5) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 1250) { // 25years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(), display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            for (int i = 0; i < nYears; i += 25) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
 
                 Label yearLabel;
