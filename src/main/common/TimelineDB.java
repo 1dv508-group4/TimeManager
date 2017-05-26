@@ -1,10 +1,10 @@
-package main.db;
+package main.common;
 
 import main.model.Timeline;
 
 import java.util.ArrayList;
 
-public class Timelines {
+public class TimelineDB {
     private static ArrayList<Timeline> createdTimelines = new ArrayList<>();
     public static Timeline myTime;
 
