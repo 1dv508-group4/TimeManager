@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import main.animation.FadeInRightTransition;
 import main.common.AlertMessage;
 import main.common.ScreenController;
-import main.db.Timelines;
+import main.common.TimelineDB;
 import main.model.Timeline;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 import static main.common.StageManager.getStage;
 import static main.controller.HomeFragment.numberOfTimelines;
-import static main.db.Timelines.myTime;
+import static main.common.TimelineDB.myTime;
 
 public class NewTimelineFragment {
     @FXML private Button cancelBtn;
@@ -60,8 +60,7 @@ public class NewTimelineFragment {
         if (correctDate()) {
             myTime = new Timeline(timelineTitle.getText(),timelineStartDate.getValue(),timelineEndDate.getValue(),timelineDescription.getText());
             myTime.setId(numberOfTimelines++);
-            Timelines.addTimeline(myTime);
-
+            TimelineDB.addTimeline(myTime);
             ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);
         } else {
             new FadeInRightTransition(timelineStartDate).play();
@@ -74,7 +73,7 @@ public class NewTimelineFragment {
     private boolean correctDate() {
         return !((timelineStartDate.getValue() == null || timelineEndDate.getValue() == null
                 || timelineStartDate.getValue().isAfter(timelineEndDate.getValue()))
-                && !timelineTitle.getText().equals(""));
+                && (!timelineTitle.getText().equals("") ||timelineTitle!=null));
     }
 }
 

@@ -10,7 +10,7 @@ import main.model.Event;
 
 import java.io.IOException;
 
-import static main.db.Timelines.myTime;
+import static main.common.TimelineDB.myTime;
 
 public class NewEventFragment {
 

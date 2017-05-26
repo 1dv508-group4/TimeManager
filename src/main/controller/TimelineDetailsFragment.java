@@ -1,11 +1,9 @@
 package main.controller;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
@@ -18,14 +16,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.common.ScreenController;
+import main.common.TimelineDB;
 import main.model.Event;
 import main.model.Timeline;
 
-import javax.imageio.ImageIO;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,7 +32,7 @@ import java.util.*;
 
 import static main.common.StageManager.getStage;
 import static main.controller.NewEventFragment.myEvent;
-import static main.db.Timelines.myTime;
+import static main.common.TimelineDB.myTime;
 
 
 public class TimelineDetailsFragment {
@@ -299,13 +296,11 @@ public class TimelineDetailsFragment {
                 });
 
                 delete.setOnAction(actionEvent -> {
-                    System.out.println("Event Deleted or at least pretend :)");
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Confirmation Dialog");
                     alert.setHeaderText("This will delete event: " + e.getEvent_title());
                     alert.setContentText("Are you ok with this?");
 
-                    // Styling of alert:
                     DialogPane dialogPane = alert.getDialogPane();
                     dialogPane.getScene().getStylesheets().add("css/menu_items.css");
                     ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
@@ -314,12 +309,12 @@ public class TimelineDetailsFragment {
                         b.getStyleClass().add("btn");
                     });
 
-                    // After 'OK' is clicked:
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+
+                    Optional<ButtonType> decision = alert.showAndWait();
+                    if (decision.isPresent() && (decision.get() == ButtonType.OK)) {
                         myTime.deleteEvent(e);
                         myDisplay.getChildren().removeAll(contentPane);
-                    } else if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                    } else if (decision.isPresent() && decision.get() == ButtonType.CANCEL) {
                         alert.close();
                     }
                 });
@@ -345,37 +340,31 @@ public class TimelineDetailsFragment {
     }
 
     @FXML
-    public void back() throws IOException {ScreenController.setScreen(ScreenController.Screen.HOME);}
+    public void back() throws IOException {ScreenController.setScreen(ScreenController.Screen.MY_PROJECTS);}
 
     @FXML
-    public void addEvent() throws IOException {
-        ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);
-    }
+    public void addEvent() throws IOException {ScreenController.setScreen(ScreenController.Screen.NEW_EVENT);}
 
     @FXML
     void removeTimeline() throws IOException{
     	myDisplay.getChildren().clear();
     	LeftPane.getChildren().clear();
-
+    	TimelineDB.removeTimeline(display);
+    	HomeFragment.numberOfTimelines--;
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML
-    public void editTimeline() throws IOException{
-    	 ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);
-    }
+    public void editTimeline() throws IOException{ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);}
 
 	@FXML
 	public void exportTimeline() throws IOException{
 		try{
 			JAXBContext context = JAXBContext.newInstance(Timeline.class);
 			Marshaller m = context.createMarshaller();
-			//for pretty-print XML in JAXB
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Save Timeline");
 			File file = fileChooser.showSaveDialog(new Stage());
-
 			if (file != null) {
 				try {
 					m.marshal(display, file);
@@ -385,10 +374,6 @@ public class TimelineDetailsFragment {
 				finally {
 					System.out.println("XML saved");
 				}
-
-				// Write to File
-				//m.marshal(display, new File("C:\\Temp\\Timeline.xml"));
-
 			}
 		}
 		catch(Exception e){

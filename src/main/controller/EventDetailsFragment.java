@@ -31,7 +31,6 @@ public class EventDetailsFragment {
     @FXML private Label eventEndLabel;
     @FXML private TextField eventDesc;
     @FXML private Text EventTitle;
-    @FXML private Button Addimage;
     @FXML ImageView imageview;
 
 
@@ -47,28 +46,20 @@ public class EventDetailsFragment {
     }
 
     @FXML
-    void back(ActionEvent event) throws IOException {
-    	ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
-    }
+    void back(ActionEvent event) throws IOException {ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);}
 
     @FXML
     void addEvent(ActionEvent event) {
-    FileChooser fileChooser = new FileChooser();
-         
-    //Set extension filter
-    FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG", "*.jpg", "*.JPEG", "*.jpeg");
-    FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG", "*.png");
-    fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG", "*.jpg", "*.JPEG", "*.jpeg");
+        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG", "*.png");
+        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
-    //Show open file dialog
-    File file = fileChooser.showOpenDialog(null);
-
-    try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageview.setImage(image);
-        } catch (IOException ex) {
-
-        }
+        File file = fileChooser.showOpenDialog(null);
+        try {
+                BufferedImage bufferedImage = ImageIO.read(file);
+                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                imageview.setImage(image);
+        } catch (IOException ex) {ex.printStackTrace();}
     }
 }
