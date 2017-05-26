@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.common.ScreenController;
+import main.common.TimelineDB;
 import main.model.Timeline;
 
 import javax.xml.bind.JAXBContext;
@@ -12,6 +13,8 @@ import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static main.common.TimelineDB.myTime;
 
 public class HomeFragment {
 
@@ -33,6 +36,8 @@ public class HomeFragment {
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(new Stage());
         Timeline importedTimeline = importFromFile(file);
+        TimelineDB.getCreatedTimelines().add(importedTimeline);
+        myTime = importedTimeline;
 
         ScreenController.setScreen(ScreenController.Screen.TIMELINE_DETAILS);
     }

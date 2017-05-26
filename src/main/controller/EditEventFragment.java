@@ -4,10 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
 import main.common.AlertMessage;
 import main.common.ScreenController;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static main.common.TimelineDB.myTime;
 import static main.controller.NewEventFragment.myEvent;
@@ -24,6 +27,62 @@ public class EditEventFragment {
 
 
     public void initialize() {
+        eventStartDate.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
+            @Override
+            public String toString(LocalDate localDate) {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+            @Override
+            public LocalDate fromString(String dateString) {
+                if(dateString==null || dateString.trim().isEmpty())
+                    return null;
+                try{
+                    return LocalDate.parse(dateString,dateTimeFormatter);
+                }
+                catch(Exception e){
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
+                    return null;
+                }
+            }
+        });
+
+        eventStartDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue){
+                eventStartDate.setValue(eventStartDate.getConverter().fromString(eventStartDate.getEditor().getText()));
+            }
+        });
+
+        eventEndDate.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("M/d/yyyy");
+            @Override
+            public String toString(LocalDate localDate) {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+            @Override
+            public LocalDate fromString(String dateString) {
+                if(dateString==null || dateString.trim().isEmpty())
+                    return null;
+                try{
+                    return LocalDate.parse(dateString,dateTimeFormatter);
+                }
+                catch(Exception e){
+                    new AlertMessage("Wrong date format", "The date was entered the wrong way. Correct way:\nM/d/yyyy", Alert.AlertType.ERROR);
+                    return null;
+                }
+            }
+        });
+
+        eventEndDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue){
+                eventEndDate.setValue(eventEndDate.getConverter().fromString(eventEndDate.getEditor().getText()));
+            }
+        });
+
         eventTitle.setText(myEvent.getEvent_title());
         eventStartDate.setValue(myEvent.getEvent_startDate());
         System.out.println(myEvent.isDurational());

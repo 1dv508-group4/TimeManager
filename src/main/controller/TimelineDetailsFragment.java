@@ -36,26 +36,27 @@ import static main.common.TimelineDB.myTime;
 
 
 public class TimelineDetailsFragment {
-	@FXML private Button ButtonBack;
-	@FXML private AnchorPane myDisplay;
-	@FXML private Button newEventButton;
-	@FXML private ScrollPane scrollPane;
-	@FXML private Separator separator;
-	@FXML private AnchorPane PaneMain;
-	@FXML private Button editButton;
-	@FXML private Text title;
-	@FXML private Label endDate;
-	@FXML private Label startDate;
-	@FXML private Label description;
-	@FXML private ImageView timeline_image;
-	@FXML private Button RemoveTimeline;
-	@FXML private Button AddImage;
-	@FXML private AnchorPane LeftPane;
-	@FXML private Button exportButton;
+    @FXML private Button ButtonBack;
+    @FXML private AnchorPane myDisplay;
+    @FXML private Button newEventButton;
+    @FXML private ScrollPane scrollPane;
+    @FXML private Separator separator;
+    @FXML private AnchorPane PaneMain;
+    @FXML private Button editButton;
+    @FXML private Text title;
+    @FXML private Label endDate;
+    @FXML private Label startDate;
+    @FXML private Label description;
+    @FXML private ImageView timeline_image;
+    @FXML private Button RemoveTimeline;
+    @FXML private Button AddImage;
+    @FXML private AnchorPane LeftPane;
+    @FXML private Button exportButton;
 
     private Timeline display = myTime;
     private double lineHeight;
     private double lineStart;
+    private double lineLength;
     private double distanceBetweenLines;
     private int timelinePeriodInDays;
     private Tooltip tooltip = new Tooltip();
@@ -67,7 +68,13 @@ public class TimelineDetailsFragment {
         // The height of the actual line is calculated based on the height of the Scrollpane:
         lineHeight = scrollPane.getPrefHeight() / 2;
         lineStart = 15; // to account for space near the left border of the scrollpane
+
         timelinePeriodInDays = (int) ChronoUnit.DAYS.between(display.getStartDate(),display.getEndDate());
+
+//        if (timelinePeriodInDays > 7500) {
+//            lineLength = 2000 + (0.1 * (timelinePeriodInDays - 7500));
+//        } else
+        lineLength = 2000;
 
         title.setText("Title: " + display.getTitle());
         startDate.setText("Start date: " + display.getStartDate().toString());
@@ -93,24 +100,134 @@ public class TimelineDetailsFragment {
      */
 
     private void displayTimeline() {
-       Line lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
+        Line lineTimeline = new Line(lineStart,lineHeight,lineLength,lineHeight);
         myDisplay.getChildren().add(lineTimeline);
 
         Line beginVertical = new Line(lineStart,lineHeight-15,lineStart,lineHeight+15);
-        Line endVertical = new Line(1600,lineHeight-15,1600,lineHeight+15);
+        Line endVertical = new Line(lineLength,lineHeight-15,lineLength,lineHeight+15);
         myDisplay.getChildren().addAll(beginVertical,endVertical);
 
-        distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+        distanceBetweenLines = (lineLength - lineStart) / timelinePeriodInDays;
+        int dayOfMonth = 0;
 
         if (timelinePeriodInDays < 60) {
             for (int i = 1; i < timelinePeriodInDays; i++) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
-                myDisplay.getChildren().add(verticalLine);
+                Label dayLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth()));
+                dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 10px");
+                dayLabel.relocate(lineStart + (i * distanceBetweenLines),lineHeight + 7);
+                myDisplay.getChildren().addAll(verticalLine, dayLabel);
             }
         } else if (timelinePeriodInDays < 300) {
+            for (int i = 1; i < timelinePeriodInDays; i++) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 2, (i * distanceBetweenLines) + lineStart, lineHeight + 2);
+                myDisplay.getChildren().addAll(verticalLine);
+            }
+
             for (int i = 0; i < timelinePeriodInDays; i += 7) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
-                myDisplay.getChildren().add(verticalLine);
+                Label dayLabel;
+                Label monthLabel;
+                if (display.getStartDate().plusDays(i).getDayOfMonth() < dayOfMonth) {
+                    String dayOfLine = String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth());
+                    dayLabel = new Label(dayOfLine);
+                    dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 12px");
+
+                    monthLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getMonth().toString()));
+                    monthLabel.setStyle("-fx-opacity: 0.3; -fx-font-size: 20px; -fx-font-style: italic");
+                    monthLabel.relocate(lineStart + (i * distanceBetweenLines) + 15,lineHeight + 3);
+                    myDisplay.getChildren().add(monthLabel);
+                } else {
+                    dayLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth()));
+                    dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 10px");
+                }
+                dayLabel.relocate(lineStart + (i * distanceBetweenLines),lineHeight + 7);
+                dayOfMonth = display.getStartDate().plusDays(i).getDayOfMonth();
+                myDisplay.getChildren().addAll(verticalLine, dayLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 3) {
+            for (int i = 1; i < timelinePeriodInDays; i+=7) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 2, (i * distanceBetweenLines) + lineStart, lineHeight + 2);
+                myDisplay.getChildren().addAll(verticalLine);
+            }
+
+            int monthNumber = 0; //01 = january, 02 february etc.
+            int nMonths = (int) ChronoUnit.MONTHS.between(display.getStartDate(),display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nMonths;
+
+            for (int i = 0; i < nMonths; i ++) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                Label monthLabel = new Label(String.valueOf(display.getStartDate().plusMonths(i).getMonth().toString()));
+                monthLabel.setStyle("-fx-opacity: 0.3; -fx-font-size: 10px; -fx-font-style: italic");
+                monthLabel.relocate(lineStart + (i * distanceBetweenLines) + 5,lineHeight + 3);
+
+                if (display.getStartDate().plusMonths(i).getMonthValue() < monthNumber) {
+                    yearLabel = new Label(String.valueOf(display.getStartDate().plusMonths(i).getYear()));
+                    yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5,lineHeight + 8);
+                    yearLabel.setStyle("-fx-opacity: 0.06; -fx-font-size: 60px;");
+                    myDisplay.getChildren().add(yearLabel);
+                }
+                monthNumber = display.getStartDate().plusMonths(i).getMonthValue();
+                myDisplay.getChildren().addAll(verticalLine, monthLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 30) { // 1 years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(), display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            for (int i = 0; i < nYears; i ++) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 250) { // 5years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(),display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            for (int i = 0; i < nYears; i+=5) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 1250) { // 25years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(), display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            for (int i = 0; i < nYears; i += 25) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
+            }
+        } else if (timelinePeriodInDays < 365 * 3000) { // 50 years division
+            int nYears = (int) ChronoUnit.YEARS.between(display.getStartDate(),display.getEndDate());
+            distanceBetweenLines = (lineLength - lineStart) / nYears;
+
+            System.out.println(nYears);
+            for (int i = 0; i < nYears; i+=50) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
+
+                Label yearLabel;
+                yearLabel = new Label(String.valueOf(display.getStartDate().plusYears(i).getYear()));
+                yearLabel.setStyle("-fx-opacity: 0.8; -fx-font-size: 12px; -fx-font-style: italic");
+                yearLabel.relocate(lineStart + (i * distanceBetweenLines) + 5, lineHeight + 3);
+
+                myDisplay.getChildren().addAll(verticalLine, yearLabel);
             }
         }
     }
@@ -149,16 +266,16 @@ public class TimelineDetailsFragment {
                 int daysUntilEvent = (int) ChronoUnit.DAYS.between(display.getStartDate(), e.getEvent_startDate());
 
                 // Calculate position on line to put event.
-                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
+                distanceBetweenLines = (lineLength - lineStart) / timelinePeriodInDays;//1600 * relativePositionOfEvent / 100;
 
                 // Some metro style colors:
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
                 Pane contentPane = new Pane();
-                Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
+                Circle circle = new Circle(8, Color.web(colors[e.hashCode() % 7]));
                 contentPane.getChildren().add(circle);
 
-                circle.relocate(-5,10);
+                circle.relocate(-8,8);
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnContextMenuRequested(event -> conMenu.show(circle, event.getScreenX(), event.getScreenY()));
                 circle.setOnMouseClicked(mouseEvent -> {
@@ -253,10 +370,9 @@ public class TimelineDetailsFragment {
                 int eventDuration = (int) ChronoUnit.DAYS.between(eventStartDate,eventEndDate);
 
                 // Calculate position on line to put event.
-                distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+                distanceBetweenLines = (lineLength - lineStart) / timelinePeriodInDays;
 
                 Pane contentPane = new Pane();
-                contentPane.setBackground(new Background(new BackgroundFill(Color.BLUE,CornerRadii.EMPTY,new Insets(0))));
                 AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
                 AnchorPane.setTopAnchor(contentPane, lineHeight + 30 + (e.getLevel() * 30));
 
@@ -334,6 +450,16 @@ public class TimelineDetailsFragment {
                     tooltip.setText("Title: "+myEvent.getEvent_title()+"\n"+"Description: \n"+myEvent.getEvent_description());
                     Tooltip.install(titleOfEvent, tooltip);
                 });
+                titleOfEvent.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        try {
+                            myEvent = e;
+                            ScreenController.setScreen(ScreenController.Screen.EVENT_DETAILS);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
 
                 myDisplay.getChildren().add(contentPane);
             }
@@ -348,37 +474,37 @@ public class TimelineDetailsFragment {
 
     @FXML
     void removeTimeline() throws IOException{
-    	myDisplay.getChildren().clear();
-    	LeftPane.getChildren().clear();
-    	TimelineDB.removeTimeline(display);
-    	HomeFragment.numberOfTimelines--;
+        myDisplay.getChildren().clear();
+        LeftPane.getChildren().clear();
+        TimelineDB.removeTimeline(display);
+        HomeFragment.numberOfTimelines--;
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML
     public void editTimeline() throws IOException{ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);}
 
-	@FXML
-	public void exportTimeline() throws IOException{
-		try{
-			JAXBContext context = JAXBContext.newInstance(Timeline.class);
-			Marshaller m = context.createMarshaller();
+    @FXML
+    public void exportTimeline() throws IOException{
+        try{
+            JAXBContext context = JAXBContext.newInstance(Timeline.class);
+            Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save Timeline");
-			File file = fileChooser.showSaveDialog(new Stage());
-			if (file != null) {
-				try {
-					m.marshal(display, file);
-				} catch (JAXBException ex) {
-					System.out.println(ex.getMessage());
-				}
-				finally {
-					System.out.println("XML saved");
-				}
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Timeline");
+            File file = fileChooser.showSaveDialog(new Stage());
+            if (file != null) {
+                try {
+                    m.marshal(display, file);
+                } catch (JAXBException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                finally {
+                    System.out.println("XML saved");
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
