@@ -36,22 +36,22 @@ import static main.common.TimelineDB.myTime;
 
 
 public class TimelineDetailsFragment {
-	@FXML private Button ButtonBack;
-	@FXML private AnchorPane myDisplay;
-	@FXML private Button newEventButton;
-	@FXML private ScrollPane scrollPane;
-	@FXML private Separator separator;
-	@FXML private AnchorPane PaneMain;
-	@FXML private Button editButton;
-	@FXML private Text title;
-	@FXML private Label endDate;
-	@FXML private Label startDate;
-	@FXML private Label description;
-	@FXML private ImageView timeline_image;
-	@FXML private Button RemoveTimeline;
-	@FXML private Button AddImage;
-	@FXML private AnchorPane LeftPane;
-	@FXML private Button exportButton;
+    @FXML private Button ButtonBack;
+    @FXML private AnchorPane myDisplay;
+    @FXML private Button newEventButton;
+    @FXML private ScrollPane scrollPane;
+    @FXML private Separator separator;
+    @FXML private AnchorPane PaneMain;
+    @FXML private Button editButton;
+    @FXML private Text title;
+    @FXML private Label endDate;
+    @FXML private Label startDate;
+    @FXML private Label description;
+    @FXML private ImageView timeline_image;
+    @FXML private Button RemoveTimeline;
+    @FXML private Button AddImage;
+    @FXML private AnchorPane LeftPane;
+    @FXML private Button exportButton;
 
     private Timeline display = myTime;
     private double lineHeight;
@@ -93,7 +93,7 @@ public class TimelineDetailsFragment {
      */
 
     private void displayTimeline() {
-       Line lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
+        Line lineTimeline = new Line(lineStart,lineHeight,1600,lineHeight);
         myDisplay.getChildren().add(lineTimeline);
 
         Line beginVertical = new Line(lineStart,lineHeight-15,lineStart,lineHeight+15);
@@ -101,16 +101,45 @@ public class TimelineDetailsFragment {
         myDisplay.getChildren().addAll(beginVertical,endVertical);
 
         distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
+        int dayOfMonth = 0;
 
         if (timelinePeriodInDays < 60) {
             for (int i = 1; i < timelinePeriodInDays; i++) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
-                myDisplay.getChildren().add(verticalLine);
+                Label dayLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth()));
+                dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 10px");
+                dayLabel.relocate(lineStart + (i * distanceBetweenLines),lineHeight + 7);
+                myDisplay.getChildren().addAll(verticalLine, dayLabel);
             }
         } else if (timelinePeriodInDays < 300) {
+            for (int i = 1; i < timelinePeriodInDays; i++) {
+                Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 2, (i * distanceBetweenLines) + lineStart, lineHeight + 2);
+//                Label dayLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth()));
+//                dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 10px");
+//                dayLabel.relocate(lineStart + (i * distanceBetweenLines),lineHeight + 7);
+                myDisplay.getChildren().addAll(verticalLine);
+            }
+
             for (int i = 0; i < timelinePeriodInDays; i += 7) {
                 Line verticalLine = new Line((i * distanceBetweenLines) + lineStart, lineHeight - 5, (i * distanceBetweenLines) + lineStart, lineHeight + 5);
-                myDisplay.getChildren().add(verticalLine);
+                Label dayLabel;
+                Label monthLabel;
+                if (display.getStartDate().plusDays(i).getDayOfMonth() < dayOfMonth) {
+                    String dayOfLine = String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth());// + "/" + String.valueOf(display.getStartDate().plusDays(i).getMonthValue());
+                    dayLabel = new Label(dayOfLine);
+                    dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 12px");
+
+                    monthLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getMonth().toString()));
+                    monthLabel.setStyle("-fx-opacity: 0.3; -fx-font-size: 20px; -fx-font-style: italic");
+                    monthLabel.relocate(lineStart + (i * distanceBetweenLines) + 15,lineHeight + 3);
+                    myDisplay.getChildren().add(monthLabel);
+                } else {
+                    dayLabel = new Label(String.valueOf(display.getStartDate().plusDays(i).getDayOfMonth()));
+                    dayLabel.setStyle("-fx-font-style: italic; -fx-font-size: 10px");
+                }
+                dayLabel.relocate(lineStart + (i * distanceBetweenLines),lineHeight + 7);
+                dayOfMonth = display.getStartDate().plusDays(i).getDayOfMonth();
+                myDisplay.getChildren().addAll(verticalLine, dayLabel);
             }
         }
     }
@@ -155,10 +184,10 @@ public class TimelineDetailsFragment {
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
 
                 Pane contentPane = new Pane();
-                Circle circle = new Circle(10, Color.web(colors[e.hashCode() % 7]));
+                Circle circle = new Circle(8, Color.web(colors[e.hashCode() % 7]));
                 contentPane.getChildren().add(circle);
 
-                circle.relocate(-5,10);
+                circle.relocate(-8,8);
                 circle.setOnMouseExited(event -> getStage().getScene().setCursor(Cursor.DEFAULT));
                 circle.setOnContextMenuRequested(event -> conMenu.show(circle, event.getScreenX(), event.getScreenY()));
                 circle.setOnMouseClicked(mouseEvent -> {
@@ -256,7 +285,6 @@ public class TimelineDetailsFragment {
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
                 Pane contentPane = new Pane();
-                contentPane.setBackground(new Background(new BackgroundFill(Color.BLUE,CornerRadii.EMPTY,new Insets(0))));
                 AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
                 AnchorPane.setTopAnchor(contentPane, lineHeight + 30 + (e.getLevel() * 30));
 
@@ -348,37 +376,37 @@ public class TimelineDetailsFragment {
 
     @FXML
     void removeTimeline() throws IOException{
-    	myDisplay.getChildren().clear();
-    	LeftPane.getChildren().clear();
-    	TimelineDB.removeTimeline(display);
-    	HomeFragment.numberOfTimelines--;
+        myDisplay.getChildren().clear();
+        LeftPane.getChildren().clear();
+        TimelineDB.removeTimeline(display);
+        HomeFragment.numberOfTimelines--;
         ScreenController.setScreen(ScreenController.Screen.NEW_TIMELINE);
     }
     @FXML
     public void editTimeline() throws IOException{ScreenController.setScreen(ScreenController.Screen.EDIT_TIMELINE);}
 
-	@FXML
-	public void exportTimeline() throws IOException{
-		try{
-			JAXBContext context = JAXBContext.newInstance(Timeline.class);
-			Marshaller m = context.createMarshaller();
+    @FXML
+    public void exportTimeline() throws IOException{
+        try{
+            JAXBContext context = JAXBContext.newInstance(Timeline.class);
+            Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save Timeline");
-			File file = fileChooser.showSaveDialog(new Stage());
-			if (file != null) {
-				try {
-					m.marshal(display, file);
-				} catch (JAXBException ex) {
-					System.out.println(ex.getMessage());
-				}
-				finally {
-					System.out.println("XML saved");
-				}
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Timeline");
+            File file = fileChooser.showSaveDialog(new Stage());
+            if (file != null) {
+                try {
+                    m.marshal(display, file);
+                } catch (JAXBException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                finally {
+                    System.out.println("XML saved");
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
