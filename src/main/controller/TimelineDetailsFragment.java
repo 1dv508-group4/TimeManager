@@ -1,6 +1,7 @@
 package main.controller;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -255,10 +256,11 @@ public class TimelineDetailsFragment {
                 distanceBetweenLines = (1600 - lineStart) / timelinePeriodInDays;
 
                 Pane contentPane = new Pane();
+                contentPane.setBackground(new Background(new BackgroundFill(Color.BLUE,CornerRadii.EMPTY,new Insets(0))));
                 AnchorPane.setLeftAnchor(contentPane, (daysUntilEvent * distanceBetweenLines) + lineStart);
-                AnchorPane.setTopAnchor(contentPane, lineHeight + (e.getLevel() * 30));
+                AnchorPane.setTopAnchor(contentPane, lineHeight + 30 + (e.getLevel() * 30));
 
-                Rectangle rect = new Rectangle(0,30,eventDuration * distanceBetweenLines,20);
+                Rectangle rect = new Rectangle(0,0,eventDuration * distanceBetweenLines,20);
                 contentPane.getChildren().add(rect);
 
                 String[] colors = {"#00a300", "#9f00a7", "#7e3878", "#00aba9", "#ffc40d", "#da532c", "#ee1111"};
@@ -321,7 +323,7 @@ public class TimelineDetailsFragment {
 
                 Label titleOfEvent = new Label(e.getEvent_title());
                 contentPane.getChildren().add(titleOfEvent);
-                titleOfEvent.relocate(2, 31);
+                titleOfEvent.relocate(2, 1);
                 titleOfEvent.setFont(Font.font(13));
                 titleOfEvent.setTextFill(Color.WHITE);
 
