@@ -121,10 +121,12 @@ public class NewEventFragment {
     public void saveEvent() throws IOException {
         if (durational.isSelected()) {
             if (eventTitle.getText().isEmpty()) {
-                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
+                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.ERROR);
             } else if ( (eventEndDate.getValue().isBefore(myTime.getStartDate()) || eventEndDate.getValue().isAfter(myTime.getEndDate()))
                 && (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) ) {
-                new AlertMessage("Incorrect date", "Event dates must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+                new AlertMessage("Incorrect date", "Event dates must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.ERROR);
+            } else if ( eventEndDate.getValue().isBefore(eventStartDate.getValue())) {
+                new AlertMessage("Incorrect dates", "End date must be after start date", Alert.AlertType.ERROR);
             } else {
                 myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue(), eventEndDate.getValue());
                 myTime.addEvent(myEvent);
@@ -132,9 +134,9 @@ public class NewEventFragment {
             }
         } else {
             if (eventTitle.getText().isEmpty()) {
-                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.WARNING);
+                new AlertMessage("Empty title", "Please enter a title for this event", Alert.AlertType.ERROR);
             } else if (eventStartDate.getValue().isBefore(myTime.getStartDate()) || eventStartDate.getValue().isAfter(myTime.getEndDate())) {
-                new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.WARNING);
+                new AlertMessage("Incorrect starting date", "Event start date must be between " + myTime.getStartDate().toString() + " and " + myTime.getEndDate().toString(), Alert.AlertType.ERROR);
             } else {
                 myEvent = new Event(eventTitle.getText(), eventDescription.getText(), eventStartDate.getValue());
                 myTime.addEvent(myEvent);

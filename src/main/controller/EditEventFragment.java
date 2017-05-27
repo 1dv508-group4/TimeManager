@@ -131,6 +131,7 @@ public class EditEventFragment {
     public void editEvent() throws IOException {
         if (durational.isSelected()) {
             if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && (eventStartDate.getValue().isAfter(myTime.getStartDate()) || eventStartDate.getValue().isEqual(myTime.getStartDate())) && (eventEndDate.getValue().isBefore(myTime.getEndDate()) || eventEndDate.getValue().isEqual(myTime.getEndDate())) && !eventTitle.getText().isEmpty()) {
+                myEvent.setDurational(durational.isSelected());
                 myEvent.setEvent_description(eventDescription.getText());
                 myEvent.setEvent_title(eventTitle.getText());
                 myEvent.setEvent_startDate(eventStartDate.getValue());
@@ -146,6 +147,7 @@ public class EditEventFragment {
             }
         } else {
             if (eventStartDate.getValue().isBefore(myTime.getEndDate()) && eventStartDate.getValue().isAfter(myTime.getStartDate()) && !eventTitle.getText().isEmpty()) {
+                myEvent.setDurational(durational.isSelected());
                 myEvent.setEvent_description(eventDescription.getText());
                 myEvent.setEvent_title(eventTitle.getText());
                 myEvent.setEvent_startDate(eventStartDate.getValue());
