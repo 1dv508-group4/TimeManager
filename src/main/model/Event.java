@@ -104,6 +104,10 @@ public class Event implements Comparable {
         return level;
     }
 
+    public void setDurational(boolean durational) {
+        this.durational = durational;
+    }
+
     public boolean isDurational() {
         return durational;
     }

@@ -31,9 +31,7 @@ public class MenuFragment {
     public void initialize() {
         StageManager.setPane(PaneFragment);
         PaneFragment.prefWidthProperty().bind(getStage().widthProperty().subtract(150));
-        rectangle2D = Screen.getPrimary().getVisualBounds();
-        width=0.1;
-        height=0.1;
+
         ListMenu.getItems().addAll("Home","My Projects","My Timeline","About Team");
         ListMenu.setOnMouseEntered(e->getStage().getScene().setCursor(Cursor.HAND));
         ListMenu.setOnMouseExited(e->getStage().getScene().setCursor(Cursor.DEFAULT));
@@ -65,5 +63,4 @@ public class MenuFragment {
                 break;
         }
     }
-
 }
