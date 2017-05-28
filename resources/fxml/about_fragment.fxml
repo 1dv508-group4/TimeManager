@@ -26,19 +26,19 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Label layoutX="18.0" layoutY="323.0" text="//describe yourself" />
+      <Label layoutX="18.0" layoutY="323.0" text="Mehdi Hmidi" />
       <ImageView fitHeight="152.0" fitWidth="161.0" layoutX="231.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/Jorian.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="240.0" layoutY="323.0" text="//describe yourself" />
+      <Label layoutX="240.0" layoutY="323.0" text="Jorian Wielink" />
       <ImageView fitHeight="175.0" fitWidth="152.0" layoutX="422.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/amr.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="422.0" layoutY="323.0" text="//describe yourself" />
+      <Label layoutX="422.0" layoutY="323.0" text="Amr H. Mahmoud" />
       <ImageView fitHeight="152.0" fitWidth="187.0" layoutX="224.0" layoutY="453.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/23175925.jpg" />
@@ -54,10 +54,10 @@
             <Image url="@../img/kanzaki.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="23.0" layoutY="631.0" text="//describe yourself" />
-      <Label layoutX="224.0" layoutY="631.0" text="//describe yourself" />
-      <Label layoutX="422.0" layoutY="631.0" text="//describe yourself" />
-      <Label accessibleRole="TEXT_AREA" alignment="TOP_LEFT" centerShape="false" layoutX="652.0" layoutY="139.0" prefHeight="191.0" prefWidth="402.0" text="                                is a tool to plan and organize your events in a timeline. All the events are displayed on a timeline, making it easy to keep track of the start and end dates for each event. So you are not afraid of missing another deadline again. With Time manager, planning and tracking your projects becomes very easy and convenient." textFill="#837f7f" wrapText="true">
+      <Label layoutX="23.0" layoutY="631.0" text="Azadeh Yasani" />
+      <Label layoutX="224.0" layoutY="631.0" prefWidth="135.0" text="Christian Fagerholm" />
+      <Label layoutX="422.0" layoutY="631.0" text="Aleksandar Risteski" />
+      <Label accessibleRole="TEXT_AREA" alignment="TOP_LEFT" centerShape="false" layoutX="652.0" layoutY="139.0" prefHeight="191.0" prefWidth="402.0" text="                                 is a tool to plan and organize your events in a timeline. All the events are displayed on a timeline, making it easy to keep track of the start and end dates for each event. So you are not afraid of missing another deadline again. With Time manager, planning and tracking your projects becomes very easy and convenient." textFill="#837f7f" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
