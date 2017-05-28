@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="PaneMain" prefHeight="672.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
+<AnchorPane fx:id="PaneMain" prefHeight="672.0" prefWidth="922.0" style="-fx-background-color: white;" stylesheets="@../css/menu_items.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimelineDetailsFragment">
     <children>
         <Separator fx:id="separator" layoutY="73.0" prefHeight="0.0" prefWidth="1298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         <Text fill="#2b579a" layoutX="79.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timeline Display">
@@ -33,9 +33,9 @@
          </content>
       </ScrollPane>
       <Button fx:id="newEventButton" layoutX="64.0" layoutY="232.0" mnemonicParsing="false" onAction="#addEvent" styleClass="btn" text="New event" />
-      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="103.0" prefWidth="298.0">
+      <AnchorPane fx:id="LeftPane" layoutX="64.0" layoutY="89.0" prefHeight="125.0" prefWidth="367.0">
          <children>
-            <Text fx:id="title" fill="#2b579a" layoutX="-1.0" layoutY="18.7080078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="297.9999987334013" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="2.0">
+            <Text fx:id="title" fill="#2b579a" layoutX="-1.0" layoutY="18.7080078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="367.0000004917383" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="2.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -49,7 +49,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="description" layoutY="85.0" prefHeight="40.0" prefWidth="298.0" text="Label" textFill="#2b579a">
+            <Label fx:id="description" layoutY="85.0" prefHeight="40.0" prefWidth="367.0" text="Label" textFill="#2b579a">
                <font>
                   <Font size="14.0" />
                </font>
